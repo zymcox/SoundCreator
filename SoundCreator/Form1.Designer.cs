@@ -326,9 +326,9 @@
 			this.label59.AutoSize = true;
 			this.label59.Location = new System.Drawing.Point(25, 96);
 			this.label59.Name = "label59";
-			this.label59.Size = new System.Drawing.Size(66, 13);
+			this.label59.Size = new System.Drawing.Size(61, 13);
 			this.label59.TabIndex = 130;
-			this.label59.Text = "Frequency1:";
+			this.label59.Text = "FreqCutOff:";
 			// 
 			// label60
 			// 
@@ -344,9 +344,9 @@
 			this.label61.AutoSize = true;
 			this.label61.Location = new System.Drawing.Point(25, 122);
 			this.label61.Name = "label61";
-			this.label61.Size = new System.Drawing.Size(66, 13);
+			this.label61.Size = new System.Drawing.Size(60, 13);
 			this.label61.TabIndex = 128;
-			this.label61.Text = "Frequency2:";
+			this.label61.Text = "Bandwidth:";
 			// 
 			// label62
 			// 
@@ -1104,14 +1104,19 @@
 			// 
 			// udFilterOrder
 			// 
+			this.udFilterOrder.Increment = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
 			this.udFilterOrder.Location = new System.Drawing.Point(392, 71);
 			this.udFilterOrder.Maximum = new decimal(new int[] {
-            10,
+            40,
             0,
             0,
             0});
 			this.udFilterOrder.Minimum = new decimal(new int[] {
-            1,
+            2,
             0,
             0,
             0});

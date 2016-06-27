@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace SoundCreator {
@@ -18,6 +19,7 @@ namespace SoundCreator {
 			int x = pb.Size.Width;
 			int y = pb.Size.Height;
 			int j;
+			double wd1,wd2;
 
 			Bitmap bm = new Bitmap(x, y);
 			Graphics g = Graphics.FromImage(bm);
@@ -30,8 +32,14 @@ namespace SoundCreator {
 
 			for (int i = 0; i < x; i++) {
 				j = i;
-				if ((int)WaveData[i * 2] == (int)WaveData[i * 2 + 1]) j = i + 1;
-				g.DrawLine(PenGreen, i, (int)WaveData[i * 2], j, (int)WaveData[i * 2 + 1]);
+				wd1 = WaveData[i * 2];
+				wd2 = WaveData[i * 2 + 1];
+				if ((int)wd1 == (int)wd2) j = i + 1;
+				if (wd1 > 1000) wd1 = 1000.0;
+				if (wd1 < -1000) wd1 = -1000.0;
+				if (wd2 > 1000) wd2 = 1000.0;
+				if (wd2 < -1000) wd2 = -1000.0;
+				g.DrawLine(PenGreen, i, (int)wd1, j, (int)wd2);
 			}
 
 			pb.Image = bm;

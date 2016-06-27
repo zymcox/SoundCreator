@@ -126,35 +126,10 @@ namespace SoundCreator {
 			//		SoundArray = objFilter.FIRfilter(SoundArray);
 			//		break;
 			//}
-			
-			switch (MixData.FilterType) {
-				case 1:
-					for(int i=0; i<MixData.FilterOrder; i++) {
-						SoundArray = objFilter.Butterworth(SoundArray, MixData.FilterFrequency1, OscArray[0], MixData.FFDepth, Form1.Samplerate, 2f, true);
-					}
-					break;
 
-				case 2:
-					for (int i = 0; i < MixData.FilterOrder; i++) {
-						SoundArray = objFilter.Butterworth(SoundArray, MixData.FilterFrequency2, OscArray[0], MixData.FFDepth, Form1.Samplerate, 2f, false);
-					}
-					break;
-
-				case 3:
-					for (int i = 0; i < MixData.FilterOrder; i++) {
-						SoundArray = objFilter.Butterworth(SoundArray, MixData.FilterFrequency2, OscArray[0], MixData.FFDepth, Form1.Samplerate, 2f, true);
-						SoundArray = objFilter.Butterworth(SoundArray, MixData.FilterFrequency1, OscArray[0], MixData.FFDepth, Form1.Samplerate, 2f, false);
-					}
-					break;
-
-				case 4:
-					for (int i = 0; i < MixData.FilterOrder; i++) {
-						SoundArray = objFilter.Butterworth(SoundArray, MixData.FilterFrequency1, OscArray[0], MixData.FFDepth, Form1.Samplerate, 2f, true);
-						SoundArray = objFilter.Butterworth(SoundArray, MixData.FilterFrequency2, OscArray[0], MixData.FFDepth, Form1.Samplerate, 2f, false);
-					}
-					break;
+			if (MixData.FilterType != 0) {
+				objFilter.IIRFilter(SoundArray, MixData.FilterFrequency1, MixData.FilterFrequency2, OscArray[0], MixData.FFDepth, Form1.Samplerate, 0f, MixData.FilterOrder, MixData.FilterType);
 			}
-			
 
 			// Automatisk gain control AGC
 			if (MixData.AGC) {
@@ -319,9 +294,9 @@ namespace SoundCreator {
 			return RawSoundData;
 		}
 
-	
 
-		public MixerData CreateRandomGlobal(MixerData MD,RndS RS) {
+
+		public MixerData CreateRandomGlobal( MixerData MD, RndS RS ) {
 			Random Rnd = new Random();
 			MD.MasterVolume = 65536;
 			if (!RS.ReverbLock) {

@@ -228,7 +228,7 @@ namespace SoundCreator {
 			}
 		}
 
-		public void CreateFIRCoeffBP( int SampleRate, double Frequency1,  double Frequency3) {
+		public void CreateFIRCoeffBP( int SampleRate, double Frequency1, double Frequency3 ) {
 			int i, j, k;
 			int FFTSamplesLow, FFTSamplesHigh;
 			double Amplitude = 0;
@@ -320,7 +320,7 @@ namespace SoundCreator {
 
 		public double[] GetFFT( double[] RawWave ) {
 			double[] Result = new double[FFTSize];
-			
+
 			for (int i = 0; i < RawWave.Length - FFTSize; i = i + FFTSize / 2) {
 
 				for (int j = 0; j < FFTSize; j++) {
@@ -328,12 +328,12 @@ namespace SoundCreator {
 					InImag[j] = 0.0;
 					OutReal[j] = 0.0;
 					OutImag[j] = 0.0;
-                }
+				}
 				FFT(false, InReal, InImag, OutReal, OutImag, FFTSize);
-				for(int j=0; j< FFTSize; j++) {
+				for (int j = 0; j < FFTSize; j++) {
 					//Result[j] = Result[j] + OutReal[j];
 					Result[j] = Result[j] + Math.Sqrt(OutReal[j] * OutReal[j] + OutImag[j] * OutImag[j]);
-                }
+				}
 			}
 
 			return Result;
@@ -400,34 +400,38 @@ namespace SoundCreator {
 
 
 
-		public double[] Butterworth(double[] RawWave, double MainFrequency, double[] Frequency, double Depth, int Samplerate, float resonance,  bool LowPass) {
+		public double[] ButterworthX( double[] RawWave, double MainFrequency, double[] Frequency, double Depth, int Samplerate, float resonance, bool LowPass ) {
 			double[] FilteredWave = new double[RawWave.Length];
 			double[] inputHistory = new double[2];
 			double[] outputHistory = new double[2];
-			double c, a1, a2, a3, b1, b2, x, f;
+			double c, a1, a2, a3, b1, b2, x, fc;
 			c = a1 = a2 = a3 = b1 = b2 = 0.0;
 
 			for (int i = 0; i < RawWave.Length; i++) {
 
 				x = Math.Pow(Math.Sqrt(2), (Frequency[i] / Form1.MaxAmplitude) * 2.0 * (Depth / 100) + 2.0);
-				f = x * MainFrequency / 2.0;
-				if (f > Samplerate / 2.0) f = Samplerate / 2.0 - 0.00001;
+				fc = x * MainFrequency / 2.0;
+				if (fc > Samplerate / 2.0) fc = Samplerate / 2.0 - 0.00001;
 				switch (LowPass) {
-					case true:
-						c = 1.0f / (float)Math.Tan(Math.PI * f / Samplerate);
-						a1 = 1.0f / (1.0f + resonance * c + c * c);
+					case true: // Lowpass
+						c = 1.0f / (float)Math.Tan(Math.PI * fc / Samplerate);
+						a1 = 1.0f / (1.0f + resonance * c + c * c);  //   1 / s^2 + sqr(2)*s + 1
 						a2 = 2f * a1;
 						a3 = a1;
+
 						b1 = 2.0f * (1.0f - c * c) * a1;
 						b2 = (1.0f - resonance * c + c * c) * a1;
+
 						break;
-					case false:
-						c = (float)Math.Tan(Math.PI * f / Samplerate);
+					case false: //HiPass
+						c = (float)Math.Tan(Math.PI * fc / Samplerate);
 						a1 = 1.0f / (1.0f + resonance * c + c * c);
 						a2 = -2f * a1;
 						a3 = a1;
+
 						b1 = 2.0f * (c * c - 1.0f) * a1;
 						b2 = (1.0f - resonance * c + c * c) * a1;
+
 						break;
 				}
 
@@ -448,81 +452,392 @@ namespace SoundCreator {
 
 
 
+		public double[] IIRFilter( double[] RawWave, double Frequency1, double Frequency2, double[] Frequency, double Depth, int Samplerate, float resonance, int Order, int PassType ) {
+			double[] FilteredWave = new double[RawWave.Length];
+			double[] inputHistory = new double[2];
+			double[] outputHistory = new double[2];
+			double[] inputHistory2 = new double[2];
+			double[] outputHistory2 = new double[2];
+			double FW1,FW2;
 
-	
+			double c,a0, a1, a2, b0, b1, b2, x, fc;
+			c = a0 = a1 = a2 =  b0 = b1 = b2 =  0.0;
+
+			//			This is bilinear transform code for IIR filters.
+			//			In order to use these equations, you must define the variables A, B, C, D, E, and F
+			//			which are the coefficients for the low pass prototype function H(s).
+			//			H(s) = (D * s ^ 2 + E * s + F) / (A * s ^ 2 + B * s + C)
+			//          s = 2(z – 1) / (z + 1)
+
+			//
+			// z = insignalsample
 
 
-
-	}
-
-	public class FilterButterworth {
-		/// <summary>
-		/// rez amount, from sqrt(2) to ~ 0.1
-		/// </summary>
-		private readonly float resonance;
-
-		private readonly float frequency;
-		private readonly int sampleRate;
-		private readonly PassType passType;
-
-		private readonly float c, a1, a2, a3, b1, b2;
-
-		/// <summary>
-		/// Array of input values, latest are in front
-		/// </summary>
-		private float[] inputHistory = new float[2];
-
-		/// <summary>
-		/// Array of output values, latest are in front
-		/// </summary>
-		private float[] outputHistory = new float[3];
-
-		public FilterButterworth( float frequency, int sampleRate, PassType passType, float resonance ) {
-			this.resonance = resonance;
-			this.frequency = frequency;
-			this.sampleRate = sampleRate;
-			this.passType = passType;
-
-			switch (passType) {
-				case PassType.Lowpass:
-					c = 1.0f / (float)Math.Tan(Math.PI * frequency / sampleRate);
-					a1 = 1.0f / (1.0f + resonance * c + c * c);
-					a2 = 2f * a1;
-					a3 = a1;
-					b1 = 2.0f * (1.0f - c * c) * a1;
-					b2 = (1.0f - resonance * c + c * c) * a1;
-					break;
-				case PassType.Highpass:
-					c = (float)Math.Tan(Math.PI * frequency / sampleRate);
-					a1 = 1.0f / (1.0f + resonance * c + c * c);
-					a2 = -2f * a1;
-					a3 = a1;
-					b1 = 2.0f * (c * c - 1.0f) * a1;
-					b2 = (1.0f - resonance * c + c * c) * a1;
-					break;
-			}
 
 			
+			double MPI2 = Math.PI/2;
+			double MPI4 = Math.PI/4;
+			double OmegaC, OmegaC2;
+			double BW;
+			double T,T2;
+			double Q;
+			double A,B,C,D,E,F,Arg;
+
+			double[,] Coefficients = CalcButterworthCoeff(Order, Order);
+
+
+			for (int j = 0; j < Order / 2; j++) {
+				A = 1.0;
+				B = -Coefficients[j, 1];
+				C = 1.0;
+				D = 0.0;
+				E = 0.0;
+				F = 1.0;
+				inputHistory[0] = 0.0;
+				inputHistory[1] = 0.0;
+				inputHistory2[0] = 0.0;
+				inputHistory2[1] = 0.0;
+				outputHistory[0] = 0.0;
+				outputHistory[1] = 0.0;
+				outputHistory2[0] = 0.0;
+				outputHistory2[1] = 0.0;
+
+				for (int i = 0; i < RawWave.Length; i++) {
+
+					x = Math.Pow(Math.Sqrt(2.0), (Frequency[i] / Form1.MaxAmplitude) * 2.0 * (Depth / 100.0) + 2.0); // x = sqrt(2)^ (0 till 4) = 1 till 4
+					fc = x * Frequency1 / 2.0;                  // fc = 0.5 till 2.0  * frekvens (Depth = 100.0 => +- 1 oktav)
+   					OmegaC = fc / (Samplerate / 2.0);              // 0 till 20000Hz => OmegaC = 0 till 1    Cut Off Frequency
+					fc = x * Frequency2 / 2.0;
+					OmegaC2 = fc / (Samplerate / 2.0);
+					T = 2.0 * Math.Tan(OmegaC * MPI2);           // * Pi/2
+					T2 = 2.0 * Math.Tan(OmegaC2 * MPI2);
+
+					switch (PassType) {
+						case 1:    // 2 poles Lowpass
+							Arg = (4.0 * A + 2.0 * B * T + C * T * T);
+							a2 = (4.0 * A - 2.0 * B * T + C * T * T) / Arg;
+							a1 = (2.0 * C * T * T - 8.0 * A) / Arg;
+							a0 = 1.0;
+
+							b2 = (4.0 * D - 2.0 * E * T + F * T * T) / Arg * C / F;
+							b1 = (2.0 * F * T * T - 8.0 * D) / Arg * C / F;
+							b0 = (4 * D + F * T * T + 2.0 * E * T) / Arg * C / F;
+
+							FilteredWave[i] = a0 * (b0 * RawWave[i] + b1 * inputHistory[0] + b2 * inputHistory[1] - a1 * outputHistory[0] - a2 * outputHistory[1]);
+							inputHistory[1] = inputHistory[0];
+							inputHistory[0] = RawWave[i];
+							outputHistory[1] = outputHistory[0];
+							outputHistory[0] = FilteredWave[i];
+							break;
+						case 2:     // 2 poles Highpass
+							Arg = A * T2 * T2 + 4.0 * C + 2.0 * B * T2;
+							a2 = (A * T2 * T2 + 4.0 * C - 2.0 * B * T2) / Arg;
+							a1 = (2.0 * A * T2 * T2 - 8.0 * C) / Arg;
+							a0 = 1.0;
+
+							b2 = (D * T2 * T2 - 2.0 * E * T2 + 4.0 * F) / Arg * C / F;
+							b1 = (2.0 * D * T2 * T2 - 8.0 * F) / Arg * C / F;
+							b0 = (D * T2 * T2 + 4.0 * F + 2.0 * E * T2) / Arg * C / F;
+
+							FilteredWave[i] = a0 * (b0 * RawWave[i] + b1 * inputHistory[0] + b2 * inputHistory[1] - a1 * outputHistory[0] - a2 * outputHistory[1]);
+							inputHistory[1] = inputHistory[0];
+							inputHistory[0] = RawWave[i];
+							outputHistory[1] = outputHistory[0];
+							outputHistory[0] = FilteredWave[i];
+							break;
+
+						case 3: // Bandpass
+							// LP
+							Arg = (4.0 * A + 2.0 * B * T2 + C * T2 * T2);
+							a2 = (4.0 * A - 2.0 * B * T2 + C * T2 * T2) / Arg;
+							a1 = (2.0 * C * T2 * T2 - 8.0 * A) / Arg;
+							a0 = 1.0;
+
+							b2 = (4.0 * D - 2.0 * E * T2 + F * T2 * T2) / Arg * C / F;
+							b1 = (2.0 * F * T2 * T2 - 8.0 * D) / Arg * C / F;
+							b0 = (4 * D + F * T2 * T2 + 2.0 * E * T2) / Arg * C / F;
+
+							FW1 = a0 * (b0 * RawWave[i] + b1 * inputHistory[0] + b2 * inputHistory[1] - a1 * outputHistory[0] - a2 * outputHistory[1]);
+							inputHistory[1] = inputHistory[0];
+							inputHistory[0] = RawWave[i];
+							outputHistory[1] = outputHistory[0];
+							outputHistory[0] = FW1;
+
+							// HP
+							Arg = A * T * T + 4.0 * C + 2.0 * B * T;
+							a2 = (A * T * T + 4.0 * C - 2.0 * B * T) / Arg;
+							a1 = (2.0 * A * T * T - 8.0 * C) / Arg;
+							a0 = 1.0;
+
+							b2 = (D * T * T - 2.0 * E * T + 4.0 * F) / Arg * C / F;
+							b1 = (2.0 * D * T * T - 8.0 * F) / Arg * C / F;
+							b0 = (D * T * T + 4.0 * F + 2.0 * E * T) / Arg * C / F;
+
+							FilteredWave[i] = a0 * (b0 * FW1 + b1 * inputHistory2[0] + b2 * inputHistory2[1] - a1 * outputHistory2[0] - a2 * outputHistory2[1]);
+							inputHistory2[1] = inputHistory2[0];
+							inputHistory2[0] = FW1; //  RawWave[i];
+							outputHistory2[1] = outputHistory2[0];
+							outputHistory2[0] = FilteredWave[i];
+
+							// FilteredWave[i] = (FW1 + FW2) / 2.0;
+							break;
+						case 4:
+							// LP
+							Arg = (4.0 * A + 2.0 * B * T + C * T * T);
+							a2 = (4.0 * A - 2.0 * B * T + C * T * T) / Arg;
+							a1 = (2.0 * C * T * T - 8.0 * A) / Arg;
+							a0 = 1.0;
+
+							b2 = (4.0 * D - 2.0 * E * T + F * T * T) / Arg * C / F;
+							b1 = (2.0 * F * T * T - 8.0 * D) / Arg * C / F;
+							b0 = (4 * D + F * T * T + 2.0 * E * T) / Arg * C / F;
+
+							FW1 = a0 * (b0 * RawWave[i] + b1 * inputHistory[0] + b2 * inputHistory[1] - a1 * outputHistory[0] - a2 * outputHistory[1]);
+							inputHistory[1] = inputHistory[0];
+							inputHistory[0] = RawWave[i];
+							outputHistory[1] = outputHistory[0];
+							outputHistory[0] = FW1;
+
+							// HP
+							Arg = A * T2 * T2 + 4.0 * C + 2.0 * B * T2;
+							a2 = (A * T2 * T2 + 4.0 * C - 2.0 * B * T2) / Arg;
+							a1 = (2.0 * A * T2 * T2 - 8.0 * C) / Arg;
+							a0 = 1.0;
+
+							b2 = (D * T2 * T2 - 2.0 * E * T2 + 4.0 * F) / Arg * C / F;
+							b1 = (2.0 * D * T2 * T2 - 8.0 * F) / Arg * C / F;
+							b0 = (D * T2 * T2 + 4.0 * F + 2.0 * E * T2) / Arg * C / F;
+
+
+							FilteredWave[i] = a0 * (b0 * FW1 + b1 * inputHistory2[0] + b2 * inputHistory2[1] - a1 * outputHistory2[0] - a2 * outputHistory2[1]);
+							inputHistory2[1] = inputHistory2[0];
+							inputHistory2[0] = FW1; //  RawWave[i];
+							outputHistory2[1] = outputHistory2[0];
+							outputHistory2[0] = FilteredWave[i];
+
+							
+
+
+							break;
+
+						default:
+							break;
+					}
+					
+					// Direct transpose realization    x(n) =>  B(z) => 1/A(z) => y(n)
+					
+
+				}
+				Array.Copy(FilteredWave, RawWave, RawWave.Length);
+			}
+
+			return FilteredWave;
 		}
 
-		public enum PassType {
-			Highpass,
-			Lowpass,
-		}
+		//2.nd order poly coefficients
+		private double[,] CalcButterworthCoeff( int Order, int Poles ) {
+			int n = Order;
 
-		public void Update( float newInput ) {
-			float newOutput = a1 * newInput + a2 * this.inputHistory[0] + a3 * this.inputHistory[1] - b1 * this.outputHistory[0] - b2 * this.outputHistory[1];
-
-			this.inputHistory[1] = this.inputHistory[0];
-			this.inputHistory[0] = newInput;
-
-			this.outputHistory[2] = this.outputHistory[1];	// ?
-			this.outputHistory[1] = this.outputHistory[0];
-			this.outputHistory[0] = newOutput;
-		}
-
-		public float Value {
-			get { return this.outputHistory[0]; }
+			double PI = Math.PI;
+			double[,] Coefficients = new double[Poles,3];
+			for (int k = 0; k < Poles; k++) {
+				Coefficients[k, 0] = 1.0;
+				Coefficients[k, 1] = -2.0 * Math.Cos((2 * k + 1) * PI / (2.0 * n));
+				Coefficients[k, 2] = 1.0;
+			}
+			return Coefficients;
 		}
 	}
+
+
+
 }
+/*
+function test_bp1
+fc1 = 1e3; fc2 = 10e3; fs = 48e3;
+[b, a] =  butter2_bp_direct( fc1, fc2, fs)
+figure, freqz( b, a)
+[b, a] =  butter(2, [fc1, fc2]*2/fs)
+figure,freqz( b, a)
+function[b1, a1] =  butter2_bp_direct( fc1, fc2, fs)
+q1 = sqrt(2);
+fc = abs( fc2 - fc1 );% equivalent cut-off frequency of lowpass filter is (fc2-fc1)
+k = tan( pi* fc / fs);
+r = cos( 2 * pi* ( fc1 + fc2 ) / 2 / fs ) / cos( 2 * pi* fc / 2 / fs);
+b1 = k^2 *[1, 0, -2, 0, 1];
+a10 =   k^4 + k*q1  + 1;
+a11 =   -2*k *q1*r    - 4*r;
+a12 =   -2 *k*k  +4*r*r  + 2;
+a13 =   2*k *q1*r       -    4*r;
+a14 =  k^2-k*q1+1;
+a1 = [a10, a11, a12, a13, a14]/a10;
+b1 = b1/a10;
+
+
+
+
+Evaluating  -2\cos((2k+1)\pi/2n) for k=3, k=4, and k=5, we get the coefficients of the three first order terms  -2\cos(7\pi/12)=0.5176, -2\cos(9\pi/12)=1.4142, and  -2\cos(9\pi/12)=1.319. 
+\begin{displaymath}
+H(s)=\frac{1}{(s^2+0.5176 s+1)(s^2+1.4142 s+1)(s^2+1.9319 s+1)}
+\end{displaymath}
+
+
+	
+August 3, 2015
+
+If you find a problem with this code, please leave us a note on:
+http://www.iowahills.com/feedbackcomments.html
+
+Please note that the code in this file is not stand alone code.
+In particular, all the code needed to get the 4th order bandpass and notch
+sections to 2nd order setions is not in this file.
+
+For more complete code, see our Code Kit on this page. It also contains 
+the required 4th order root solver needed for IIR band pass and notch filters.
+
+http://www.iowahills.com/A7ExampleCodePage.html
+
+
+This is bilinear transform code for IIR filters.
+In order to use these equations, you must define the variables A, B, C, D, E, and F
+which are the coefficients for the low pass prototype function H(s).
+H(s) = ( D*s^2 + E*s + F ) / (A*s^2 + B*s + C)
+
+For example, if you are doing a 6 pole Butterworth, then D = E = 0 and F = 1
+and the 3 denominator polynomials are.
+1*s^2 +  0.5176380902 s  +  1.0000000000
+1*s^2 +  1.4142135624 s  +  1.0000000000
+1*s^2 +  1.9318516526 s  +  1.0000000000
+
+OmegaC and BW are in terms of Nyquist. For example, if the sampling frequency = 20 kHz
+and the 3 dB corner frquncy is 1.5 kHz, then OmegaC = 0.15
+
+These define T and Q. Q is only used for the bandpass and notch filters.
+M_PI_2 and M_PI_4 are Pi/2 and Pi/4 respectively, and should already be defined in math.h
+The Q correction given here was derived from a curve fit of bandwidth error using an uncorrected Q.
+
+ T = 2.0 * tan(OmegaC * M_PI_2);
+ Q = 1.0 + OmegaC;
+ if(Q > 1.95)Q = 1.95;       // Q must be < 2
+ Q = 0.8 * tan(Q * M_PI_4);  // This is the correction factor.
+ Q = OmegaC / BW / Q;        // This is the corrected Q.
+
+
+This code calculates the a's and b's for H(z).
+b's are the numerator  a's are the denominator
+
+  if(Filt.PassType == LPF)
+   {
+	if(A == 0.0 && D == 0.0) // 1 pole case
+	 {
+	  Arg = (2.0*B + C*T);
+	  a2[j] = 0.0;
+	  a1[j] = (-2.0*B + C*T) / Arg;
+	  a0[j] = 1.0;
+
+	  b2[j] = 0.0;
+	  b1[j] = (-2.0*E + F*T) / Arg * C/F;
+	  b0[j] = ( 2.0*E + F*T) / Arg * C/F;
+	 }
+	else // 2 poles
+	 {
+	  Arg = (4.0*A + 2.0*B*T + C*T*T);
+	  a2[j] = (4.0*A - 2.0*B*T + C*T*T) / Arg;
+	  a1[j] = (2.0*C*T*T - 8.0*A) / Arg;
+	  a0[j] = 1.0;
+
+	  b2[j] = (4.0*D - 2.0*E*T + F*T*T) / Arg * C/F;
+	  b1[j] = (2.0*F*T*T - 8.0*D) / Arg * C/F;
+	  b0[j] = (4*D + F*T*T + 2.0*E*T) / Arg * C/F;
+	 }
+   }
+
+  if(Filt.PassType == HPF)
+   {
+	if(A == 0.0 && D == 0.0) // 1 pole
+	 {
+	  Arg = 2.0*C + B*T;
+	  a2[j] = 0.0;
+	  a1[j] = (B*T - 2.0*C) / Arg;
+	  a0[j] = 1.0;
+
+	  b2[j] = 0.0;
+	  b1[j] = (E*T - 2.0*F) / Arg * C/F;
+	  b0[j] = (E*T + 2.0*F) / Arg * C/F;
+	 }
+	else  // 2 poles
+	 {
+	  Arg = A*T*T + 4.0*C + 2.0*B*T;
+	  a2[j] = (A*T*T + 4.0*C - 2.0*B*T) / Arg;
+	  a1[j] = (2.0*A*T*T - 8.0*C) / Arg;
+	  a0[j] = 1.0;
+
+	  b2[j] = (D*T*T - 2.0*E*T + 4.0*F) / Arg * C/F;
+	  b1[j] = (2.0*D*T*T - 8.0*F) / Arg * C/F;
+	  b0[j] = (D*T*T + 4.0*F + 2.0*E*T) / Arg * C/F;
+	 }
+   }
+
+  if(Filt.PassType == BPF)
+   {
+	if(A == 0.0 && D == 0.0) // 1 pole
+	 {
+	  Arg = 4.0*B*Q + 2.0*C*T + B*Q*T*T;
+	  a2[k] = (B*Q*T*T + 4.0*B*Q - 2.0*C*T) / Arg;
+	  a1[k] = (2.0*B*Q*T*T - 8.0*B*Q) / Arg ;
+	  a0[k] = 1.0;
+
+	  b2[k] = (E*Q*T*T + 4.0*E*Q - 2.0*F*T) / Arg * C/F;
+	  b1[k] = (2.0*E*Q*T*T - 8.0*E*Q) / Arg * C/F;
+	  b0[k] = (4.0*E*Q + 2.0*F*T + E*Q*T*T) / Arg * C/F;
+	  k++;
+	 }
+	else //2 Poles
+	 {
+	  a4[j] = (16.0*A*Q*Q + A*Q*Q*T*T*T*T + 8.0*A*Q*Q*T*T - 2.0*B*Q*T*T*T - 8.0*B*Q*T + 4.0*C*T*T) * F;
+	  a3[j] = (4.0*T*T*T*T*A*Q*Q - 4.0*Q*T*T*T*B + 16.0*Q*B*T - 64.0*A*Q*Q) * F;
+	  a2[j] = (96.0*A*Q*Q - 16.0*A*Q*Q*T*T + 6.0*A*Q*Q*T*T*T*T - 8.0*C*T*T) * F;
+	  a1[j] = (4.0*T*T*T*T*A*Q*Q + 4.0*Q*T*T*T*B - 16.0*Q*B*T - 64.0*A*Q*Q) * F;
+	  a0[j] = (16.0*A*Q*Q + A*Q*Q*T*T*T*T + 8.0*A*Q*Q*T*T + 2.0*B*Q*T*T*T + 8.0*B*Q*T + 4.0*C*T*T) * F;
+
+	  b4[j] = (8.0*D*Q*Q*T*T - 8.0*E*Q*T + 16.0*D*Q*Q - 2.0*E*Q*T*T*T + D*Q*Q*T*T*T*T + 4.0*F*T*T) * C;
+	  b3[j] = (16.0*E*Q*T - 4.0*E*Q*T*T*T - 64.0*D*Q*Q + 4.0*D*Q*Q*T*T*T*T) * C;
+	  b2[j] = (96.0*D*Q*Q - 8.0*F*T*T + 6.0*D*Q*Q*T*T*T*T - 16.0*D*Q*Q*T*T) * C;
+	  b1[j] = (4.0*D*Q*Q*T*T*T*T - 64.0*D*Q*Q + 4.0*E*Q*T*T*T - 16.0*E*Q*T) * C;
+	  b0[j] = (16.0*D*Q*Q + 8.0*E*Q*T + 8.0*D*Q*Q*T*T + 2.0*E*Q*T*T*T + 4.0*F*T*T + D*Q*Q*T*T*T*T) * C;
+	 }
+   }
+
+  if(Filt.PassType == NOTCH)
+   {
+	if(A == 0.0 && D == 0.0) // 1 pole
+	 {
+	  Arg = 2.0*B*T + C*Q*T*T + 4.0*C*Q;
+	  a2[k] = (4.0*C*Q - 2.0*B*T + C*Q*T*T) / Arg;
+	  a1[k] = (2.0*C*Q*T*T - 8.0*C*Q) / Arg;
+	  a0[k] = 1.0;
+
+	  b2[k] = (4.0*F*Q - 2.0*E*T + F*Q*T*T) / Arg * C/F;
+	  b1[k] = (2.0*F*Q*T*T - 8.0*F*Q) / Arg *C/F;
+	  b0[k] = (2.0*E*T + F*Q*T*T +4.0*F*Q) / Arg *C/F;
+	  k++;
+	 }
+	else
+	 {
+	  a4[j] = (4.0*A*T*T - 2.0*B*T*T*T*Q + 8.0*C*Q*Q*T*T - 8.0*B*T*Q + C*Q*Q*T*T*T*T + 16.0*C*Q*Q) * -F;
+	  a3[j] = (16.0*B*T*Q + 4.0*C*Q*Q*T*T*T*T - 64.0*C*Q*Q - 4.0*B*T*T*T*Q) * -F;
+	  a2[j] = (96.0*C*Q*Q - 8.0*A*T*T - 16.0*C*Q*Q*T*T + 6.0*C*Q*Q*T*T*T*T) * -F;
+	  a1[j] = (4.0*B*T*T*T*Q - 16.0*B*T*Q - 64.0*C*Q*Q + 4.0*C*Q*Q*T*T*T*T) * -F;
+	  a0[j] = (4.0*A*T*T + 2.0*B*T*T*T*Q + 8.0*C*Q*Q*T*T + 8.0*B*T*Q + C*Q*Q*T*T*T*T + 16.0*C*Q*Q) * -F;
+
+	  b4[j] = (2.0*E*T*T*T*Q - 4.0*D*T*T - 8.0*F*Q*Q*T*T + 8.0*E*T*Q - 16.0*F*Q*Q - F*Q*Q*T*T*T*T) * C;
+	  b3[j] = (64.0*F*Q*Q + 4.0*E*T*T*T*Q - 16.0*E*T*Q - 4.0*F*Q*Q*T*T*T*T) * C;
+	  b2[j] = (8.0*D*T*T - 96.0*F*Q*Q + 16.0*F*Q*Q*T*T - 6.0*F*Q*Q*T*T*T*T) * C;
+	  b1[j] = (16.0*E*T*Q - 4.0*E*T*T*T*Q + 64.0*F*Q*Q - 4.0*F*Q*Q*T*T*T*T) * C;
+	  b0[j] = (-4.0*D*T*T - 2.0*E*T*T*T*Q - 8.0*E*T*Q - 8.0*F*Q*Q*T*T - F*Q*Q*T*T*T*T - 16.0*F*Q*Q) * C;
+     }
+   }
+
+
+
+*/

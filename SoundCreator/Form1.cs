@@ -607,7 +607,7 @@ namespace SoundCreator {
 			double DisplayValue = SliderFilterFrequencyObj1.MouseDown(e);
 			MixData.FilterFrequency1 = DisplayValue;
 			tbFilterFrequency1.Text = DisplayValue.ToString();
-			if(MixData.FilterFrequency1 > MixData.FilterFrequency2) {
+			if (MixData.FilterFrequency1 > MixData.FilterFrequency2) {
 				MixData.FilterFrequency2 = DisplayValue;
 				SliderFilterFrequencyObj2.Draw(DisplayValue);
 				tbFilterFrequency2.Text = DisplayValue.ToString();
@@ -980,7 +980,5 @@ namespace SoundCreator {
 		private void udFFModulationFromOsc_ValueChanged( object sender, EventArgs e ) {
 			MixData.FilterFrequencyFromOsc = (int)udFFModulationFromOsc.Value;
 		}
-
-		
 	}
 }
