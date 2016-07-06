@@ -20,6 +20,8 @@ namespace SoundCreator {
 		public double Delay;
 		public double Frequency;
 
+		public int OscBitResolution;
+		
 		public int VolumeFromOsc;           // AM Amplitudemodulering
 		public double AMDepth;
 		public int FrequencyFromOsc;        // FM Frekvensmodulering
@@ -63,6 +65,8 @@ namespace SoundCreator {
 			OD[0].Delay = 0.0;                  // 0 - 3000.0ms
 			OD[0].Frequency = 440;              // 0 - 20000Hz
 
+			OD[0].OscBitResolution = 0;
+
 			OD[0].VolumeFromOsc = -1;
 			OD[0].AMDepth = 50.0;
 			OD[0].FrequencyFromOsc = -1;
@@ -97,6 +101,8 @@ namespace SoundCreator {
 				OD[i].Delay = 0.0;                  // 0 - 3000.0ms
 				OD[i].Frequency = 440;              // 0 - 20000Hz
 
+				OD[i].OscBitResolution = 0;
+
 				OD[i].VolumeFromOsc = -1;
 				OD[i].AMDepth = 50.0;
 				OD[i].FrequencyFromOsc = -1;
@@ -119,7 +125,7 @@ namespace SoundCreator {
 		}
 
 
-		public double[][] CreateWave( OscillatorData[] OD ) {
+		public double[][] CreateWave( OscillatorData[] OD, MixerData MD ) {
 			double[][] OscArray = new double[Form1.MaxOscillators][];
 			Random Rnd = new Random();
 
@@ -213,6 +219,7 @@ namespace SoundCreator {
 						switch (OD[Osc].WaveType) {
 							case 1:
 								Value = AmpNow * Math.Sin(PhaseNow);
+								
 								break;
 
 							case 2:
@@ -252,11 +259,20 @@ namespace SoundCreator {
 						if (OD[Osc].RingModulationFromOsc != -1) {
 							Value = Value * OscArray[OD[Osc].RingModulationFromOsc][t] / Form1.MaxAmplitude;
 						}
-
-						OscArray[Osc][t] = Value;
+						
+						
 						if (double.IsNaN(Value)) {
 							Value = 0.0;
 						}
+						//Oscillator bitupplösning
+						if (OD[Osc].OscBitResolution != 0) {
+							Value = (Math.Truncate((double)((int)Value / (1 << OD[Osc].OscBitResolution)))) * (double)(1 << OD[Osc].OscBitResolution);
+						}
+						//Global bitupplösning
+						if (MD.BitResolution != 0) {
+							Value = (Math.Truncate((double)((int)Value / (1 << MD.BitResolution)))) * (double)(1 << MD.BitResolution);
+						}
+						OscArray[Osc][t] = Value;
 					}
 				}
 			}
@@ -429,6 +445,17 @@ namespace SoundCreator {
 			}
 			pb.Image = bm;
 		}
+
+
+
+
+
+
+
+
+
+
+
 
 		public OscillatorData[] CreateRandomSoundCrazy( OscillatorData[] OD, RndS RS ) {
 			double Pi2 = Math.PI * 2;
@@ -730,7 +757,7 @@ namespace SoundCreator {
 		public struct Note {
 			public double Frequency;
 			public string Name1;  // 2C
-			public string Name2; // 2C# C Sharp
+			public string Name2; // C2# C Sharp
 		}
 
 		public Note[] CreatePianoNotes() {

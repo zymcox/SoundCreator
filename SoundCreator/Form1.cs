@@ -25,7 +25,7 @@ namespace SoundCreator {
 	public partial class Form1 : Form {
 
 		// Init
-		public static int MaxOscillators = 32;
+		public static int MaxOscillators = 128;
 
 		public static int Samplerate = 44100;
 		public static int TimeMS = 6000;
@@ -80,8 +80,11 @@ namespace SoundCreator {
 		private static double MidFilterFrequency =    4000.0;
 		private static double MinFilterFrequency =      10.0;
 
-		private static double MaxFFDepth = 400.0;
-		private static double MinFFDepth = 0.0;
+		private static double MaxFFDepth =			   400.0;
+		private static double MinFFDepth =				 0.0;
+
+		private static double MaxStereoDelay = Form1.Samplerate/10;
+		private static double MinStereoDelay =			10.0;
 
 		private int OscillatorNumber = 0;
 		private double[][] OscArray;
@@ -119,6 +122,8 @@ namespace SoundCreator {
 		private static Slider SliderFilterFrequencyObj2;
 		private static Slider SliderFilterFrequencyDepthObj;
 
+		private static Slider SliderStereoDelayObj;
+
 		private static Oscilloscope OscilloscopeObj;
 		// Init end
 
@@ -153,6 +158,8 @@ namespace SoundCreator {
 			SliderFilterFrequencyObj2 = new Slider(pbFilterFrequencySlider2, MixData.FilterFrequency2, MinFilterFrequency, MaxFilterFrequency, MidFilterFrequency);
 			SliderFilterFrequencyDepthObj = new Slider(pbFilterFrequencyDepth, MixData.FFDepth, MinFFDepth, MaxFFDepth);
 
+			SliderStereoDelayObj = new Slider(pbSteroDelay, MixData.StereoDelay, MinStereoDelay, MaxStereoDelay);
+
 			OscilloscopeObj = new Oscilloscope(pbOscilloscope, pbFFT);
 		}
 
@@ -168,6 +175,7 @@ namespace SoundCreator {
 
 			udSquareDutyFromOsc.Value = OD[ON].SquareDutyFromOsc;
 			udSyncFromOsc.Value = OD[ON].SyncFromOsc;
+			udOscBitResulotion.Value = 16 - OD[ON].OscBitResolution;
 
 			tbPhase.Text = OD[ON].StartPhase.ToString();
 			tbVolume.Text = OD[ON].Volume.ToString();
@@ -182,7 +190,6 @@ namespace SoundCreator {
 			cbFilterType.SelectedIndex = MixData.FilterType;
 			tbFilterFrequency1.Text = MixData.FilterFrequency1.ToString();
 			tbFilterFrequency2.Text = MixData.FilterFrequency2.ToString();
-
 
 			SliderSquareDutyObj.Draw(OD[ON].SquareDuty);
 			SliderFrequencyObj.Draw(OD[ON].Frequency);
@@ -207,6 +214,8 @@ namespace SoundCreator {
 			SliderFilterFrequencyObj2.Draw(MixData.FilterFrequency2);
 			SliderFilterFrequencyDepthObj.Draw(MixData.FFDepth);
 
+			SliderStereoDelayObj.Draw(MixData.StereoDelay);
+			 
 			cbAGC.Checked = MixData.AGC;
 			cbRemoveDC.Checked = MixData.RemoveDC;
 			cbMovingAverageFilter.Checked = MixData.MovingAverageFilter;
@@ -227,6 +236,12 @@ namespace SoundCreator {
 			udDelay7.Value = (int)MixData.Delay7;
 			udGain7.Value = (int)MixData.Gain7;
 
+			udFilterOrder.Value = MixData.FilterOrder;
+			udFFModulationFromOsc.Value = MixData.FilterFrequencyFromOsc;
+			udBitResulotion.Value = 16 - MixData.BitResolution;
+			udDelay.Value = MixData.StereoDelay;
+			cbStereo.Checked = MixData.Stereo;
+
 			OscillatorObj.ShowWaveForm(pbWaveForm, OD[ON]);
 
 			btnUndo.Enabled = UndoObj.GetUndoButton();
@@ -246,7 +261,7 @@ namespace SoundCreator {
 
 		private void CalcAndPlay() {
 			if (1 == 1) {
-				OscArray = OscillatorObj.CreateWave(OscData);
+				OscArray = OscillatorObj.CreateWave(OscData, MixData);
 				MixerObj.CreateSoundWav(MixData, OscData, OscArray);
 				OscilloscopeObj.SetView(MixerObj.GetRawSoundData(), OscilloscopePosition, OscilloscopeZoom);
 				OscilloscopeObj.DrawFFT(MixerObj.GetRawSoundData());
@@ -441,6 +456,7 @@ namespace SoundCreator {
 			OscilloscopePosition = 0.0;
 			OscilloscopeObj.ResetView();
 			PresentData(OscData, OscillatorNumber);
+			CalcAndPlay();
 		}
 
 		private void tbFilterFrequency1_TextChanged( object sender, EventArgs e ) {
@@ -452,7 +468,7 @@ namespace SoundCreator {
 			Double.TryParse(tbFilterFrequency2.Text, out MixData.FilterFrequency2);
 			SliderFilterFrequencyObj2.Draw(MixData.FilterFrequency2);
 		}
-		
+
 		private void btnGlobalRndSin_Click( object sender, EventArgs e ) {
 			OscData[OscillatorNumber] = OscillatorObj.CreateRandomSinus(OscData[OscillatorNumber]);
 			OscillatorObj.ShowWaveForm(pbWaveForm, OscData[OscillatorNumber]);
@@ -839,6 +855,8 @@ namespace SoundCreator {
 				OscData = OdMd.OD;
 				MixData = OdMd.MD;
 			}
+			PresentData(OscData, OscillatorNumber);
+			CalcAndPlay();
 		}
 
 		private void exitToolStripMenuItem_Click( object sender, EventArgs e ) {
@@ -980,5 +998,42 @@ namespace SoundCreator {
 		private void udFFModulationFromOsc_ValueChanged( object sender, EventArgs e ) {
 			MixData.FilterFrequencyFromOsc = (int)udFFModulationFromOsc.Value;
 		}
+
+		private void aboutToolStripMenuItem_Click( object sender, EventArgs e ) {
+			MessageBox.Show(" Game Sound Builder V0.1 \n\n Copyright © Ulf Mandorff 2016 \n\n\n Freeware \n\n http://gsb.zymcox.com \n\n ");
+		}
+
+		private void udBitResulotion_ValueChanged( object sender, EventArgs e ) {
+			MixData.BitResolution = 16 - (int)udBitResulotion.Value;
+		}
+
+		private void cbStereo_CheckedChanged( object sender, EventArgs e ) {
+			MixData.Stereo = cbStereo.Checked;
+		}
+
+		private void udDelay_ValueChanged( object sender, EventArgs e ) {
+			MixData.StereoDelay = (int)udDelay.Value;
+			SliderStereoDelayObj.Draw(MixData.StereoDelay);
+        }
+
+		private void udOscBitResulotion_ValueChanged( object sender, EventArgs e ) {
+			OscData[OscillatorNumber].OscBitResolution = 16 - (int)udOscBitResulotion.Value;
+		}
+
+		private void pbSteroDelay_MouseDown( object sender, MouseEventArgs e ) {
+			double DisplayValue = SliderStereoDelayObj.MouseDown(e);
+			MixData.StereoDelay = (int)DisplayValue;
+			udDelay.Value = (int)DisplayValue;
+        }
+
+		private void pbSteroDelay_MouseMove( object sender, MouseEventArgs e ) {
+			if (e.Button.ToString() != "None") {
+				double DisplayValue = SliderStereoDelayObj.MouseMove(e, 5.0);
+				MixData.StereoDelay = (int)DisplayValue;
+				udDelay.Value = (int)DisplayValue;
+			}
+		}
+
+		
 	}
 }

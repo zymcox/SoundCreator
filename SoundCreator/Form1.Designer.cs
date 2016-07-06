@@ -31,6 +31,8 @@
 			this.saveSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.label54 = new System.Windows.Forms.Label();
 			this.cbFilterType = new System.Windows.Forms.ComboBox();
 			this.label55 = new System.Windows.Forms.Label();
@@ -84,12 +86,7 @@
 			this.udPhaseModulationFromOsc = new System.Windows.Forms.NumericUpDown();
 			this.udFrequencyModulatonFromOsc = new System.Windows.Forms.NumericUpDown();
 			this.btnResetAll = new System.Windows.Forms.Button();
-			this.btnShortRnd = new System.Windows.Forms.Button();
-			this.btnRandom = new System.Windows.Forms.Button();
 			this.btPlay = new System.Windows.Forms.Button();
-			this.btnSameADSR = new System.Windows.Forms.Button();
-			this.btnNotes = new System.Windows.Forms.Button();
-			this.btnMediumRnd = new System.Windows.Forms.Button();
 			this.btnTest = new System.Windows.Forms.Button();
 			this.cbSoundOn = new System.Windows.Forms.CheckBox();
 			this.btnGlobalRndSin = new System.Windows.Forms.Button();
@@ -138,24 +135,39 @@
 			this.pbPositionSlider = new System.Windows.Forms.PictureBox();
 			this.Label99 = new System.Windows.Forms.Label();
 			this.label7 = new System.Windows.Forms.Label();
-			this.cbCopyTo = new System.Windows.Forms.ComboBox();
-			this.label9 = new System.Windows.Forms.Label();
 			this.label10 = new System.Windows.Forms.Label();
-			this.udNoRandomOsc = new System.Windows.Forms.NumericUpDown();
 			this.btnRandomThisOsc = new System.Windows.Forms.Button();
-			this.udLFO = new System.Windows.Forms.NumericUpDown();
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.button3 = new System.Windows.Forms.Button();
-			this.button2 = new System.Windows.Forms.Button();
-			this.button1 = new System.Windows.Forms.Button();
-			this.label14 = new System.Windows.Forms.Label();
-			this.label13 = new System.Windows.Forms.Label();
-			this.udMinRandomFrequency = new System.Windows.Forms.NumericUpDown();
-			this.udMaxRandomFrequency = new System.Windows.Forms.NumericUpDown();
-			this.label11 = new System.Windows.Forms.Label();
-			this.label12 = new System.Windows.Forms.Label();
 			this.btnRedo = new System.Windows.Forms.Button();
 			this.btnUndo = new System.Windows.Forms.Button();
+			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.label17 = new System.Windows.Forms.Label();
+			this.udDelay = new System.Windows.Forms.NumericUpDown();
+			this.cbStereo = new System.Windows.Forms.CheckBox();
+			this.groupBox3 = new System.Windows.Forms.GroupBox();
+			this.btnSameADSR = new System.Windows.Forms.Button();
+			this.btnNotes = new System.Windows.Forms.Button();
+			this.btnMediumRnd = new System.Windows.Forms.Button();
+			this.btnShortRnd = new System.Windows.Forms.Button();
+			this.btnRandom = new System.Windows.Forms.Button();
+			this.udNoRandomOsc = new System.Windows.Forms.NumericUpDown();
+			this.udLFO = new System.Windows.Forms.NumericUpDown();
+			this.label12 = new System.Windows.Forms.Label();
+			this.label11 = new System.Windows.Forms.Label();
+			this.udMaxRandomFrequency = new System.Windows.Forms.NumericUpDown();
+			this.udMinRandomFrequency = new System.Windows.Forms.NumericUpDown();
+			this.label13 = new System.Windows.Forms.Label();
+			this.label14 = new System.Windows.Forms.Label();
+			this.button1 = new System.Windows.Forms.Button();
+			this.button2 = new System.Windows.Forms.Button();
+			this.button3 = new System.Windows.Forms.Button();
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.label9 = new System.Windows.Forms.Label();
+			this.udBitResulotion = new System.Windows.Forms.NumericUpDown();
+			this.udOscBitResulotion = new System.Windows.Forms.NumericUpDown();
+			this.label18 = new System.Windows.Forms.Label();
+			this.groupBox4 = new System.Windows.Forms.GroupBox();
+			this.pbSteroDelay = new System.Windows.Forms.PictureBox();
+			this.loadwavToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pbPhaseSlider)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pbVolumeSlider)).BeginInit();
@@ -202,17 +214,25 @@
 			((System.ComponentModel.ISupportInitialize)(this.pbDelaySlider)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pbZoomSlider)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pbPositionSlider)).BeginInit();
+			this.groupBox2.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.udDelay)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.udNoRandomOsc)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.udLFO)).BeginInit();
-			this.groupBox1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.udMinRandomFrequency)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.udMaxRandomFrequency)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.udMinRandomFrequency)).BeginInit();
+			this.groupBox1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.udBitResulotion)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.udOscBitResulotion)).BeginInit();
+			this.groupBox4.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pbSteroDelay)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// menuStrip1
 			// 
+			this.menuStrip1.BackColor = System.Drawing.Color.YellowGreen;
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
+            this.fileToolStripMenuItem,
+            this.helpToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
 			this.menuStrip1.Size = new System.Drawing.Size(1264, 24);
@@ -222,6 +242,7 @@
 			// fileToolStripMenuItem
 			// 
 			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.loadwavToolStripMenuItem,
             this.saveWavToolStripMenuItem,
             this.toolStripSeparator1,
             this.loadSeettingsToolStripMenuItem,
@@ -270,10 +291,25 @@
 			this.exitToolStripMenuItem.Text = "Exit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
 			// 
+			// helpToolStripMenuItem
+			// 
+			this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutToolStripMenuItem});
+			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+			this.helpToolStripMenuItem.Text = "Help";
+			// 
+			// aboutToolStripMenuItem
+			// 
+			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+			this.aboutToolStripMenuItem.Text = "About";
+			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+			// 
 			// label54
 			// 
 			this.label54.AutoSize = true;
-			this.label54.Location = new System.Drawing.Point(25, 71);
+			this.label54.Location = new System.Drawing.Point(24, 91);
 			this.label54.Name = "label54";
 			this.label54.Size = new System.Drawing.Size(32, 13);
 			this.label54.TabIndex = 141;
@@ -288,7 +324,7 @@
             "High Pass",
             "Band Pass",
             "Band Stop"});
-			this.cbFilterType.Location = new System.Drawing.Point(92, 68);
+			this.cbFilterType.Location = new System.Drawing.Point(91, 88);
 			this.cbFilterType.Name = "cbFilterType";
 			this.cbFilterType.Size = new System.Drawing.Size(88, 21);
 			this.cbFilterType.TabIndex = 140;
@@ -324,11 +360,11 @@
 			// label59
 			// 
 			this.label59.AutoSize = true;
-			this.label59.Location = new System.Drawing.Point(25, 96);
+			this.label59.Location = new System.Drawing.Point(24, 116);
 			this.label59.Name = "label59";
-			this.label59.Size = new System.Drawing.Size(61, 13);
+			this.label59.Size = new System.Drawing.Size(54, 13);
 			this.label59.TabIndex = 130;
-			this.label59.Text = "FreqCutOff:";
+			this.label59.Text = "Low Freq:";
 			// 
 			// label60
 			// 
@@ -342,11 +378,11 @@
 			// label61
 			// 
 			this.label61.AutoSize = true;
-			this.label61.Location = new System.Drawing.Point(25, 122);
+			this.label61.Location = new System.Drawing.Point(24, 142);
 			this.label61.Name = "label61";
-			this.label61.Size = new System.Drawing.Size(60, 13);
+			this.label61.Size = new System.Drawing.Size(56, 13);
 			this.label61.TabIndex = 128;
-			this.label61.Text = "Bandwidth:";
+			this.label61.Text = "High Freq:";
 			// 
 			// label62
 			// 
@@ -594,7 +630,7 @@
 			// 
 			this.pbFilterFrequencySlider2.BackColor = System.Drawing.Color.Black;
 			this.pbFilterFrequencySlider2.Cursor = System.Windows.Forms.Cursors.SizeWE;
-			this.pbFilterFrequencySlider2.Location = new System.Drawing.Point(186, 121);
+			this.pbFilterFrequencySlider2.Location = new System.Drawing.Point(185, 141);
 			this.pbFilterFrequencySlider2.Name = "pbFilterFrequencySlider2";
 			this.pbFilterFrequencySlider2.Size = new System.Drawing.Size(256, 20);
 			this.pbFilterFrequencySlider2.TabIndex = 164;
@@ -604,7 +640,7 @@
 			// 
 			// tbFilterFrequency2
 			// 
-			this.tbFilterFrequency2.Location = new System.Drawing.Point(92, 121);
+			this.tbFilterFrequency2.Location = new System.Drawing.Point(91, 141);
 			this.tbFilterFrequency2.Name = "tbFilterFrequency2";
 			this.tbFilterFrequency2.Size = new System.Drawing.Size(88, 20);
 			this.tbFilterFrequency2.TabIndex = 163;
@@ -615,7 +651,7 @@
 			// 
 			this.pbFilterFrequencySlider1.BackColor = System.Drawing.Color.Black;
 			this.pbFilterFrequencySlider1.Cursor = System.Windows.Forms.Cursors.SizeWE;
-			this.pbFilterFrequencySlider1.Location = new System.Drawing.Point(186, 95);
+			this.pbFilterFrequencySlider1.Location = new System.Drawing.Point(185, 115);
 			this.pbFilterFrequencySlider1.Name = "pbFilterFrequencySlider1";
 			this.pbFilterFrequencySlider1.Size = new System.Drawing.Size(256, 20);
 			this.pbFilterFrequencySlider1.TabIndex = 162;
@@ -625,7 +661,7 @@
 			// 
 			// tbFilterFrequency1
 			// 
-			this.tbFilterFrequency1.Location = new System.Drawing.Point(92, 95);
+			this.tbFilterFrequency1.Location = new System.Drawing.Point(91, 115);
 			this.tbFilterFrequency1.Name = "tbFilterFrequency1";
 			this.tbFilterFrequency1.Size = new System.Drawing.Size(88, 20);
 			this.tbFilterFrequency1.TabIndex = 161;
@@ -878,26 +914,6 @@
 			this.btnResetAll.UseVisualStyleBackColor = true;
 			this.btnResetAll.Click += new System.EventHandler(this.btnResetAll_Click);
 			// 
-			// btnShortRnd
-			// 
-			this.btnShortRnd.Location = new System.Drawing.Point(194, 48);
-			this.btnShortRnd.Name = "btnShortRnd";
-			this.btnShortRnd.Size = new System.Drawing.Size(75, 23);
-			this.btnShortRnd.TabIndex = 221;
-			this.btnShortRnd.Text = "Short";
-			this.btnShortRnd.UseVisualStyleBackColor = true;
-			this.btnShortRnd.Click += new System.EventHandler(this.btnShortRnd_Click);
-			// 
-			// btnRandom
-			// 
-			this.btnRandom.Location = new System.Drawing.Point(194, 20);
-			this.btnRandom.Name = "btnRandom";
-			this.btnRandom.Size = new System.Drawing.Size(75, 23);
-			this.btnRandom.TabIndex = 223;
-			this.btnRandom.Text = "Random";
-			this.btnRandom.UseVisualStyleBackColor = true;
-			this.btnRandom.Click += new System.EventHandler(this.btnRandom_Click_1);
-			// 
 			// btPlay
 			// 
 			this.btPlay.Location = new System.Drawing.Point(898, 99);
@@ -907,36 +923,6 @@
 			this.btPlay.Text = "Play";
 			this.btPlay.UseVisualStyleBackColor = true;
 			this.btPlay.Click += new System.EventHandler(this.btPlay_Click);
-			// 
-			// btnSameADSR
-			// 
-			this.btnSameADSR.Location = new System.Drawing.Point(194, 108);
-			this.btnSameADSR.Name = "btnSameADSR";
-			this.btnSameADSR.Size = new System.Drawing.Size(75, 23);
-			this.btnSameADSR.TabIndex = 233;
-			this.btnSameADSR.Text = "Longer";
-			this.btnSameADSR.UseVisualStyleBackColor = true;
-			this.btnSameADSR.Click += new System.EventHandler(this.btnSameADSR_Click);
-			// 
-			// btnNotes
-			// 
-			this.btnNotes.Location = new System.Drawing.Point(275, 20);
-			this.btnNotes.Name = "btnNotes";
-			this.btnNotes.Size = new System.Drawing.Size(75, 23);
-			this.btnNotes.TabIndex = 225;
-			this.btnNotes.Text = "Sinus";
-			this.btnNotes.UseVisualStyleBackColor = true;
-			this.btnNotes.Click += new System.EventHandler(this.btnNotes_Click);
-			// 
-			// btnMediumRnd
-			// 
-			this.btnMediumRnd.Location = new System.Drawing.Point(194, 79);
-			this.btnMediumRnd.Name = "btnMediumRnd";
-			this.btnMediumRnd.Size = new System.Drawing.Size(75, 23);
-			this.btnMediumRnd.TabIndex = 224;
-			this.btnMediumRnd.Text = "Medium";
-			this.btnMediumRnd.UseVisualStyleBackColor = true;
-			this.btnMediumRnd.Click += new System.EventHandler(this.btnMediumRnd_Click);
 			// 
 			// btnTest
 			// 
@@ -962,7 +948,7 @@
 			// 
 			// btnGlobalRndSin
 			// 
-			this.btnGlobalRndSin.BackColor = System.Drawing.SystemColors.Control;
+			this.btnGlobalRndSin.BackColor = System.Drawing.SystemColors.ControlLight;
 			this.btnGlobalRndSin.Location = new System.Drawing.Point(40, 66);
 			this.btnGlobalRndSin.Name = "btnGlobalRndSin";
 			this.btnGlobalRndSin.Size = new System.Drawing.Size(152, 25);
@@ -1050,9 +1036,9 @@
 			// 
 			// udFFModulationFromOsc
 			// 
-			this.udFFModulationFromOsc.Location = new System.Drawing.Point(186, 147);
+			this.udFFModulationFromOsc.Location = new System.Drawing.Point(185, 167);
 			this.udFFModulationFromOsc.Maximum = new decimal(new int[] {
-            0,
+            31,
             0,
             0,
             0});
@@ -1075,7 +1061,7 @@
 			// label16
 			// 
 			this.label16.AutoSize = true;
-			this.label16.Location = new System.Drawing.Point(26, 149);
+			this.label16.Location = new System.Drawing.Point(25, 169);
 			this.label16.Name = "label16";
 			this.label16.Size = new System.Drawing.Size(140, 13);
 			this.label16.TabIndex = 291;
@@ -1085,7 +1071,7 @@
 			// 
 			this.pbFilterFrequencyDepth.BackColor = System.Drawing.Color.Black;
 			this.pbFilterFrequencyDepth.Cursor = System.Windows.Forms.Cursors.SizeWE;
-			this.pbFilterFrequencyDepth.Location = new System.Drawing.Point(241, 147);
+			this.pbFilterFrequencyDepth.Location = new System.Drawing.Point(240, 167);
 			this.pbFilterFrequencyDepth.Name = "pbFilterFrequencyDepth";
 			this.pbFilterFrequencyDepth.Size = new System.Drawing.Size(201, 20);
 			this.pbFilterFrequencyDepth.TabIndex = 290;
@@ -1096,7 +1082,7 @@
 			// label15
 			// 
 			this.label15.AutoSize = true;
-			this.label15.Location = new System.Drawing.Point(325, 73);
+			this.label15.Location = new System.Drawing.Point(324, 93);
 			this.label15.Name = "label15";
 			this.label15.Size = new System.Drawing.Size(61, 13);
 			this.label15.TabIndex = 289;
@@ -1109,7 +1095,7 @@
             0,
             0,
             0});
-			this.udFilterOrder.Location = new System.Drawing.Point(392, 71);
+			this.udFilterOrder.Location = new System.Drawing.Point(391, 91);
 			this.udFilterOrder.Maximum = new decimal(new int[] {
             40,
             0,
@@ -1134,7 +1120,7 @@
 			// cbFilterLock
 			// 
 			this.cbFilterLock.AutoSize = true;
-			this.cbFilterLock.Location = new System.Drawing.Point(309, 23);
+			this.cbFilterLock.Location = new System.Drawing.Point(306, 65);
 			this.cbFilterLock.Name = "cbFilterLock";
 			this.cbFilterLock.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
 			this.cbFilterLock.Size = new System.Drawing.Size(53, 17);
@@ -1167,7 +1153,7 @@
 			// 
 			// btnRandomFilter
 			// 
-			this.btnRandomFilter.Location = new System.Drawing.Point(368, 19);
+			this.btnRandomFilter.Location = new System.Drawing.Point(365, 61);
 			this.btnRandomFilter.Name = "btnRandomFilter";
 			this.btnRandomFilter.Size = new System.Drawing.Size(75, 23);
 			this.btnRandomFilter.TabIndex = 268;
@@ -1178,7 +1164,7 @@
 			// cbRemoveDC
 			// 
 			this.cbRemoveDC.AutoSize = true;
-			this.cbRemoveDC.Location = new System.Drawing.Point(24, 45);
+			this.cbRemoveDC.Location = new System.Drawing.Point(23, 65);
 			this.cbRemoveDC.Name = "cbRemoveDC";
 			this.cbRemoveDC.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
 			this.cbRemoveDC.Size = new System.Drawing.Size(81, 17);
@@ -1190,7 +1176,7 @@
 			// cbMovingAverageFilter
 			// 
 			this.cbMovingAverageFilter.AutoSize = true;
-			this.cbMovingAverageFilter.Location = new System.Drawing.Point(111, 45);
+			this.cbMovingAverageFilter.Location = new System.Drawing.Point(110, 65);
 			this.cbMovingAverageFilter.Name = "cbMovingAverageFilter";
 			this.cbMovingAverageFilter.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
 			this.cbMovingAverageFilter.Size = new System.Drawing.Size(132, 17);
@@ -1680,51 +1666,165 @@
 			this.label7.TabIndex = 263;
 			this.label7.Text = "Position:";
 			// 
-			// cbCopyTo
-			// 
-			this.cbCopyTo.FormattingEnabled = true;
-			this.cbCopyTo.Items.AddRange(new object[] {
-            "",
-            "0",
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
-            "10",
-            "11",
-            "12",
-            "13",
-            "14",
-            "15"});
-			this.cbCopyTo.Location = new System.Drawing.Point(776, 66);
-			this.cbCopyTo.Name = "cbCopyTo";
-			this.cbCopyTo.Size = new System.Drawing.Size(88, 21);
-			this.cbCopyTo.TabIndex = 264;
-			// 
-			// label9
-			// 
-			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(720, 68);
-			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(50, 13);
-			this.label9.TabIndex = 265;
-			this.label9.Text = "Copy To:";
-			// 
 			// label10
 			// 
 			this.label10.AutoSize = true;
 			this.label10.Font = new System.Drawing.Font("Impact", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label10.ForeColor = System.Drawing.Color.Crimson;
-			this.label10.Location = new System.Drawing.Point(98, 566);
+			this.label10.Location = new System.Drawing.Point(35, 29);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(240, 34);
 			this.label10.TabIndex = 266;
 			this.label10.Text = "Game Sound Builder";
+			// 
+			// btnRandomThisOsc
+			// 
+			this.btnRandomThisOsc.Location = new System.Drawing.Point(474, 64);
+			this.btnRandomThisOsc.Name = "btnRandomThisOsc";
+			this.btnRandomThisOsc.Size = new System.Drawing.Size(75, 23);
+			this.btnRandomThisOsc.TabIndex = 289;
+			this.btnRandomThisOsc.Text = "Random";
+			this.btnRandomThisOsc.UseVisualStyleBackColor = true;
+			this.btnRandomThisOsc.Click += new System.EventHandler(this.btnRandomThisOsc_Click);
+			// 
+			// btnRedo
+			// 
+			this.btnRedo.Enabled = false;
+			this.btnRedo.Location = new System.Drawing.Point(1096, 38);
+			this.btnRedo.Name = "btnRedo";
+			this.btnRedo.Size = new System.Drawing.Size(75, 23);
+			this.btnRedo.TabIndex = 292;
+			this.btnRedo.Text = "Redo";
+			this.btnRedo.UseVisualStyleBackColor = true;
+			this.btnRedo.Click += new System.EventHandler(this.btnRedo_Click);
+			// 
+			// btnUndo
+			// 
+			this.btnUndo.Enabled = false;
+			this.btnUndo.Location = new System.Drawing.Point(979, 38);
+			this.btnUndo.Name = "btnUndo";
+			this.btnUndo.Size = new System.Drawing.Size(75, 23);
+			this.btnUndo.TabIndex = 293;
+			this.btnUndo.Text = "Undo";
+			this.btnUndo.UseVisualStyleBackColor = true;
+			this.btnUndo.Click += new System.EventHandler(this.btnUndo_Click);
+			// 
+			// groupBox2
+			// 
+			this.groupBox2.Controls.Add(this.pbSteroDelay);
+			this.groupBox2.Controls.Add(this.label17);
+			this.groupBox2.Controls.Add(this.udDelay);
+			this.groupBox2.Controls.Add(this.cbStereo);
+			this.groupBox2.Location = new System.Drawing.Point(889, 516);
+			this.groupBox2.Name = "groupBox2";
+			this.groupBox2.Size = new System.Drawing.Size(363, 100);
+			this.groupBox2.TabIndex = 302;
+			this.groupBox2.TabStop = false;
+			this.groupBox2.Text = "Pseudo Stereo";
+			// 
+			// label17
+			// 
+			this.label17.AutoSize = true;
+			this.label17.Location = new System.Drawing.Point(11, 52);
+			this.label17.Name = "label17";
+			this.label17.Size = new System.Drawing.Size(38, 13);
+			this.label17.TabIndex = 297;
+			this.label17.Text = "Width:";
+			// 
+			// udDelay
+			// 
+			this.udDelay.Location = new System.Drawing.Point(55, 50);
+			this.udDelay.Maximum = new decimal(new int[] {
+            4410,
+            0,
+            0,
+            0});
+			this.udDelay.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+			this.udDelay.Name = "udDelay";
+			this.udDelay.Size = new System.Drawing.Size(51, 20);
+			this.udDelay.TabIndex = 296;
+			this.udDelay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.udDelay.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+			this.udDelay.ValueChanged += new System.EventHandler(this.udDelay_ValueChanged);
+			// 
+			// cbStereo
+			// 
+			this.cbStereo.AutoSize = true;
+			this.cbStereo.Location = new System.Drawing.Point(9, 19);
+			this.cbStereo.Name = "cbStereo";
+			this.cbStereo.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+			this.cbStereo.Size = new System.Drawing.Size(60, 17);
+			this.cbStereo.TabIndex = 295;
+			this.cbStereo.Text = ":Stereo";
+			this.cbStereo.UseVisualStyleBackColor = true;
+			this.cbStereo.CheckedChanged += new System.EventHandler(this.cbStereo_CheckedChanged);
+			// 
+			// groupBox3
+			// 
+			this.groupBox3.Location = new System.Drawing.Point(889, 280);
+			this.groupBox3.Name = "groupBox3";
+			this.groupBox3.Size = new System.Drawing.Size(363, 230);
+			this.groupBox3.TabIndex = 303;
+			this.groupBox3.TabStop = false;
+			this.groupBox3.Text = "Truddeluttifiera";
+			// 
+			// btnSameADSR
+			// 
+			this.btnSameADSR.Location = new System.Drawing.Point(194, 108);
+			this.btnSameADSR.Name = "btnSameADSR";
+			this.btnSameADSR.Size = new System.Drawing.Size(75, 23);
+			this.btnSameADSR.TabIndex = 233;
+			this.btnSameADSR.Text = "Longer";
+			this.btnSameADSR.UseVisualStyleBackColor = true;
+			this.btnSameADSR.Click += new System.EventHandler(this.btnSameADSR_Click);
+			// 
+			// btnNotes
+			// 
+			this.btnNotes.Location = new System.Drawing.Point(275, 20);
+			this.btnNotes.Name = "btnNotes";
+			this.btnNotes.Size = new System.Drawing.Size(75, 23);
+			this.btnNotes.TabIndex = 225;
+			this.btnNotes.Text = "Sinus";
+			this.btnNotes.UseVisualStyleBackColor = true;
+			this.btnNotes.Click += new System.EventHandler(this.btnNotes_Click);
+			// 
+			// btnMediumRnd
+			// 
+			this.btnMediumRnd.Location = new System.Drawing.Point(194, 79);
+			this.btnMediumRnd.Name = "btnMediumRnd";
+			this.btnMediumRnd.Size = new System.Drawing.Size(75, 23);
+			this.btnMediumRnd.TabIndex = 224;
+			this.btnMediumRnd.Text = "Medium";
+			this.btnMediumRnd.UseVisualStyleBackColor = true;
+			this.btnMediumRnd.Click += new System.EventHandler(this.btnMediumRnd_Click);
+			// 
+			// btnShortRnd
+			// 
+			this.btnShortRnd.Location = new System.Drawing.Point(194, 48);
+			this.btnShortRnd.Name = "btnShortRnd";
+			this.btnShortRnd.Size = new System.Drawing.Size(75, 23);
+			this.btnShortRnd.TabIndex = 221;
+			this.btnShortRnd.Text = "Short";
+			this.btnShortRnd.UseVisualStyleBackColor = true;
+			this.btnShortRnd.Click += new System.EventHandler(this.btnShortRnd_Click);
+			// 
+			// btnRandom
+			// 
+			this.btnRandom.Location = new System.Drawing.Point(194, 20);
+			this.btnRandom.Name = "btnRandom";
+			this.btnRandom.Size = new System.Drawing.Size(75, 23);
+			this.btnRandom.TabIndex = 223;
+			this.btnRandom.Text = "Random";
+			this.btnRandom.UseVisualStyleBackColor = true;
+			this.btnRandom.Click += new System.EventHandler(this.btnRandom_Click_1);
 			// 
 			// udNoRandomOsc
 			// 
@@ -1750,16 +1850,6 @@
             0});
 			this.udNoRandomOsc.ValueChanged += new System.EventHandler(this.udNoRandomOsc_ValueChanged);
 			// 
-			// btnRandomThisOsc
-			// 
-			this.btnRandomThisOsc.Location = new System.Drawing.Point(474, 64);
-			this.btnRandomThisOsc.Name = "btnRandomThisOsc";
-			this.btnRandomThisOsc.Size = new System.Drawing.Size(75, 23);
-			this.btnRandomThisOsc.TabIndex = 289;
-			this.btnRandomThisOsc.Text = "Random";
-			this.btnRandomThisOsc.UseVisualStyleBackColor = true;
-			this.btnRandomThisOsc.Click += new System.EventHandler(this.btnRandomThisOsc_Click);
-			// 
 			// udLFO
 			// 
 			this.udLFO.Location = new System.Drawing.Point(152, 20);
@@ -1773,6 +1863,117 @@
 			this.udLFO.TabIndex = 290;
 			this.udLFO.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.udLFO.ValueChanged += new System.EventHandler(this.udLFO_ValueChanged);
+			// 
+			// label12
+			// 
+			this.label12.AutoSize = true;
+			this.label12.Location = new System.Drawing.Point(6, 22);
+			this.label12.Name = "label12";
+			this.label12.Size = new System.Drawing.Size(30, 13);
+			this.label12.TabIndex = 293;
+			this.label12.Text = "LFO:";
+			// 
+			// label11
+			// 
+			this.label11.AutoSize = true;
+			this.label11.Location = new System.Drawing.Point(6, 51);
+			this.label11.Name = "label11";
+			this.label11.Size = new System.Drawing.Size(29, 13);
+			this.label11.TabIndex = 292;
+			this.label11.Text = "Osc:";
+			// 
+			// udMaxRandomFrequency
+			// 
+			this.udMaxRandomFrequency.Location = new System.Drawing.Point(122, 109);
+			this.udMaxRandomFrequency.Maximum = new decimal(new int[] {
+            7040,
+            0,
+            0,
+            0});
+			this.udMaxRandomFrequency.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.udMaxRandomFrequency.Name = "udMaxRandomFrequency";
+			this.udMaxRandomFrequency.Size = new System.Drawing.Size(66, 20);
+			this.udMaxRandomFrequency.TabIndex = 294;
+			this.udMaxRandomFrequency.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.udMaxRandomFrequency.Value = new decimal(new int[] {
+            7040,
+            0,
+            0,
+            0});
+			this.udMaxRandomFrequency.ValueChanged += new System.EventHandler(this.udMaxRandomFrequency_ValueChanged);
+			// 
+			// udMinRandomFrequency
+			// 
+			this.udMinRandomFrequency.Location = new System.Drawing.Point(122, 80);
+			this.udMinRandomFrequency.Maximum = new decimal(new int[] {
+            7040,
+            0,
+            0,
+            0});
+			this.udMinRandomFrequency.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.udMinRandomFrequency.Name = "udMinRandomFrequency";
+			this.udMinRandomFrequency.Size = new System.Drawing.Size(66, 20);
+			this.udMinRandomFrequency.TabIndex = 295;
+			this.udMinRandomFrequency.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.udMinRandomFrequency.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.udMinRandomFrequency.ValueChanged += new System.EventHandler(this.udMinRandomFrequency_ValueChanged);
+			// 
+			// label13
+			// 
+			this.label13.AutoSize = true;
+			this.label13.Location = new System.Drawing.Point(8, 111);
+			this.label13.Name = "label13";
+			this.label13.Size = new System.Drawing.Size(83, 13);
+			this.label13.TabIndex = 296;
+			this.label13.Text = "Max Frequency:";
+			// 
+			// label14
+			// 
+			this.label14.AutoSize = true;
+			this.label14.Location = new System.Drawing.Point(8, 82);
+			this.label14.Name = "label14";
+			this.label14.Size = new System.Drawing.Size(80, 13);
+			this.label14.TabIndex = 297;
+			this.label14.Text = "Min Frequency:";
+			// 
+			// button1
+			// 
+			this.button1.Location = new System.Drawing.Point(275, 78);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(75, 23);
+			this.button1.TabIndex = 298;
+			this.button1.Text = "---";
+			this.button1.UseVisualStyleBackColor = true;
+			// 
+			// button2
+			// 
+			this.button2.Location = new System.Drawing.Point(275, 49);
+			this.button2.Name = "button2";
+			this.button2.Size = new System.Drawing.Size(75, 23);
+			this.button2.TabIndex = 299;
+			this.button2.Text = "---";
+			this.button2.UseVisualStyleBackColor = true;
+			// 
+			// button3
+			// 
+			this.button3.Location = new System.Drawing.Point(275, 107);
+			this.button3.Name = "button3";
+			this.button3.Size = new System.Drawing.Size(75, 23);
+			this.button3.TabIndex = 300;
+			this.button3.Text = "---";
+			this.button3.UseVisualStyleBackColor = true;
 			// 
 			// groupBox1
 			// 
@@ -1799,151 +2000,117 @@
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Random Settings";
 			// 
-			// button3
+			// label9
 			// 
-			this.button3.Location = new System.Drawing.Point(275, 107);
-			this.button3.Name = "button3";
-			this.button3.Size = new System.Drawing.Size(75, 23);
-			this.button3.TabIndex = 300;
-			this.button3.Text = "---";
-			this.button3.UseVisualStyleBackColor = true;
+			this.label9.AutoSize = true;
+			this.label9.Location = new System.Drawing.Point(26, 22);
+			this.label9.Name = "label9";
+			this.label9.Size = new System.Drawing.Size(75, 13);
+			this.label9.TabIndex = 301;
+			this.label9.Text = "Bit Resolution:";
 			// 
-			// button2
+			// udBitResulotion
 			// 
-			this.button2.Location = new System.Drawing.Point(275, 49);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(75, 23);
-			this.button2.TabIndex = 299;
-			this.button2.Text = "---";
-			this.button2.UseVisualStyleBackColor = true;
-			// 
-			// button1
-			// 
-			this.button1.Location = new System.Drawing.Point(275, 78);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(75, 23);
-			this.button1.TabIndex = 298;
-			this.button1.Text = "---";
-			this.button1.UseVisualStyleBackColor = true;
-			// 
-			// label14
-			// 
-			this.label14.AutoSize = true;
-			this.label14.Location = new System.Drawing.Point(8, 82);
-			this.label14.Name = "label14";
-			this.label14.Size = new System.Drawing.Size(80, 13);
-			this.label14.TabIndex = 297;
-			this.label14.Text = "Min Frequency:";
-			// 
-			// label13
-			// 
-			this.label13.AutoSize = true;
-			this.label13.Location = new System.Drawing.Point(8, 111);
-			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(83, 13);
-			this.label13.TabIndex = 296;
-			this.label13.Text = "Max Frequency:";
-			// 
-			// udMinRandomFrequency
-			// 
-			this.udMinRandomFrequency.Location = new System.Drawing.Point(122, 80);
-			this.udMinRandomFrequency.Maximum = new decimal(new int[] {
-            7040,
+			this.udBitResulotion.Location = new System.Drawing.Point(186, 19);
+			this.udBitResulotion.Maximum = new decimal(new int[] {
+            16,
             0,
             0,
             0});
-			this.udMinRandomFrequency.Minimum = new decimal(new int[] {
-            1,
+			this.udBitResulotion.Minimum = new decimal(new int[] {
+            2,
             0,
             0,
             0});
-			this.udMinRandomFrequency.Name = "udMinRandomFrequency";
-			this.udMinRandomFrequency.Size = new System.Drawing.Size(66, 20);
-			this.udMinRandomFrequency.TabIndex = 295;
-			this.udMinRandomFrequency.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.udMinRandomFrequency.Value = new decimal(new int[] {
-            1,
+			this.udBitResulotion.Name = "udBitResulotion";
+			this.udBitResulotion.Size = new System.Drawing.Size(49, 20);
+			this.udBitResulotion.TabIndex = 295;
+			this.udBitResulotion.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.udBitResulotion.Value = new decimal(new int[] {
+            16,
             0,
             0,
             0});
-			this.udMinRandomFrequency.ValueChanged += new System.EventHandler(this.udMinRandomFrequency_ValueChanged);
+			this.udBitResulotion.ValueChanged += new System.EventHandler(this.udBitResulotion_ValueChanged);
 			// 
-			// udMaxRandomFrequency
+			// udOscBitResulotion
 			// 
-			this.udMaxRandomFrequency.Location = new System.Drawing.Point(122, 109);
-			this.udMaxRandomFrequency.Maximum = new decimal(new int[] {
-            7040,
+			this.udOscBitResulotion.Location = new System.Drawing.Point(198, 537);
+			this.udOscBitResulotion.Maximum = new decimal(new int[] {
+            16,
             0,
             0,
             0});
-			this.udMaxRandomFrequency.Minimum = new decimal(new int[] {
-            1,
+			this.udOscBitResulotion.Minimum = new decimal(new int[] {
+            2,
             0,
             0,
             0});
-			this.udMaxRandomFrequency.Name = "udMaxRandomFrequency";
-			this.udMaxRandomFrequency.Size = new System.Drawing.Size(66, 20);
-			this.udMaxRandomFrequency.TabIndex = 294;
-			this.udMaxRandomFrequency.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.udMaxRandomFrequency.Value = new decimal(new int[] {
-            7040,
+			this.udOscBitResulotion.Name = "udOscBitResulotion";
+			this.udOscBitResulotion.Size = new System.Drawing.Size(49, 20);
+			this.udOscBitResulotion.TabIndex = 304;
+			this.udOscBitResulotion.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.udOscBitResulotion.Value = new decimal(new int[] {
+            16,
             0,
             0,
             0});
-			this.udMaxRandomFrequency.ValueChanged += new System.EventHandler(this.udMaxRandomFrequency_ValueChanged);
+			this.udOscBitResulotion.ValueChanged += new System.EventHandler(this.udOscBitResulotion_ValueChanged);
 			// 
-			// label11
+			// label18
 			// 
-			this.label11.AutoSize = true;
-			this.label11.Location = new System.Drawing.Point(6, 51);
-			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(29, 13);
-			this.label11.TabIndex = 292;
-			this.label11.Text = "Osc:";
+			this.label18.AutoSize = true;
+			this.label18.Location = new System.Drawing.Point(38, 539);
+			this.label18.Name = "label18";
+			this.label18.Size = new System.Drawing.Size(75, 13);
+			this.label18.TabIndex = 305;
+			this.label18.Text = "Bit Resolution:";
 			// 
-			// label12
+			// groupBox4
 			// 
-			this.label12.AutoSize = true;
-			this.label12.Location = new System.Drawing.Point(6, 22);
-			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(30, 13);
-			this.label12.TabIndex = 293;
-			this.label12.Text = "LFO:";
+			this.groupBox4.Controls.Add(this.udBitResulotion);
+			this.groupBox4.Controls.Add(this.label9);
+			this.groupBox4.Location = new System.Drawing.Point(12, 561);
+			this.groupBox4.Name = "groupBox4";
+			this.groupBox4.Size = new System.Drawing.Size(442, 55);
+			this.groupBox4.TabIndex = 306;
+			this.groupBox4.TabStop = false;
+			this.groupBox4.Text = "Global";
 			// 
-			// btnRedo
+			// pbSteroDelay
 			// 
-			this.btnRedo.Enabled = false;
-			this.btnRedo.Location = new System.Drawing.Point(1096, 38);
-			this.btnRedo.Name = "btnRedo";
-			this.btnRedo.Size = new System.Drawing.Size(75, 23);
-			this.btnRedo.TabIndex = 292;
-			this.btnRedo.Text = "Redo";
-			this.btnRedo.UseVisualStyleBackColor = true;
-			this.btnRedo.Click += new System.EventHandler(this.btnRedo_Click);
+			this.pbSteroDelay.BackColor = System.Drawing.Color.Black;
+			this.pbSteroDelay.Cursor = System.Windows.Forms.Cursors.SizeWE;
+			this.pbSteroDelay.Location = new System.Drawing.Point(112, 50);
+			this.pbSteroDelay.Name = "pbSteroDelay";
+			this.pbSteroDelay.Size = new System.Drawing.Size(245, 20);
+			this.pbSteroDelay.TabIndex = 298;
+			this.pbSteroDelay.TabStop = false;
+			this.pbSteroDelay.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbSteroDelay_MouseDown);
+			this.pbSteroDelay.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbSteroDelay_MouseMove);
 			// 
-			// btnUndo
+			// loadwavToolStripMenuItem
 			// 
-			this.btnUndo.Enabled = false;
-			this.btnUndo.Location = new System.Drawing.Point(979, 38);
-			this.btnUndo.Name = "btnUndo";
-			this.btnUndo.Size = new System.Drawing.Size(75, 23);
-			this.btnUndo.TabIndex = 293;
-			this.btnUndo.Text = "Undo";
-			this.btnUndo.UseVisualStyleBackColor = true;
-			this.btnUndo.Click += new System.EventHandler(this.btnUndo_Click);
+			this.loadwavToolStripMenuItem.Name = "loadwavToolStripMenuItem";
+			this.loadwavToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.loadwavToolStripMenuItem.Text = "Load .wav";
 			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.BackColor = System.Drawing.Color.Honeydew;
 			this.ClientSize = new System.Drawing.Size(1264, 941);
+			this.Controls.Add(this.groupBox4);
+			this.Controls.Add(this.label10);
+			this.Controls.Add(this.udOscBitResulotion);
+			this.Controls.Add(this.label18);
+			this.Controls.Add(this.groupBox3);
+			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.btnUndo);
 			this.Controls.Add(this.btnRedo);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.btnRandomThisOsc);
-			this.Controls.Add(this.label10);
-			this.Controls.Add(this.label9);
-			this.Controls.Add(this.cbCopyTo);
 			this.Controls.Add(this.label7);
 			this.Controls.Add(this.Label99);
 			this.Controls.Add(this.pbPositionSlider);
@@ -2061,12 +2228,20 @@
 			((System.ComponentModel.ISupportInitialize)(this.pbDelaySlider)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pbZoomSlider)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pbPositionSlider)).EndInit();
+			this.groupBox2.ResumeLayout(false);
+			this.groupBox2.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.udDelay)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.udNoRandomOsc)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.udLFO)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.udMaxRandomFrequency)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.udMinRandomFrequency)).EndInit();
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.udMinRandomFrequency)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.udMaxRandomFrequency)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.udBitResulotion)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.udOscBitResulotion)).EndInit();
+			this.groupBox4.ResumeLayout(false);
+			this.groupBox4.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pbSteroDelay)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -2130,12 +2305,7 @@
 		private System.Windows.Forms.NumericUpDown udPhaseModulationFromOsc;
 		private System.Windows.Forms.NumericUpDown udFrequencyModulatonFromOsc;
 		private System.Windows.Forms.Button btnResetAll;
-		private System.Windows.Forms.Button btnShortRnd;
-		private System.Windows.Forms.Button btnRandom;
 		private System.Windows.Forms.Button btPlay;
-		private System.Windows.Forms.Button btnSameADSR;
-		private System.Windows.Forms.Button btnNotes;
-		private System.Windows.Forms.Button btnMediumRnd;
 		private System.Windows.Forms.Button btnTest;
 		private System.Windows.Forms.CheckBox cbSoundOn;
 		private System.Windows.Forms.Button btnGlobalRndSin;
@@ -2175,8 +2345,6 @@
 		private System.Windows.Forms.CheckBox cbReverb;
 		private System.Windows.Forms.CheckBox cbRemoveDC;
 		private System.Windows.Forms.CheckBox cbMovingAverageFilter;
-		private System.Windows.Forms.ComboBox cbCopyTo;
-		private System.Windows.Forms.Label label9;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripMenuItem loadSeettingsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem saveSettingsToolStripMenuItem;
@@ -2186,19 +2354,7 @@
 		private System.Windows.Forms.Button btnRandomFilter;
 		private System.Windows.Forms.CheckBox cbFilterLock;
 		private System.Windows.Forms.CheckBox cbReverbLock;
-		private System.Windows.Forms.NumericUpDown udNoRandomOsc;
 		private System.Windows.Forms.Button btnRandomThisOsc;
-		private System.Windows.Forms.NumericUpDown udLFO;
-		private System.Windows.Forms.GroupBox groupBox1;
-		private System.Windows.Forms.Label label11;
-		private System.Windows.Forms.Label label12;
-		private System.Windows.Forms.NumericUpDown udMaxRandomFrequency;
-		private System.Windows.Forms.NumericUpDown udMinRandomFrequency;
-		private System.Windows.Forms.Button button3;
-		private System.Windows.Forms.Button button2;
-		private System.Windows.Forms.Button button1;
-		private System.Windows.Forms.Label label14;
-		private System.Windows.Forms.Label label13;
 		private System.Windows.Forms.Button btnRedo;
 		private System.Windows.Forms.Button btnUndo;
 		private System.Windows.Forms.Label label15;
@@ -2206,6 +2362,37 @@
 		private System.Windows.Forms.NumericUpDown udFFModulationFromOsc;
 		private System.Windows.Forms.Label label16;
 		private System.Windows.Forms.PictureBox pbFilterFrequencyDepth;
+		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+		private System.Windows.Forms.GroupBox groupBox2;
+		private System.Windows.Forms.Label label17;
+		private System.Windows.Forms.NumericUpDown udDelay;
+		private System.Windows.Forms.CheckBox cbStereo;
+		private System.Windows.Forms.GroupBox groupBox3;
+		private System.Windows.Forms.Button btnSameADSR;
+		private System.Windows.Forms.Button btnNotes;
+		private System.Windows.Forms.Button btnMediumRnd;
+		private System.Windows.Forms.Button btnShortRnd;
+		private System.Windows.Forms.Button btnRandom;
+		private System.Windows.Forms.NumericUpDown udNoRandomOsc;
+		private System.Windows.Forms.NumericUpDown udLFO;
+		private System.Windows.Forms.Label label12;
+		private System.Windows.Forms.Label label11;
+		private System.Windows.Forms.NumericUpDown udMaxRandomFrequency;
+		private System.Windows.Forms.NumericUpDown udMinRandomFrequency;
+		private System.Windows.Forms.Label label13;
+		private System.Windows.Forms.Label label14;
+		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.Button button2;
+		private System.Windows.Forms.Button button3;
+		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.Label label9;
+		private System.Windows.Forms.NumericUpDown udBitResulotion;
+		private System.Windows.Forms.NumericUpDown udOscBitResulotion;
+		private System.Windows.Forms.Label label18;
+		private System.Windows.Forms.GroupBox groupBox4;
+		private System.Windows.Forms.PictureBox pbSteroDelay;
+		private System.Windows.Forms.ToolStripMenuItem loadwavToolStripMenuItem;
 	}
 }
 

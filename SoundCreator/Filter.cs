@@ -363,7 +363,7 @@ namespace SoundCreator {
 			}
 		}
 
-		// Double comb allpasss filter
+		// Double comb allpass filter
 		public void AllPassFilter( double[] Input, double[] Output, double Gain, double msDelay, double NoSamples, int Samplerate ) {
 			int EndPos = (int)(msDelay * Samplerate / 1000.0);
 			for (int i = 0; i < EndPos; i++) Output[i] = Gain * Input[i];
@@ -453,15 +453,32 @@ namespace SoundCreator {
 
 
 		public double[] IIRFilter( double[] RawWave, double Frequency1, double Frequency2, double[] Frequency, double Depth, int Samplerate, float resonance, int Order, int PassType ) {
+
+			//Filtrera bara om det behövs
+			int RWLength = RawWave.Length;
+			for(int i=RawWave.Length-1; i>=0; --i) {
+				if (RawWave[i] > 0.1) {
+					RWLength = i;
+					break;
+				}
+			}
+			if (RWLength < 1000) RWLength = 1000;
+
+
 			double[] FilteredWave = new double[RawWave.Length];
 			double[] inputHistory = new double[2];
 			double[] outputHistory = new double[2];
 			double[] inputHistory2 = new double[2];
 			double[] outputHistory2 = new double[2];
+			double[] inputHistory3 = new double[2];
+			double[] outputHistory3 = new double[2];
+			double[] inputHistory4 = new double[2];
+			double[] outputHistory4 = new double[2];
+
 			double FW1,FW2;
 
 			double c,a0, a1, a2, b0, b1, b2, x, fc;
-			c = a0 = a1 = a2 =  b0 = b1 = b2 =  0.0;
+			c = a0 = a1 = a2 = b0 = b1 = b2 = 0.0;
 
 			//			This is bilinear transform code for IIR filters.
 			//			In order to use these equations, you must define the variables A, B, C, D, E, and F
@@ -474,13 +491,10 @@ namespace SoundCreator {
 
 
 
-			
+
 			double MPI2 = Math.PI/2;
-			double MPI4 = Math.PI/4;
 			double OmegaC, OmegaC2;
-			double BW;
-			double T,T2;
-			double Q;
+			double T1,T2;
 			double A,B,C,D,E,F,Arg;
 
 			double[,] Coefficients = CalcButterworthCoeff(Order, Order);
@@ -490,56 +504,65 @@ namespace SoundCreator {
 				A = 1.0;
 				B = -Coefficients[j, 1];
 				C = 1.0;
-				D = 0.0;
-				E = 0.0;
+				D = 1.0;        // Endast för allpass annars 0.0
+				E = -B;         // Endast för allpass annars 0.0
 				F = 1.0;
+
 				inputHistory[0] = 0.0;
 				inputHistory[1] = 0.0;
 				inputHistory2[0] = 0.0;
 				inputHistory2[1] = 0.0;
+				inputHistory3[0] = 0.0;
+				inputHistory3[1] = 0.0;
+				inputHistory4[0] = 0.0;
+				inputHistory4[1] = 0.0;
 				outputHistory[0] = 0.0;
 				outputHistory[1] = 0.0;
 				outputHistory2[0] = 0.0;
 				outputHistory2[1] = 0.0;
+				outputHistory3[0] = 0.0;
+				outputHistory3[1] = 0.0;
+				outputHistory4[0] = 0.0;
+				outputHistory4[1] = 0.0;
 
-				for (int i = 0; i < RawWave.Length; i++) {
-
-					x = Math.Pow(Math.Sqrt(2.0), (Frequency[i] / Form1.MaxAmplitude) * 2.0 * (Depth / 100.0) + 2.0); // x = sqrt(2)^ (0 till 4) = 1 till 4
+				for (int i = 0; i < RWLength; i++) {
+					x = 1.0;
+					if (Frequency != null) {
+						x = Math.Pow(Math.Sqrt(2.0), (Frequency[i] / Form1.MaxAmplitude) * 2.0 * (Depth / 100.0) + 2.0); // x = sqrt(2)^ (0 till 4) = 1 till 4
+					}
 					fc = x * Frequency1 / 2.0;                  // fc = 0.5 till 2.0  * frekvens (Depth = 100.0 => +- 1 oktav)
-   					OmegaC = fc / (Samplerate / 2.0);              // 0 till 20000Hz => OmegaC = 0 till 1    Cut Off Frequency
+					OmegaC = fc / (Samplerate / 2.0);              // 0 till 20000Hz => OmegaC = 0 till 1    Cut Off Frequency
 					fc = x * Frequency2 / 2.0;
 					OmegaC2 = fc / (Samplerate / 2.0);
-					T = 2.0 * Math.Tan(OmegaC * MPI2);           // * Pi/2
+					T1 = 2.0 * Math.Tan(OmegaC * MPI2);           // * Pi/2
 					T2 = 2.0 * Math.Tan(OmegaC2 * MPI2);
 
 					switch (PassType) {
 						case 1:    // 2 poles Lowpass
-							Arg = (4.0 * A + 2.0 * B * T + C * T * T);
-							a2 = (4.0 * A - 2.0 * B * T + C * T * T) / Arg;
-							a1 = (2.0 * C * T * T - 8.0 * A) / Arg;
-							a0 = 1.0;
+							Arg = (4.0 + 2.0 * B * T1 + T1 * T1);
+							a2 = (4.0 - 2.0 * B * T1 + T1 * T1) / Arg;
+							a1 = (2.0 * T1 * T1 - 8.0) / Arg;
 
-							b2 = (4.0 * D - 2.0 * E * T + F * T * T) / Arg * C / F;
-							b1 = (2.0 * F * T * T - 8.0 * D) / Arg * C / F;
-							b0 = (4 * D + F * T * T + 2.0 * E * T) / Arg * C / F;
+							b2 = T1 * T1 / Arg;
+							b1 = 2.0 * b2;  //(2.0 * T * T) / Arg;
+							b0 = b2;
 
-							FilteredWave[i] = a0 * (b0 * RawWave[i] + b1 * inputHistory[0] + b2 * inputHistory[1] - a1 * outputHistory[0] - a2 * outputHistory[1]);
+							FilteredWave[i] = b0 * RawWave[i] + b1 * inputHistory[0] + b2 * inputHistory[1] - a1 * outputHistory[0] - a2 * outputHistory[1];
 							inputHistory[1] = inputHistory[0];
 							inputHistory[0] = RawWave[i];
 							outputHistory[1] = outputHistory[0];
 							outputHistory[0] = FilteredWave[i];
 							break;
 						case 2:     // 2 poles Highpass
-							Arg = A * T2 * T2 + 4.0 * C + 2.0 * B * T2;
-							a2 = (A * T2 * T2 + 4.0 * C - 2.0 * B * T2) / Arg;
-							a1 = (2.0 * A * T2 * T2 - 8.0 * C) / Arg;
-							a0 = 1.0;
+							Arg = T2 * T2 + 4.0 + 2.0 * B * T2;
+							a2 = (T2 * T2 + 4.0 - 2.0 * B * T2) / Arg;
+							a1 = (2.0 * T2 * T2 - 8.0) / Arg;
 
-							b2 = (D * T2 * T2 - 2.0 * E * T2 + 4.0 * F) / Arg * C / F;
-							b1 = (2.0 * D * T2 * T2 - 8.0 * F) / Arg * C / F;
-							b0 = (D * T2 * T2 + 4.0 * F + 2.0 * E * T2) / Arg * C / F;
+							b2 = 4.0 / Arg;
+							b1 = -2.0 * b2;
+							b0 = b2;
 
-							FilteredWave[i] = a0 * (b0 * RawWave[i] + b1 * inputHistory[0] + b2 * inputHistory[1] - a1 * outputHistory[0] - a2 * outputHistory[1]);
+							FilteredWave[i] = b0 * RawWave[i] + b1 * inputHistory[0] + b2 * inputHistory[1] - a1 * outputHistory[0] - a2 * outputHistory[1];
 							inputHistory[1] = inputHistory[0];
 							inputHistory[0] = RawWave[i];
 							outputHistory[1] = outputHistory[0];
@@ -547,75 +570,109 @@ namespace SoundCreator {
 							break;
 
 						case 3: // Bandpass
-							// LP
-							Arg = (4.0 * A + 2.0 * B * T2 + C * T2 * T2);
-							a2 = (4.0 * A - 2.0 * B * T2 + C * T2 * T2) / Arg;
-							a1 = (2.0 * C * T2 * T2 - 8.0 * A) / Arg;
-							a0 = 1.0;
+								// LP
+							Arg = (4.0 + 2.0 * B * T2 + T2 * T2);
+							a2 = (4.0 - 2.0 * B * T2 + T2 * T2) / Arg;
+							a1 = (2.0 * T2 * T2 - 8.0) / Arg;
 
-							b2 = (4.0 * D - 2.0 * E * T2 + F * T2 * T2) / Arg * C / F;
-							b1 = (2.0 * F * T2 * T2 - 8.0 * D) / Arg * C / F;
-							b0 = (4 * D + F * T2 * T2 + 2.0 * E * T2) / Arg * C / F;
+							b2 = T2 * T2 / Arg;
+							b1 = 2.0 * b2;  //(2.0 * T2 * T2) / Arg;
+							b0 = b2;
 
-							FW1 = a0 * (b0 * RawWave[i] + b1 * inputHistory[0] + b2 * inputHistory[1] - a1 * outputHistory[0] - a2 * outputHistory[1]);
+							FW1 = b0 * RawWave[i] + b1 * inputHistory[0] + b2 * inputHistory[1] - a1 * outputHistory[0] - a2 * outputHistory[1];
 							inputHistory[1] = inputHistory[0];
 							inputHistory[0] = RawWave[i];
 							outputHistory[1] = outputHistory[0];
 							outputHistory[0] = FW1;
 
 							// HP
-							Arg = A * T * T + 4.0 * C + 2.0 * B * T;
-							a2 = (A * T * T + 4.0 * C - 2.0 * B * T) / Arg;
-							a1 = (2.0 * A * T * T - 8.0 * C) / Arg;
-							a0 = 1.0;
+							Arg = T1 * T1 + 4.0 + 2.0 * B * T1;
+							a2 = (T1 * T1 + 4.0 - 2.0 * B * T1) / Arg;
+							a1 = (2.0 * T1 * T1 - 8.0) / Arg;
 
-							b2 = (D * T * T - 2.0 * E * T + 4.0 * F) / Arg * C / F;
-							b1 = (2.0 * D * T * T - 8.0 * F) / Arg * C / F;
-							b0 = (D * T * T + 4.0 * F + 2.0 * E * T) / Arg * C / F;
+							b2 = 4.0 / Arg;
+							b1 = -2.0 * b2;
+							b0 = b2;
 
-							FilteredWave[i] = a0 * (b0 * FW1 + b1 * inputHistory2[0] + b2 * inputHistory2[1] - a1 * outputHistory2[0] - a2 * outputHistory2[1]);
+							FilteredWave[i] = b0 * FW1 + b1 * inputHistory2[0] + b2 * inputHistory2[1] - a1 * outputHistory2[0] - a2 * outputHistory2[1];
 							inputHistory2[1] = inputHistory2[0];
 							inputHistory2[0] = FW1; //  RawWave[i];
 							outputHistory2[1] = outputHistory2[0];
 							outputHistory2[0] = FilteredWave[i];
 
-							// FilteredWave[i] = (FW1 + FW2) / 2.0;
+
 							break;
 						case 4:
 							// LP
-							Arg = (4.0 * A + 2.0 * B * T + C * T * T);
-							a2 = (4.0 * A - 2.0 * B * T + C * T * T) / Arg;
-							a1 = (2.0 * C * T * T - 8.0 * A) / Arg;
-							a0 = 1.0;
+							Arg = (4.0 + 2.0 * B * T1 + T1 * T1);
+							a2 = (4.0 - 2.0 * B * T1 + T1 * T1) / Arg;
+							a1 = (2.0 * T1 * T1 - 8.0) / Arg;
 
-							b2 = (4.0 * D - 2.0 * E * T + F * T * T) / Arg * C / F;
-							b1 = (2.0 * F * T * T - 8.0 * D) / Arg * C / F;
-							b0 = (4 * D + F * T * T + 2.0 * E * T) / Arg * C / F;
+							b2 = T1 * T1 / Arg;
+							b1 = 2.0 * b2;  //(2.0 * T2 * T2) / Arg;
+							b0 = b2;
 
-							FW1 = a0 * (b0 * RawWave[i] + b1 * inputHistory[0] + b2 * inputHistory[1] - a1 * outputHistory[0] - a2 * outputHistory[1]);
+							FW1 = b0 * RawWave[i] + b1 * inputHistory[0] + b2 * inputHistory[1] - a1 * outputHistory[0] - a2 * outputHistory[1];
 							inputHistory[1] = inputHistory[0];
 							inputHistory[0] = RawWave[i];
 							outputHistory[1] = outputHistory[0];
 							outputHistory[0] = FW1;
 
 							// HP
-							Arg = A * T2 * T2 + 4.0 * C + 2.0 * B * T2;
-							a2 = (A * T2 * T2 + 4.0 * C - 2.0 * B * T2) / Arg;
-							a1 = (2.0 * A * T2 * T2 - 8.0 * C) / Arg;
-							a0 = 1.0;
+							Arg = T2 * T2 + 4.0 + 2.0 * B * T2;
+							a2 = (T2 * T2 + 4.0 - 2.0 * B * T2) / Arg;
+							a1 = (2.0 * T2 * T2 - 8.0) / Arg;
 
-							b2 = (D * T2 * T2 - 2.0 * E * T2 + 4.0 * F) / Arg * C / F;
-							b1 = (2.0 * D * T2 * T2 - 8.0 * F) / Arg * C / F;
-							b0 = (D * T2 * T2 + 4.0 * F + 2.0 * E * T2) / Arg * C / F;
+							b2 = 4.0 / Arg;
+							b1 = -2.0 * b2;
+							b0 = b2;
 
-
-							FilteredWave[i] = a0 * (b0 * FW1 + b1 * inputHistory2[0] + b2 * inputHistory2[1] - a1 * outputHistory2[0] - a2 * outputHistory2[1]);
+							//FilteredWave[i]
+							FW2 = b0 * RawWave[i] + b1 * inputHistory2[0] + b2 * inputHistory2[1] - a1 * outputHistory2[0] - a2 * outputHistory2[1];
 							inputHistory2[1] = inputHistory2[0];
-							inputHistory2[0] = FW1; //  RawWave[i];
+							inputHistory2[0] = RawWave[i];
 							outputHistory2[1] = outputHistory2[0];
-							outputHistory2[0] = FilteredWave[i];
+							outputHistory2[0] = FW2;
+							FilteredWave[i] = FW1 + FW2;
 
-							
+							// Allpass LP
+							//Arg = (4.0 * A + 2.0 * B * T2 + C * T2 * T2);
+							//a2 = (4.0 * A - 2.0 * B * T2 + C * T2 * T2) / Arg;
+							//a1 = (2.0 * C * T2 * T2 - 8.0 * A) / Arg;
+							//a0 = 1.0;
+
+							//b2 = (4.0 * D - 2.0 * E * T2 + F * T2 * T2) / Arg * C / F;
+							//b1 = (2.0 * F * T2 * T2 - 8.0 * D) / Arg * C / F;
+							//b0 = (4 * D + F * T2 * T2 + 2.0 * E * T2) / Arg * C / F;
+
+
+							//FW1 = b0 * RawWave[i] + b1 * inputHistory3[0] + b2 * inputHistory3[1] - a1 * outputHistory3[0] - a2 * outputHistory3[1];
+							//inputHistory3[1] = inputHistory3[0];
+							//inputHistory3[0] = RawWave[i];
+							//outputHistory3[1] = outputHistory3[0];
+							//outputHistory3[0] = FW1;
+
+							//// Allpass HP
+							//Arg = A * T1 * T1 + 4.0 * C + 2.0 * B * T1;
+							//a2 = (A * T1 * T1 + 4.0 * C - 2.0 * B * T1) / Arg;
+							//a1 = (2.0 * A * T1 * T1 - 8.0 * C) / Arg;
+							//a0 = 1.0;
+
+							//b2 = (D * T1 * T1 - 2.0 * E * T1 + 4.0 * F) / Arg * C / F;
+							//b1 = (2.0 * D * T1 * T1 - 8.0 * F) / Arg * C / F;
+							//b0 = (D * T1 * T1 + 4.0 * F + 2.0 * E * T1) / Arg * C / F;
+
+
+							//FW2 = b0 * FW1 + b1 * inputHistory4[0] + b2 * inputHistory4[1] - a1 * outputHistory4[0] - a2 * outputHistory4[1];
+							//inputHistory4[1] = inputHistory4[0];
+							//inputHistory4[0] = FW1;
+							//outputHistory4[1] = outputHistory4[0];
+							//outputHistory4[0] = FW2;
+
+
+
+
+							//FilteredWave[i] = FW2 -FilteredWave[i];
 
 
 							break;
@@ -623,9 +680,9 @@ namespace SoundCreator {
 						default:
 							break;
 					}
-					
+
 					// Direct transpose realization    x(n) =>  B(z) => 1/A(z) => y(n)
-					
+
 
 				}
 				Array.Copy(FilteredWave, RawWave, RawWave.Length);
