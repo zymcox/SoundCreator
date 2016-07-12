@@ -21,7 +21,7 @@ namespace SoundCreator {
 		public double Frequency;
 
 		public int OscBitResolution;
-		
+
 		public int VolumeFromOsc;           // AM Amplitudemodulering
 		public double AMDepth;
 		public int FrequencyFromOsc;        // FM Frekvensmodulering
@@ -40,14 +40,23 @@ namespace SoundCreator {
 		public double RndPA;
 		public double RndPB;
 		public double RndPC;
-
 	}
+
+	// Chromatic scale
+	public struct Note {
+		public double Frequency;
+		public string Name1;  // 2C
+		public string Name2; // C2# C Sharp
+	}
+
 
 	internal class Oscillator {
 		private double Pi = Math.PI;
 		private double Pi2 = Math.PI * 2;
 		private double OldRandomValue = 0.0;
 		private bool FirstPart = false;
+		private Note[] Notes;
+		private string[] strJingle;
 
 		public OscillatorData[] ResetAll( OscillatorData[] OD ) {
 			OD[0].Active = true;
@@ -124,6 +133,9 @@ namespace SoundCreator {
 			return OD;
 		}
 
+		public Oscillator() {
+			CreatePianoNotes();
+		}
 
 		public double[][] CreateWave( OscillatorData[] OD, MixerData MD ) {
 			double[][] OscArray = new double[Form1.MaxOscillators][];
@@ -203,7 +215,7 @@ namespace SoundCreator {
 
 						//Beräkna envelop
 						AmpEnv = env.process();
-						if (t > OD[Osc].GateTime * Form1.Samplerate / 1000) env.gate(false);
+						if (t - (int)DelayStart > OD[Osc].GateTime * Form1.Samplerate / 1000) env.gate(false);
 
 						//Beräkna total amplitud
 						AmpNow = AmpEnv * AmpMod * A;
@@ -219,7 +231,7 @@ namespace SoundCreator {
 						switch (OD[Osc].WaveType) {
 							case 1:
 								Value = AmpNow * Math.Sin(PhaseNow);
-								
+
 								break;
 
 							case 2:
@@ -259,8 +271,8 @@ namespace SoundCreator {
 						if (OD[Osc].RingModulationFromOsc != -1) {
 							Value = Value * OscArray[OD[Osc].RingModulationFromOsc][t] / Form1.MaxAmplitude;
 						}
-						
-						
+
+
 						if (double.IsNaN(Value)) {
 							Value = 0.0;
 						}
@@ -753,61 +765,172 @@ namespace SoundCreator {
 			return OD;
 		}
 
-		// Chromatic scale
-		public struct Note {
-			public double Frequency;
-			public string Name1;  // 2C
-			public string Name2; // C2# C Sharp
+		public OscillatorData[] Jingle( OscillatorData[] OD, string[] Jingle, string[] OkNotes, bool NewJingle ) {
+
+			OscillatorData[] OscData = new OscillatorData[Form1.MaxOscillators];
+
+			string[] Length = new string[5];
+
+			Length[0] = "1024"; //millisekunder
+			Length[1] = " 512";
+			Length[2] = " 256"; // * 2
+			Length[3] = " 128"; // * 4
+			Length[4] = "  64"; // * 8
+
+			int[] Takt = { 2,3,3,3,3,2 };
+
+			int MaxNoNotes = 0;
+			int MaxUsedOsc = 0;
+
+			int MaxO = Form1.MaxOscillators;
+
+			int NoteNr = 0;
+			double F = 1;
+			double Delay = 0;
+			string NoteName;
+			Random Rnd;
+			bool Ok;
+
+			// Hur många röster används till ett ljud, max.
+			for (int i = 0; i < MaxO; i++) {
+				if (OD[i].Active) MaxUsedOsc = i + 1;
+			}
+
+			MaxNoNotes = MaxO / MaxUsedOsc;
+			if (MaxNoNotes > 6) MaxNoNotes = 6;
+
+			// Kopiera alla noter och rätta till kopplingen mellan oscillatorer
+			for (int i = 0; i < MaxNoNotes; i++) {
+				for (int j = 0; j < MaxUsedOsc; j++) {
+					OscData[i * MaxUsedOsc + j] = OD[j];
+					if (OD[j].FrequencyFromOsc != -1) OscData[i * MaxUsedOsc + j].FrequencyFromOsc += i * MaxUsedOsc;
+					if (OD[j].PhaseFromOsc != -1) OscData[i * MaxUsedOsc + j].PhaseFromOsc += i * MaxUsedOsc;
+					if (OD[j].RingModulationFromOsc != -1) OscData[i * MaxUsedOsc + j].RingModulationFromOsc += i * MaxUsedOsc;
+					if (OD[j].SquareDutyFromOsc != -1) OscData[i * MaxUsedOsc + j].SquareDutyFromOsc += i * MaxUsedOsc;
+					if (OD[j].SyncFromOsc != -1) OscData[i * MaxUsedOsc + j].SyncFromOsc += i * MaxUsedOsc;
+					if (OD[j].VolumeFromOsc != -1) OscData[i * MaxUsedOsc + j].VolumeFromOsc += i * MaxUsedOsc;
+				}
+			}
+
+			// Skapa random Trudelutt eller läs strängen
+			Rnd = new Random();
+			Ok = false;
+			string str1,str2;
+			int r;
+			strJingle = new string[Form1.MaxOscillators * 2];
+			if (NewJingle || Jingle == null) {
+				Jingle = new string[Form1.MaxOscillators * 2];
+				if (OkNotes[0] == "" || OkNotes[0] == null) OkNotes[0] = "A4 "; 
+				for (int i = 0; i < MaxNoNotes; i++) {
+					while (!Ok) {
+						r = Rnd.Next(0, 108);
+                        str1 = Notes[r].Name1 + " ";   // Ton
+						str2 = Notes[r].Name2 + " ";   // Ton
+						for (int j = 0; j<OkNotes.Length; j++) {
+							if (str1 == OkNotes[j] + " ") {
+								Ok = true;
+								Jingle[i * 2] = str1;
+								break;
+							}
+							if (str2 == OkNotes[j] + " ") {
+								Ok = true;
+								Jingle[i * 2] = str2;
+								break;
+							}
+						}
+					}
+
+					// 2,2,3,3,2
+					Jingle[i * 2 + 1] = Length[Takt[i]];            // längd i millisekunder 0-5 512,256,128,64,32
+					Ok = false;
+				}
+			}
+
+			Array.Copy(Jingle, strJingle, Jingle.Length);
+
+			for (int i = 0; i < MaxNoNotes; i++) {
+
+
+				// Hitta noten i Arrayen
+				NoteName = strJingle[i * 2];
+				for (int k = 0; k < Notes.Length; k++) {
+					if (NoteName == Notes[k].Name1 + " " || NoteName == Notes[k].Name2 + " ") {
+						NoteNr = k;
+						break;
+					}
+				}
+
+				// Hitta första oscillatorn som skall vara grundtonen
+				for (int j = 0; j < MaxUsedOsc; j++) {
+					// Antag att LFO är under 20Hz. Det duger.?
+					if (OscData[i * MaxUsedOsc + j].Frequency > 20) {
+						F = Notes[NoteNr].Frequency / OscData[i * MaxUsedOsc + j].Frequency;
+						break;
+					}
+				}
+
+				for (int j = 0; j < MaxUsedOsc; j++) {
+					if (OscData[i * MaxUsedOsc + j].Frequency > 20) {
+						OscData[i * MaxUsedOsc + j].Frequency *= F;
+					}
+					OscData[i * MaxUsedOsc + j].Delay += Delay;
+				}
+				Delay = Delay + Convert.ToDouble(strJingle[i * 2 + 1]);
+			}
+			return OscData;
 		}
 
-		public Note[] CreatePianoNotes() {
-			Note[] Notes = new Note[12 * 9];
+		private void CreatePianoNotes() {
+			Notes = new Note[12 * 9];
 			double C = 13.75 * Math.Pow(2, 3.0 / 12.0);
 
 			for (int Oktav = 0; Oktav < 9; Oktav++) {
 				Notes[Oktav * 12 + 0].Frequency = C * Math.Pow(2, (Oktav * 12 + 0.0) / 12.0);
-				Notes[Oktav * 12 + 0].Name1 = "C" + Oktav.ToString();
-				Notes[Oktav * 12 + 0].Name2 = "C" + Oktav.ToString();
+				Notes[Oktav * 12 + 0].Name1 = "C" + Oktav.ToString() + " ";
+				Notes[Oktav * 12 + 0].Name2 = "C" + Oktav.ToString() + " ";
 				Notes[Oktav * 12 + 1].Frequency = C * Math.Pow(2, (Oktav * 12 + 1.0) / 12.0);
 				Notes[Oktav * 12 + 1].Name1 = "C" + Oktav.ToString() + "#";
 				Notes[Oktav * 12 + 1].Name2 = "D" + Oktav.ToString() + "b";
 				Notes[Oktav * 12 + 2].Frequency = C * Math.Pow(2, (Oktav * 12 + 2.0) / 12.0);
-				Notes[Oktav * 12 + 2].Name1 = "D" + Oktav.ToString();
-				Notes[Oktav * 12 + 2].Name2 = "D" + Oktav.ToString();
+				Notes[Oktav * 12 + 2].Name1 = "D" + Oktav.ToString() + " ";
+				Notes[Oktav * 12 + 2].Name2 = "D" + Oktav.ToString() + " ";
 				Notes[Oktav * 12 + 3].Frequency = C * Math.Pow(2, (Oktav * 12 + 3.0) / 12.0);
 				Notes[Oktav * 12 + 3].Name1 = "D" + Oktav.ToString() + "#";
 				Notes[Oktav * 12 + 3].Name2 = "E" + Oktav.ToString() + "b";
 				Notes[Oktav * 12 + 4].Frequency = C * Math.Pow(2, (Oktav * 12 + 4.0) / 12.0);
-				Notes[Oktav * 12 + 4].Name1 = "E" + Oktav.ToString();
-				Notes[Oktav * 12 + 4].Name2 = "E" + Oktav.ToString();
+				Notes[Oktav * 12 + 4].Name1 = "E" + Oktav.ToString() + " ";
+				Notes[Oktav * 12 + 4].Name2 = "E" + Oktav.ToString() + " ";
 				Notes[Oktav * 12 + 5].Frequency = C * Math.Pow(2, (Oktav * 12 + 5.0) / 12.0);
-				Notes[Oktav * 12 + 5].Name1 = "F" + Oktav.ToString();
-				Notes[Oktav * 12 + 5].Name2 = "F" + Oktav.ToString();
+				Notes[Oktav * 12 + 5].Name1 = "F" + Oktav.ToString() + " ";
+				Notes[Oktav * 12 + 5].Name2 = "F" + Oktav.ToString() + " ";
 				Notes[Oktav * 12 + 6].Frequency = C * Math.Pow(2, (Oktav * 12 + 6.0) / 12.0);
 				Notes[Oktav * 12 + 6].Name1 = "F" + Oktav.ToString() + "#";
 				Notes[Oktav * 12 + 6].Name2 = "G" + Oktav.ToString() + "b";
 				Notes[Oktav * 12 + 7].Frequency = C * Math.Pow(2, (Oktav * 12 + 7.0) / 12.0);
-				Notes[Oktav * 12 + 7].Name1 = "G" + Oktav.ToString();
-				Notes[Oktav * 12 + 7].Name2 = "G" + Oktav.ToString();
+				Notes[Oktav * 12 + 7].Name1 = "G" + Oktav.ToString() + " ";
+				Notes[Oktav * 12 + 7].Name2 = "G" + Oktav.ToString() + " ";
 				Notes[Oktav * 12 + 8].Frequency = C * Math.Pow(2, (Oktav * 12 + 8.0) / 12.0);
 				Notes[Oktav * 12 + 8].Name1 = "G" + Oktav.ToString() + "#";
 				Notes[Oktav * 12 + 8].Name2 = "A" + Oktav.ToString() + "b";
 				Notes[Oktav * 12 + 9].Frequency = C * Math.Pow(2, (Oktav * 12 + 9.0) / 12.0);
-				Notes[Oktav * 12 + 9].Name1 = "A" + Oktav.ToString();
-				Notes[Oktav * 12 + 9].Name2 = "A" + Oktav.ToString();
+				Notes[Oktav * 12 + 9].Name1 = "A" + Oktav.ToString() + " ";
+				Notes[Oktav * 12 + 9].Name2 = "A" + Oktav.ToString() + " ";
 				Notes[Oktav * 12 + 10].Frequency = C * Math.Pow(2, (Oktav * 12 + 10.0) / 12.0);
 				Notes[Oktav * 12 + 10].Name1 = "A" + Oktav.ToString() + "#";
 				Notes[Oktav * 12 + 10].Name2 = "B" + Oktav.ToString() + "b";
 				Notes[Oktav * 12 + 11].Frequency = C * Math.Pow(2, (Oktav * 12 + 11.0) / 12.0);
-				Notes[Oktav * 12 + 11].Name1 = "B" + Oktav.ToString();
-				Notes[Oktav * 12 + 11].Name2 = "B" + Oktav.ToString();
+				Notes[Oktav * 12 + 11].Name1 = "B" + Oktav.ToString() + " ";
+				Notes[Oktav * 12 + 11].Name2 = "B" + Oktav.ToString() + " ";
 
 			}
-
-			return Notes;
 		}
 
+		public string[] GetStrJingle() {
+			return strJingle;
+		}
 
-
+		public Note[] GetNotes() {
+			return Notes;
+		}
 	}
 }

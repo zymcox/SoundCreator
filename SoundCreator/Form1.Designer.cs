@@ -25,6 +25,7 @@
 		private void InitializeComponent() {
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.loadwavToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.saveWavToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.loadSeettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -140,6 +141,7 @@
 			this.btnRedo = new System.Windows.Forms.Button();
 			this.btnUndo = new System.Windows.Forms.Button();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.pbSteroDelay = new System.Windows.Forms.PictureBox();
 			this.label17 = new System.Windows.Forms.Label();
 			this.udDelay = new System.Windows.Forms.NumericUpDown();
 			this.cbStereo = new System.Windows.Forms.CheckBox();
@@ -166,8 +168,15 @@
 			this.udOscBitResulotion = new System.Windows.Forms.NumericUpDown();
 			this.label18 = new System.Windows.Forms.Label();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
-			this.pbSteroDelay = new System.Windows.Forms.PictureBox();
-			this.loadwavToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.btnRndJingel = new System.Windows.Forms.Button();
+			this.tbOkNote3 = new System.Windows.Forms.TextBox();
+			this.tbOkNote4 = new System.Windows.Forms.TextBox();
+			this.tbOkNote6 = new System.Windows.Forms.TextBox();
+			this.tbOkNote5 = new System.Windows.Forms.TextBox();
+			this.tbOkNote7 = new System.Windows.Forms.TextBox();
+			this.tbOkNote0 = new System.Windows.Forms.TextBox();
+			this.tbOkNote1 = new System.Windows.Forms.TextBox();
+			this.tbOkNote2 = new System.Windows.Forms.TextBox();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pbPhaseSlider)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pbVolumeSlider)).BeginInit();
@@ -215,7 +224,9 @@
 			((System.ComponentModel.ISupportInitialize)(this.pbZoomSlider)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pbPositionSlider)).BeginInit();
 			this.groupBox2.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pbSteroDelay)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.udDelay)).BeginInit();
+			this.groupBox3.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.udNoRandomOsc)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.udLFO)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.udMaxRandomFrequency)).BeginInit();
@@ -224,7 +235,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.udBitResulotion)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.udOscBitResulotion)).BeginInit();
 			this.groupBox4.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pbSteroDelay)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// menuStrip1
@@ -252,6 +262,12 @@
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
 			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
 			this.fileToolStripMenuItem.Text = "File";
+			// 
+			// loadwavToolStripMenuItem
+			// 
+			this.loadwavToolStripMenuItem.Name = "loadwavToolStripMenuItem";
+			this.loadwavToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+			this.loadwavToolStripMenuItem.Text = "Load .wav";
 			// 
 			// saveWavToolStripMenuItem
 			// 
@@ -1722,14 +1738,26 @@
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Pseudo Stereo";
 			// 
+			// pbSteroDelay
+			// 
+			this.pbSteroDelay.BackColor = System.Drawing.Color.Black;
+			this.pbSteroDelay.Cursor = System.Windows.Forms.Cursors.SizeWE;
+			this.pbSteroDelay.Location = new System.Drawing.Point(112, 50);
+			this.pbSteroDelay.Name = "pbSteroDelay";
+			this.pbSteroDelay.Size = new System.Drawing.Size(245, 20);
+			this.pbSteroDelay.TabIndex = 298;
+			this.pbSteroDelay.TabStop = false;
+			this.pbSteroDelay.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbSteroDelay_MouseDown);
+			this.pbSteroDelay.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbSteroDelay_MouseMove);
+			// 
 			// label17
 			// 
 			this.label17.AutoSize = true;
 			this.label17.Location = new System.Drawing.Point(11, 52);
 			this.label17.Name = "label17";
-			this.label17.Size = new System.Drawing.Size(38, 13);
+			this.label17.Size = new System.Drawing.Size(37, 13);
 			this.label17.TabIndex = 297;
-			this.label17.Text = "Width:";
+			this.label17.Text = "Delay:";
 			// 
 			// udDelay
 			// 
@@ -1769,12 +1797,21 @@
 			// 
 			// groupBox3
 			// 
+			this.groupBox3.Controls.Add(this.tbOkNote2);
+			this.groupBox3.Controls.Add(this.tbOkNote1);
+			this.groupBox3.Controls.Add(this.tbOkNote0);
+			this.groupBox3.Controls.Add(this.tbOkNote7);
+			this.groupBox3.Controls.Add(this.tbOkNote5);
+			this.groupBox3.Controls.Add(this.tbOkNote6);
+			this.groupBox3.Controls.Add(this.tbOkNote4);
+			this.groupBox3.Controls.Add(this.tbOkNote3);
+			this.groupBox3.Controls.Add(this.btnRndJingel);
 			this.groupBox3.Location = new System.Drawing.Point(889, 280);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Size = new System.Drawing.Size(363, 230);
 			this.groupBox3.TabIndex = 303;
 			this.groupBox3.TabStop = false;
-			this.groupBox3.Text = "Truddeluttifiera";
+			this.groupBox3.Text = "Jingle";
 			// 
 			// btnSameADSR
 			// 
@@ -2077,23 +2114,82 @@
 			this.groupBox4.TabStop = false;
 			this.groupBox4.Text = "Global";
 			// 
-			// pbSteroDelay
+			// btnRndJingel
 			// 
-			this.pbSteroDelay.BackColor = System.Drawing.Color.Black;
-			this.pbSteroDelay.Cursor = System.Windows.Forms.Cursors.SizeWE;
-			this.pbSteroDelay.Location = new System.Drawing.Point(112, 50);
-			this.pbSteroDelay.Name = "pbSteroDelay";
-			this.pbSteroDelay.Size = new System.Drawing.Size(245, 20);
-			this.pbSteroDelay.TabIndex = 298;
-			this.pbSteroDelay.TabStop = false;
-			this.pbSteroDelay.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbSteroDelay_MouseDown);
-			this.pbSteroDelay.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbSteroDelay_MouseMove);
+			this.btnRndJingel.Location = new System.Drawing.Point(275, 18);
+			this.btnRndJingel.Name = "btnRndJingel";
+			this.btnRndJingel.Size = new System.Drawing.Size(75, 23);
+			this.btnRndJingel.TabIndex = 0;
+			this.btnRndJingel.Text = "Rnd Jingle";
+			this.btnRndJingel.UseVisualStyleBackColor = true;
+			this.btnRndJingel.Click += new System.EventHandler(this.btnRndJingel_Click);
 			// 
-			// loadwavToolStripMenuItem
+			// tbOkNote3
 			// 
-			this.loadwavToolStripMenuItem.Name = "loadwavToolStripMenuItem";
-			this.loadwavToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.loadwavToolStripMenuItem.Text = "Load .wav";
+			this.tbOkNote3.Location = new System.Drawing.Point(222, 175);
+			this.tbOkNote3.Name = "tbOkNote3";
+			this.tbOkNote3.Size = new System.Drawing.Size(66, 20);
+			this.tbOkNote3.TabIndex = 1;
+			this.tbOkNote3.TextChanged += new System.EventHandler(this.tbOkNote3_TextChanged);
+			// 
+			// tbOkNote4
+			// 
+			this.tbOkNote4.Location = new System.Drawing.Point(6, 201);
+			this.tbOkNote4.Name = "tbOkNote4";
+			this.tbOkNote4.Size = new System.Drawing.Size(66, 20);
+			this.tbOkNote4.TabIndex = 2;
+			this.tbOkNote4.TextChanged += new System.EventHandler(this.tbOkNote4_TextChanged);
+			// 
+			// tbOkNote6
+			// 
+			this.tbOkNote6.Location = new System.Drawing.Point(150, 201);
+			this.tbOkNote6.Name = "tbOkNote6";
+			this.tbOkNote6.Size = new System.Drawing.Size(66, 20);
+			this.tbOkNote6.TabIndex = 3;
+			this.tbOkNote6.TextChanged += new System.EventHandler(this.tbOkNote6_TextChanged);
+			// 
+			// tbOkNote5
+			// 
+			this.tbOkNote5.Location = new System.Drawing.Point(78, 201);
+			this.tbOkNote5.Name = "tbOkNote5";
+			this.tbOkNote5.Size = new System.Drawing.Size(66, 20);
+			this.tbOkNote5.TabIndex = 4;
+			this.tbOkNote5.TextChanged += new System.EventHandler(this.tbOkNote5_TextChanged);
+			// 
+			// tbOkNote7
+			// 
+			this.tbOkNote7.Location = new System.Drawing.Point(222, 201);
+			this.tbOkNote7.Name = "tbOkNote7";
+			this.tbOkNote7.Size = new System.Drawing.Size(66, 20);
+			this.tbOkNote7.TabIndex = 5;
+			this.tbOkNote7.TextChanged += new System.EventHandler(this.tbOkNote7_TextChanged);
+			// 
+			// tbOkNote0
+			// 
+			this.tbOkNote0.Location = new System.Drawing.Point(6, 175);
+			this.tbOkNote0.Name = "tbOkNote0";
+			this.tbOkNote0.Size = new System.Drawing.Size(66, 20);
+			this.tbOkNote0.TabIndex = 6;
+			this.tbOkNote0.Text = "C5  ";
+			this.tbOkNote0.TextChanged += new System.EventHandler(this.tbOkNote0_TextChanged);
+			// 
+			// tbOkNote1
+			// 
+			this.tbOkNote1.Location = new System.Drawing.Point(78, 175);
+			this.tbOkNote1.Name = "tbOkNote1";
+			this.tbOkNote1.Size = new System.Drawing.Size(66, 20);
+			this.tbOkNote1.TabIndex = 7;
+			this.tbOkNote1.Text = "E5  ";
+			this.tbOkNote1.TextChanged += new System.EventHandler(this.tbOkNote1_TextChanged);
+			// 
+			// tbOkNote2
+			// 
+			this.tbOkNote2.Location = new System.Drawing.Point(150, 175);
+			this.tbOkNote2.Name = "tbOkNote2";
+			this.tbOkNote2.Size = new System.Drawing.Size(66, 20);
+			this.tbOkNote2.TabIndex = 8;
+			this.tbOkNote2.Text = "G5  ";
+			this.tbOkNote2.TextChanged += new System.EventHandler(this.tbOkNote2_TextChanged);
 			// 
 			// Form1
 			// 
@@ -2230,7 +2326,10 @@
 			((System.ComponentModel.ISupportInitialize)(this.pbPositionSlider)).EndInit();
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pbSteroDelay)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.udDelay)).EndInit();
+			this.groupBox3.ResumeLayout(false);
+			this.groupBox3.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.udNoRandomOsc)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.udLFO)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.udMaxRandomFrequency)).EndInit();
@@ -2241,7 +2340,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.udOscBitResulotion)).EndInit();
 			this.groupBox4.ResumeLayout(false);
 			this.groupBox4.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pbSteroDelay)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -2393,6 +2491,15 @@
 		private System.Windows.Forms.GroupBox groupBox4;
 		private System.Windows.Forms.PictureBox pbSteroDelay;
 		private System.Windows.Forms.ToolStripMenuItem loadwavToolStripMenuItem;
+		private System.Windows.Forms.Button btnRndJingel;
+		private System.Windows.Forms.TextBox tbOkNote2;
+		private System.Windows.Forms.TextBox tbOkNote1;
+		private System.Windows.Forms.TextBox tbOkNote0;
+		private System.Windows.Forms.TextBox tbOkNote7;
+		private System.Windows.Forms.TextBox tbOkNote5;
+		private System.Windows.Forms.TextBox tbOkNote6;
+		private System.Windows.Forms.TextBox tbOkNote4;
+		private System.Windows.Forms.TextBox tbOkNote3;
 	}
 }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
@@ -80,17 +81,21 @@ namespace SoundCreator {
 		private static double MidFilterFrequency =    4000.0;
 		private static double MinFilterFrequency =      10.0;
 
-		private static double MaxFFDepth =			   400.0;
-		private static double MinFFDepth =				 0.0;
+		private static double MaxFFDepth =             400.0;
+		private static double MinFFDepth =               0.0;
 
 		private static double MaxStereoDelay = Form1.Samplerate/10;
-		private static double MinStereoDelay =			10.0;
+		private static double MinStereoDelay =          10.0;
 
 		private int OscillatorNumber = 0;
 		private double[][] OscArray;
 
 
 		private OscillatorData[] OscData = new OscillatorData[MaxOscillators];
+		private OscillatorData[] OscDataJingle = new OscillatorData[MaxOscillators];
+		private string[] strJingle;
+		private string[] OkNotes = new string[8];
+
 		private Oscillator OscillatorObj = new Oscillator();
 		private MixerData MixData = new MixerData();
 		private Mixer MixerObj = new Mixer();
@@ -132,6 +137,7 @@ namespace SoundCreator {
 
 			DoubleBuffered = true;
 			OscData = OscillatorObj.ResetAll(OscData);
+			OscDataJingle = OscillatorObj.ResetAll(OscData);
 			MixData = MixerObj.Reset(MixData);
 			RndSettings = ResetRndSettings(RndSettings);
 
@@ -215,7 +221,7 @@ namespace SoundCreator {
 			SliderFilterFrequencyDepthObj.Draw(MixData.FFDepth);
 
 			SliderStereoDelayObj.Draw(MixData.StereoDelay);
-			 
+
 			cbAGC.Checked = MixData.AGC;
 			cbRemoveDC.Checked = MixData.RemoveDC;
 			cbMovingAverageFilter.Checked = MixData.MovingAverageFilter;
@@ -259,8 +265,14 @@ namespace SoundCreator {
 			return RS;
 		}
 
-		private void CalcAndPlay() {
-			if (1 == 1) {
+		private void CalcAndPlay(bool PlayJingle) {
+			if (PlayJingle) {
+				OscArray = OscillatorObj.CreateWave(OscDataJingle, MixData);
+				MixerObj.CreateSoundWav(MixData, OscDataJingle, OscArray);
+				OscilloscopeObj.SetView(MixerObj.GetRawSoundData(), OscilloscopePosition, OscilloscopeZoom);
+				OscilloscopeObj.DrawFFT(MixerObj.GetRawSoundData());
+				
+			} else {
 				OscArray = OscillatorObj.CreateWave(OscData, MixData);
 				MixerObj.CreateSoundWav(MixData, OscData, OscArray);
 				OscilloscopeObj.SetView(MixerObj.GetRawSoundData(), OscilloscopePosition, OscilloscopeZoom);
@@ -280,7 +292,7 @@ namespace SoundCreator {
 		}
 
 		private void btnTest_Click( object sender, EventArgs e ) {
-			CalcAndPlay();
+			CalcAndPlay(false);
 		}
 
 		private void btnPrevOsc_Click( object sender, EventArgs e ) {
@@ -456,7 +468,7 @@ namespace SoundCreator {
 			OscilloscopePosition = 0.0;
 			OscilloscopeObj.ResetView();
 			PresentData(OscData, OscillatorNumber);
-			CalcAndPlay();
+			CalcAndPlay(false);
 		}
 
 		private void tbFilterFrequency1_TextChanged( object sender, EventArgs e ) {
@@ -472,7 +484,7 @@ namespace SoundCreator {
 		private void btnGlobalRndSin_Click( object sender, EventArgs e ) {
 			OscData[OscillatorNumber] = OscillatorObj.CreateRandomSinus(OscData[OscillatorNumber]);
 			OscillatorObj.ShowWaveForm(pbWaveForm, OscData[OscillatorNumber]);
-			CalcAndPlay();
+			CalcAndPlay(false);
 		}
 
 		private void pbSquareDutySlider_MouseDown( object sender, MouseEventArgs e ) {
@@ -856,7 +868,7 @@ namespace SoundCreator {
 				MixData = OdMd.MD;
 			}
 			PresentData(OscData, OscillatorNumber);
-			CalcAndPlay();
+			CalcAndPlay(false);
 		}
 
 		private void exitToolStripMenuItem_Click( object sender, EventArgs e ) {
@@ -881,14 +893,14 @@ namespace SoundCreator {
 			OscData = OscillatorObj.CreateRandomSoundCrazy(OscData, RndSettings);
 			MixData = MixerObj.CreateRandomGlobal(MixData, RndSettings);
 			PresentData(OscData, OscillatorNumber);
-			CalcAndPlay();
+			CalcAndPlay(false);
 		}
 
 		private void btnRandomFilter_Click( object sender, EventArgs e ) {
 			if (!RndSettings.FilterLock) {
 				MixData = MixerObj.CreateRandomFilter(MixData);
 				PresentData(OscData, OscillatorNumber);
-				CalcAndPlay();
+				CalcAndPlay(false);
 			}
 		}
 
@@ -896,7 +908,7 @@ namespace SoundCreator {
 			if (!RndSettings.ReverbLock) {
 				MixData = MixerObj.CreateRandomReverb(MixData);
 				PresentData(OscData, OscillatorNumber);
-				CalcAndPlay();
+				CalcAndPlay(false);
 			}
 		}
 
@@ -920,7 +932,7 @@ namespace SoundCreator {
 			OscData = OscillatorObj.CreateRandomSoundThis(OscData, OscillatorNumber);
 			MixData = MixerObj.CreateRandomGlobal(MixData, RndSettings);
 			PresentData(OscData, OscillatorNumber);
-			CalcAndPlay();
+			CalcAndPlay(false);
 		}
 
 		private void btnShortRnd_Click( object sender, EventArgs e ) {
@@ -928,7 +940,7 @@ namespace SoundCreator {
 			OscData = OscillatorObj.CreateRandomSoundShort(OscData, RndSettings);
 			MixData = MixerObj.CreateRandomGlobal(MixData, RndSettings);
 			PresentData(OscData, OscillatorNumber);
-			CalcAndPlay();
+			CalcAndPlay(false);
 		}
 
 		private void btnMediumRnd_Click( object sender, EventArgs e ) {
@@ -936,7 +948,7 @@ namespace SoundCreator {
 			OscData = OscillatorObj.CreateRandomSoundMedium(OscData, RndSettings);
 			MixData = MixerObj.CreateRandomGlobal(MixData, RndSettings);
 			PresentData(OscData, OscillatorNumber);
-			CalcAndPlay();
+			CalcAndPlay(false);
 		}
 
 		private void btnSameADSR_Click( object sender, EventArgs e ) {
@@ -944,7 +956,7 @@ namespace SoundCreator {
 			OscData = OscillatorObj.CreateRandomSoundSameADSR(OscData, RndSettings);
 			MixData = MixerObj.CreateRandomGlobal(MixData, RndSettings);
 			PresentData(OscData, OscillatorNumber);
-			CalcAndPlay();
+			CalcAndPlay(false);
 		}
 
 		private void btnNotes_Click( object sender, EventArgs e ) {
@@ -952,7 +964,7 @@ namespace SoundCreator {
 			OscData = OscillatorObj.CreateRandomSoundSin(OscData, RndSettings);
 			MixData = MixerObj.CreateRandomGlobal(MixData, RndSettings);
 			PresentData(OscData, OscillatorNumber);
-			CalcAndPlay();
+			CalcAndPlay(false);
 		}
 
 		private void udMaxRandomFrequency_ValueChanged( object sender, EventArgs e ) {
@@ -969,7 +981,7 @@ namespace SoundCreator {
 			Array.Copy(OdMd.OD, OscData, OscData.Length);
 			MixData = OdMd.MD;
 			InsertNewData = false;
-			CalcAndPlay();
+			CalcAndPlay(false);
 			PresentData(OscData, OscillatorNumber);
 		}
 
@@ -979,7 +991,7 @@ namespace SoundCreator {
 			Array.Copy(OdMd.OD, OscData, OscData.Length);
 			MixData = OdMd.MD;
 			InsertNewData = false;
-			CalcAndPlay();
+			CalcAndPlay(false);
 			PresentData(OscData, OscillatorNumber);
 		}
 
@@ -1014,7 +1026,7 @@ namespace SoundCreator {
 		private void udDelay_ValueChanged( object sender, EventArgs e ) {
 			MixData.StereoDelay = (int)udDelay.Value;
 			SliderStereoDelayObj.Draw(MixData.StereoDelay);
-        }
+		}
 
 		private void udOscBitResulotion_ValueChanged( object sender, EventArgs e ) {
 			OscData[OscillatorNumber].OscBitResolution = 16 - (int)udOscBitResulotion.Value;
@@ -1024,7 +1036,7 @@ namespace SoundCreator {
 			double DisplayValue = SliderStereoDelayObj.MouseDown(e);
 			MixData.StereoDelay = (int)DisplayValue;
 			udDelay.Value = (int)DisplayValue;
-        }
+		}
 
 		private void pbSteroDelay_MouseMove( object sender, MouseEventArgs e ) {
 			if (e.Button.ToString() != "None") {
@@ -1034,6 +1046,120 @@ namespace SoundCreator {
 			}
 		}
 
-		
+		private void btnRndJingel_Click( object sender, EventArgs e ) {
+			// Ny slumpmässig jingle
+			OscDataJingle = OscillatorObj.Jingle(OscData, strJingle, OkNotes, true);
+			CalcAndPlay(true);
+		}
+
+		private bool CheckOkNotes( string s ) {
+			bool Ok = false;
+			string SpacesOnEnd = "";
+			Note[] Notes = OscillatorObj.GetNotes();
+			while (s.Length + SpacesOnEnd.Length < 3) SpacesOnEnd = SpacesOnEnd + " ";
+			for (int i = 0; i < Notes.Length; i++) {
+				if (Notes[i].Name1 == s + SpacesOnEnd || Notes[i].Name2 == s + SpacesOnEnd) {
+					Ok = true;
+					break;
+				}
+			}
+			return Ok;
+		}
+
+		private void tbOkNote0_TextChanged( object sender, EventArgs e ) {
+			string s = tbOkNote0.Text;
+			if (!CheckOkNotes(s)) {
+				tbOkNote0.ForeColor = Color.Red;
+				OkNotes[0] = "C5 ";
+			} else {
+				tbOkNote0.ForeColor = Color.Black;
+				if(s.Length < 3) s = s + " ";
+				OkNotes[0] = s;
+            }
+		}
+
+		private void tbOkNote1_TextChanged( object sender, EventArgs e ) {
+			string s = tbOkNote1.Text;
+			if (!CheckOkNotes(s)) {
+				tbOkNote1.ForeColor = Color.Red;
+				OkNotes[1] = "C5 ";
+			} else {
+				tbOkNote1.ForeColor = Color.Black;
+				if (s.Length < 3) s = s + " ";
+				OkNotes[1] = s;
+			}
+		}
+
+		private void tbOkNote2_TextChanged( object sender, EventArgs e ) {
+			string s = tbOkNote2.Text;
+			if (!CheckOkNotes(s)) {
+				tbOkNote2.ForeColor = Color.Red;
+				OkNotes[2] = "C5 ";
+			} else {
+				tbOkNote2.ForeColor = Color.Black;
+				if (s.Length < 3) s = s + " ";
+				OkNotes[2] = s;
+			}
+		}
+
+		private void tbOkNote3_TextChanged( object sender, EventArgs e ) {
+			string s = tbOkNote3.Text;
+			if (!CheckOkNotes(s)) {
+				tbOkNote3.ForeColor = Color.Red;
+				OkNotes[3] = "C5 ";
+			} else {
+				tbOkNote3.ForeColor = Color.Black;
+				if (s.Length < 3) s = s + " ";
+				OkNotes[3] = s;
+			}
+		}
+
+		private void tbOkNote4_TextChanged( object sender, EventArgs e ) {
+			string s = tbOkNote4.Text;
+			if (!CheckOkNotes(s)) {
+				tbOkNote4.ForeColor = Color.Red;
+				OkNotes[4] = "C5 ";
+			} else {
+				tbOkNote4.ForeColor = Color.Black;
+				if (s.Length < 3) s = s + " ";
+				OkNotes[4] = s;
+			}
+		}
+
+		private void tbOkNote5_TextChanged( object sender, EventArgs e ) {
+			string s = tbOkNote5.Text;
+			if (!CheckOkNotes(s)) {
+				tbOkNote5.ForeColor = Color.Red;
+				OkNotes[5] = "C5 ";
+			} else {
+				tbOkNote5.ForeColor = Color.Black;
+				if (s.Length < 3) s = s + " ";
+				OkNotes[5] = s;
+			}
+		}
+
+		private void tbOkNote6_TextChanged( object sender, EventArgs e ) {
+			string s = tbOkNote6.Text;
+			if (!CheckOkNotes(s)) {
+				tbOkNote6.ForeColor = Color.Red;
+				OkNotes[6] = "C5 ";
+			} else {
+				tbOkNote6.ForeColor = Color.Black;
+				if (s.Length < 3) s = s + " ";
+				OkNotes[6] = s;
+			}
+		}
+
+		private void tbOkNote7_TextChanged( object sender, EventArgs e ) {
+			string s = tbOkNote7.Text;
+			if (!CheckOkNotes(s)) {
+				tbOkNote7.ForeColor = Color.Red;
+				OkNotes[7] = "C5 ";
+			} else {
+				tbOkNote7.ForeColor = Color.Black;
+				if (s.Length < 3) s = s + " ";
+				OkNotes[7] = s;
+			}
+		}
 	}
 }
