@@ -25,7 +25,11 @@
 		private void InitializeComponent() {
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.loadwavToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.load1wavToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.load2wavToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.load3wavToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.load4wavToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.saveWavToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.loadSeettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -146,6 +150,17 @@
 			this.udDelay = new System.Windows.Forms.NumericUpDown();
 			this.cbStereo = new System.Windows.Forms.CheckBox();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
+			this.tbstrJingle = new System.Windows.Forms.TextBox();
+			this.btnPlayJingel = new System.Windows.Forms.Button();
+			this.tbOkNote2 = new System.Windows.Forms.TextBox();
+			this.tbOkNote1 = new System.Windows.Forms.TextBox();
+			this.tbOkNote0 = new System.Windows.Forms.TextBox();
+			this.tbOkNote7 = new System.Windows.Forms.TextBox();
+			this.tbOkNote5 = new System.Windows.Forms.TextBox();
+			this.tbOkNote6 = new System.Windows.Forms.TextBox();
+			this.tbOkNote4 = new System.Windows.Forms.TextBox();
+			this.tbOkNote3 = new System.Windows.Forms.TextBox();
+			this.btnRndJingel = new System.Windows.Forms.Button();
 			this.btnSameADSR = new System.Windows.Forms.Button();
 			this.btnNotes = new System.Windows.Forms.Button();
 			this.btnMediumRnd = new System.Windows.Forms.Button();
@@ -168,15 +183,29 @@
 			this.udOscBitResulotion = new System.Windows.Forms.NumericUpDown();
 			this.label18 = new System.Windows.Forms.Label();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
-			this.btnRndJingel = new System.Windows.Forms.Button();
-			this.tbOkNote3 = new System.Windows.Forms.TextBox();
-			this.tbOkNote4 = new System.Windows.Forms.TextBox();
-			this.tbOkNote6 = new System.Windows.Forms.TextBox();
-			this.tbOkNote5 = new System.Windows.Forms.TextBox();
-			this.tbOkNote7 = new System.Windows.Forms.TextBox();
-			this.tbOkNote0 = new System.Windows.Forms.TextBox();
-			this.tbOkNote1 = new System.Windows.Forms.TextBox();
-			this.tbOkNote2 = new System.Windows.Forms.TextBox();
+			this.groupBox5 = new System.Windows.Forms.GroupBox();
+			this.button7 = new System.Windows.Forms.Button();
+			this.button6 = new System.Windows.Forms.Button();
+			this.button5 = new System.Windows.Forms.Button();
+			this.button4 = new System.Windows.Forms.Button();
+			this.btnSound1 = new System.Windows.Forms.Button();
+			this.btnSound16 = new System.Windows.Forms.Button();
+			this.btnSound15 = new System.Windows.Forms.Button();
+			this.btnSound14 = new System.Windows.Forms.Button();
+			this.btnSound13 = new System.Windows.Forms.Button();
+			this.btnSound12 = new System.Windows.Forms.Button();
+			this.btnSound11 = new System.Windows.Forms.Button();
+			this.btnSound10 = new System.Windows.Forms.Button();
+			this.btnSound9 = new System.Windows.Forms.Button();
+			this.btnSound8 = new System.Windows.Forms.Button();
+			this.btnSound7 = new System.Windows.Forms.Button();
+			this.btnSound6 = new System.Windows.Forms.Button();
+			this.btnSound5 = new System.Windows.Forms.Button();
+			this.btnSound4 = new System.Windows.Forms.Button();
+			this.btnSound3 = new System.Windows.Forms.Button();
+			this.btnSound2 = new System.Windows.Forms.Button();
+			this.recordwavToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pbPhaseSlider)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pbVolumeSlider)).BeginInit();
@@ -235,11 +264,12 @@
 			((System.ComponentModel.ISupportInitialize)(this.udBitResulotion)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.udOscBitResulotion)).BeginInit();
 			this.groupBox4.SuspendLayout();
+			this.groupBox5.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// menuStrip1
 			// 
-			this.menuStrip1.BackColor = System.Drawing.Color.YellowGreen;
+			this.menuStrip1.BackColor = System.Drawing.Color.Silver;
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.helpToolStripMenuItem});
@@ -252,7 +282,13 @@
 			// fileToolStripMenuItem
 			// 
 			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.loadwavToolStripMenuItem,
+            this.load1wavToolStripMenuItem,
+            this.load2wavToolStripMenuItem,
+            this.load3wavToolStripMenuItem,
+            this.load4wavToolStripMenuItem,
+            this.toolStripSeparator4,
+            this.recordwavToolStripMenuItem,
+            this.toolStripSeparator3,
             this.saveWavToolStripMenuItem,
             this.toolStripSeparator1,
             this.loadSeettingsToolStripMenuItem,
@@ -263,47 +299,74 @@
 			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
 			this.fileToolStripMenuItem.Text = "File";
 			// 
-			// loadwavToolStripMenuItem
+			// load1wavToolStripMenuItem
 			// 
-			this.loadwavToolStripMenuItem.Name = "loadwavToolStripMenuItem";
-			this.loadwavToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
-			this.loadwavToolStripMenuItem.Text = "Load .wav";
+			this.load1wavToolStripMenuItem.Name = "load1wavToolStripMenuItem";
+			this.load1wavToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.load1wavToolStripMenuItem.Text = "Load_1 .wav";
+			this.load1wavToolStripMenuItem.Click += new System.EventHandler(this.load1wavToolStripMenuItem_Click);
+			// 
+			// load2wavToolStripMenuItem
+			// 
+			this.load2wavToolStripMenuItem.Name = "load2wavToolStripMenuItem";
+			this.load2wavToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.load2wavToolStripMenuItem.Text = "Load_2 .wav";
+			this.load2wavToolStripMenuItem.Click += new System.EventHandler(this.load2wavToolStripMenuItem_Click);
+			// 
+			// load3wavToolStripMenuItem
+			// 
+			this.load3wavToolStripMenuItem.Name = "load3wavToolStripMenuItem";
+			this.load3wavToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.load3wavToolStripMenuItem.Text = "Load_3 .wav";
+			this.load3wavToolStripMenuItem.Click += new System.EventHandler(this.load3wavToolStripMenuItem_Click);
+			// 
+			// load4wavToolStripMenuItem
+			// 
+			this.load4wavToolStripMenuItem.Name = "load4wavToolStripMenuItem";
+			this.load4wavToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.load4wavToolStripMenuItem.Text = "Load_4 .wav";
+			this.load4wavToolStripMenuItem.Click += new System.EventHandler(this.load4wavToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(149, 6);
 			// 
 			// saveWavToolStripMenuItem
 			// 
 			this.saveWavToolStripMenuItem.Name = "saveWavToolStripMenuItem";
-			this.saveWavToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+			this.saveWavToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.saveWavToolStripMenuItem.Text = "Save .wav";
 			this.saveWavToolStripMenuItem.Click += new System.EventHandler(this.saveWavToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(142, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
 			// 
 			// loadSeettingsToolStripMenuItem
 			// 
 			this.loadSeettingsToolStripMenuItem.Name = "loadSeettingsToolStripMenuItem";
-			this.loadSeettingsToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+			this.loadSeettingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.loadSeettingsToolStripMenuItem.Text = "Load Settings";
 			this.loadSeettingsToolStripMenuItem.Click += new System.EventHandler(this.loadSeettingsToolStripMenuItem_Click);
 			// 
 			// saveSettingsToolStripMenuItem
 			// 
 			this.saveSettingsToolStripMenuItem.Name = "saveSettingsToolStripMenuItem";
-			this.saveSettingsToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+			this.saveSettingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.saveSettingsToolStripMenuItem.Text = "Save Settings";
 			this.saveSettingsToolStripMenuItem.Click += new System.EventHandler(this.saveSettingsToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(142, 6);
+			this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.exitToolStripMenuItem.Text = "Exit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
 			// 
@@ -475,7 +538,13 @@
             "Noice",
             "x*x",
             "1/x",
-            "Random Sinus"});
+            "Random Sinus",
+            "Sound 1",
+            "Sound 2",
+            "Sound 3",
+            "Sound 4",
+            "+DC",
+            "- DC"});
 			this.cbWaveForm.Location = new System.Drawing.Point(104, 97);
 			this.cbWaveForm.Name = "cbWaveForm";
 			this.cbWaveForm.Size = new System.Drawing.Size(88, 21);
@@ -719,7 +788,7 @@
 			this.pbFFT.BackColor = System.Drawing.Color.Black;
 			this.pbFFT.Location = new System.Drawing.Point(448, 19);
 			this.pbFFT.Name = "pbFFT";
-			this.pbFFT.Size = new System.Drawing.Size(779, 270);
+			this.pbFFT.Size = new System.Drawing.Size(404, 270);
 			this.pbFFT.TabIndex = 172;
 			this.pbFFT.TabStop = false;
 			// 
@@ -783,7 +852,7 @@
 			// 
 			// btnCopyToNext
 			// 
-			this.btnCopyToNext.Location = new System.Drawing.Point(776, 37);
+			this.btnCopyToNext.Location = new System.Drawing.Point(657, 37);
 			this.btnCopyToNext.Name = "btnCopyToNext";
 			this.btnCopyToNext.Size = new System.Drawing.Size(88, 23);
 			this.btnCopyToNext.TabIndex = 180;
@@ -953,7 +1022,7 @@
 			// cbSoundOn
 			// 
 			this.cbSoundOn.AutoSize = true;
-			this.cbSoundOn.Location = new System.Drawing.Point(574, 68);
+			this.cbSoundOn.Location = new System.Drawing.Point(449, 68);
 			this.cbSoundOn.Name = "cbSoundOn";
 			this.cbSoundOn.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
 			this.cbSoundOn.Size = new System.Drawing.Size(77, 17);
@@ -1045,7 +1114,7 @@
 			this.gbGlobal.Controls.Add(this.pbFFT);
 			this.gbGlobal.Location = new System.Drawing.Point(12, 622);
 			this.gbGlobal.Name = "gbGlobal";
-			this.gbGlobal.Size = new System.Drawing.Size(1240, 309);
+			this.gbGlobal.Size = new System.Drawing.Size(865, 309);
 			this.gbGlobal.TabIndex = 248;
 			this.gbGlobal.TabStop = false;
 			this.gbGlobal.Text = "Global";
@@ -1695,7 +1764,7 @@
 			// 
 			// btnRandomThisOsc
 			// 
-			this.btnRandomThisOsc.Location = new System.Drawing.Point(474, 64);
+			this.btnRandomThisOsc.Location = new System.Drawing.Point(751, 37);
 			this.btnRandomThisOsc.Name = "btnRandomThisOsc";
 			this.btnRandomThisOsc.Size = new System.Drawing.Size(75, 23);
 			this.btnRandomThisOsc.TabIndex = 289;
@@ -1744,7 +1813,7 @@
 			this.pbSteroDelay.Cursor = System.Windows.Forms.Cursors.SizeWE;
 			this.pbSteroDelay.Location = new System.Drawing.Point(112, 50);
 			this.pbSteroDelay.Name = "pbSteroDelay";
-			this.pbSteroDelay.Size = new System.Drawing.Size(245, 20);
+			this.pbSteroDelay.Size = new System.Drawing.Size(238, 20);
 			this.pbSteroDelay.TabIndex = 298;
 			this.pbSteroDelay.TabStop = false;
 			this.pbSteroDelay.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbSteroDelay_MouseDown);
@@ -1797,6 +1866,8 @@
 			// 
 			// groupBox3
 			// 
+			this.groupBox3.Controls.Add(this.tbstrJingle);
+			this.groupBox3.Controls.Add(this.btnPlayJingel);
 			this.groupBox3.Controls.Add(this.tbOkNote2);
 			this.groupBox3.Controls.Add(this.tbOkNote1);
 			this.groupBox3.Controls.Add(this.tbOkNote0);
@@ -1812,6 +1883,103 @@
 			this.groupBox3.TabIndex = 303;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Jingle";
+			// 
+			// tbstrJingle
+			// 
+			this.tbstrJingle.Location = new System.Drawing.Point(6, 101);
+			this.tbstrJingle.Multiline = true;
+			this.tbstrJingle.Name = "tbstrJingle";
+			this.tbstrJingle.ReadOnly = true;
+			this.tbstrJingle.Size = new System.Drawing.Size(344, 67);
+			this.tbstrJingle.TabIndex = 10;
+			this.tbstrJingle.TextChanged += new System.EventHandler(this.tbstrJingle_TextChanged);
+			// 
+			// btnPlayJingel
+			// 
+			this.btnPlayJingel.Location = new System.Drawing.Point(6, 19);
+			this.btnPlayJingel.Name = "btnPlayJingel";
+			this.btnPlayJingel.Size = new System.Drawing.Size(75, 23);
+			this.btnPlayJingel.TabIndex = 9;
+			this.btnPlayJingel.Text = "Play";
+			this.btnPlayJingel.UseVisualStyleBackColor = true;
+			this.btnPlayJingel.Click += new System.EventHandler(this.btnPlayJingel_Click);
+			// 
+			// tbOkNote2
+			// 
+			this.tbOkNote2.Location = new System.Drawing.Point(182, 174);
+			this.tbOkNote2.Name = "tbOkNote2";
+			this.tbOkNote2.Size = new System.Drawing.Size(82, 20);
+			this.tbOkNote2.TabIndex = 8;
+			this.tbOkNote2.Text = "G5 ";
+			this.tbOkNote2.TextChanged += new System.EventHandler(this.tbOkNote2_TextChanged);
+			// 
+			// tbOkNote1
+			// 
+			this.tbOkNote1.Location = new System.Drawing.Point(94, 174);
+			this.tbOkNote1.Name = "tbOkNote1";
+			this.tbOkNote1.Size = new System.Drawing.Size(82, 20);
+			this.tbOkNote1.TabIndex = 7;
+			this.tbOkNote1.Text = "E5 ";
+			this.tbOkNote1.TextChanged += new System.EventHandler(this.tbOkNote1_TextChanged);
+			// 
+			// tbOkNote0
+			// 
+			this.tbOkNote0.Location = new System.Drawing.Point(6, 174);
+			this.tbOkNote0.Name = "tbOkNote0";
+			this.tbOkNote0.Size = new System.Drawing.Size(82, 20);
+			this.tbOkNote0.TabIndex = 6;
+			this.tbOkNote0.Text = "C5 ";
+			this.tbOkNote0.TextChanged += new System.EventHandler(this.tbOkNote0_TextChanged);
+			// 
+			// tbOkNote7
+			// 
+			this.tbOkNote7.Location = new System.Drawing.Point(270, 200);
+			this.tbOkNote7.Name = "tbOkNote7";
+			this.tbOkNote7.Size = new System.Drawing.Size(80, 20);
+			this.tbOkNote7.TabIndex = 5;
+			this.tbOkNote7.TextChanged += new System.EventHandler(this.tbOkNote7_TextChanged);
+			// 
+			// tbOkNote5
+			// 
+			this.tbOkNote5.Location = new System.Drawing.Point(94, 200);
+			this.tbOkNote5.Name = "tbOkNote5";
+			this.tbOkNote5.Size = new System.Drawing.Size(82, 20);
+			this.tbOkNote5.TabIndex = 4;
+			this.tbOkNote5.TextChanged += new System.EventHandler(this.tbOkNote5_TextChanged);
+			// 
+			// tbOkNote6
+			// 
+			this.tbOkNote6.Location = new System.Drawing.Point(182, 200);
+			this.tbOkNote6.Name = "tbOkNote6";
+			this.tbOkNote6.Size = new System.Drawing.Size(82, 20);
+			this.tbOkNote6.TabIndex = 3;
+			this.tbOkNote6.TextChanged += new System.EventHandler(this.tbOkNote6_TextChanged);
+			// 
+			// tbOkNote4
+			// 
+			this.tbOkNote4.Location = new System.Drawing.Point(6, 200);
+			this.tbOkNote4.Name = "tbOkNote4";
+			this.tbOkNote4.Size = new System.Drawing.Size(82, 20);
+			this.tbOkNote4.TabIndex = 2;
+			this.tbOkNote4.TextChanged += new System.EventHandler(this.tbOkNote4_TextChanged);
+			// 
+			// tbOkNote3
+			// 
+			this.tbOkNote3.Location = new System.Drawing.Point(270, 174);
+			this.tbOkNote3.Name = "tbOkNote3";
+			this.tbOkNote3.Size = new System.Drawing.Size(80, 20);
+			this.tbOkNote3.TabIndex = 1;
+			this.tbOkNote3.TextChanged += new System.EventHandler(this.tbOkNote3_TextChanged);
+			// 
+			// btnRndJingel
+			// 
+			this.btnRndJingel.Location = new System.Drawing.Point(275, 19);
+			this.btnRndJingel.Name = "btnRndJingel";
+			this.btnRndJingel.Size = new System.Drawing.Size(75, 23);
+			this.btnRndJingel.TabIndex = 0;
+			this.btnRndJingel.Text = "New";
+			this.btnRndJingel.UseVisualStyleBackColor = true;
+			this.btnRndJingel.Click += new System.EventHandler(this.btnRndJingel_Click);
 			// 
 			// btnSameADSR
 			// 
@@ -2114,89 +2282,237 @@
 			this.groupBox4.TabStop = false;
 			this.groupBox4.Text = "Global";
 			// 
-			// btnRndJingel
+			// groupBox5
 			// 
-			this.btnRndJingel.Location = new System.Drawing.Point(275, 18);
-			this.btnRndJingel.Name = "btnRndJingel";
-			this.btnRndJingel.Size = new System.Drawing.Size(75, 23);
-			this.btnRndJingel.TabIndex = 0;
-			this.btnRndJingel.Text = "Rnd Jingle";
-			this.btnRndJingel.UseVisualStyleBackColor = true;
-			this.btnRndJingel.Click += new System.EventHandler(this.btnRndJingel_Click);
+			this.groupBox5.Controls.Add(this.button7);
+			this.groupBox5.Controls.Add(this.button6);
+			this.groupBox5.Controls.Add(this.button5);
+			this.groupBox5.Controls.Add(this.button4);
+			this.groupBox5.Controls.Add(this.btnSound1);
+			this.groupBox5.Controls.Add(this.btnSound16);
+			this.groupBox5.Controls.Add(this.btnSound15);
+			this.groupBox5.Controls.Add(this.btnSound14);
+			this.groupBox5.Controls.Add(this.btnSound13);
+			this.groupBox5.Controls.Add(this.btnSound12);
+			this.groupBox5.Controls.Add(this.btnSound11);
+			this.groupBox5.Controls.Add(this.btnSound10);
+			this.groupBox5.Controls.Add(this.btnSound9);
+			this.groupBox5.Controls.Add(this.btnSound8);
+			this.groupBox5.Controls.Add(this.btnSound7);
+			this.groupBox5.Controls.Add(this.btnSound6);
+			this.groupBox5.Controls.Add(this.btnSound5);
+			this.groupBox5.Controls.Add(this.btnSound4);
+			this.groupBox5.Controls.Add(this.btnSound3);
+			this.groupBox5.Controls.Add(this.btnSound2);
+			this.groupBox5.Location = new System.Drawing.Point(889, 633);
+			this.groupBox5.Name = "groupBox5";
+			this.groupBox5.Size = new System.Drawing.Size(363, 298);
+			this.groupBox5.TabIndex = 307;
+			this.groupBox5.TabStop = false;
+			this.groupBox5.Text = "Predefined Settings";
 			// 
-			// tbOkNote3
+			// button7
 			// 
-			this.tbOkNote3.Location = new System.Drawing.Point(222, 175);
-			this.tbOkNote3.Name = "tbOkNote3";
-			this.tbOkNote3.Size = new System.Drawing.Size(66, 20);
-			this.tbOkNote3.TabIndex = 1;
-			this.tbOkNote3.TextChanged += new System.EventHandler(this.tbOkNote3_TextChanged);
+			this.button7.Location = new System.Drawing.Point(98, 260);
+			this.button7.Name = "button7";
+			this.button7.Size = new System.Drawing.Size(80, 23);
+			this.button7.TabIndex = 20;
+			this.button7.Text = "Mutate 1";
+			this.button7.UseVisualStyleBackColor = true;
 			// 
-			// tbOkNote4
+			// button6
 			// 
-			this.tbOkNote4.Location = new System.Drawing.Point(6, 201);
-			this.tbOkNote4.Name = "tbOkNote4";
-			this.tbOkNote4.Size = new System.Drawing.Size(66, 20);
-			this.tbOkNote4.TabIndex = 2;
-			this.tbOkNote4.TextChanged += new System.EventHandler(this.tbOkNote4_TextChanged);
+			this.button6.Location = new System.Drawing.Point(184, 260);
+			this.button6.Name = "button6";
+			this.button6.Size = new System.Drawing.Size(80, 23);
+			this.button6.TabIndex = 19;
+			this.button6.Text = "Mutate 2";
+			this.button6.UseVisualStyleBackColor = true;
 			// 
-			// tbOkNote6
+			// button5
 			// 
-			this.tbOkNote6.Location = new System.Drawing.Point(150, 201);
-			this.tbOkNote6.Name = "tbOkNote6";
-			this.tbOkNote6.Size = new System.Drawing.Size(66, 20);
-			this.tbOkNote6.TabIndex = 3;
-			this.tbOkNote6.TextChanged += new System.EventHandler(this.tbOkNote6_TextChanged);
+			this.button5.Location = new System.Drawing.Point(270, 260);
+			this.button5.Name = "button5";
+			this.button5.Size = new System.Drawing.Size(80, 23);
+			this.button5.TabIndex = 18;
+			this.button5.Text = "Mutate 3";
+			this.button5.UseVisualStyleBackColor = true;
 			// 
-			// tbOkNote5
+			// button4
 			// 
-			this.tbOkNote5.Location = new System.Drawing.Point(78, 201);
-			this.tbOkNote5.Name = "tbOkNote5";
-			this.tbOkNote5.Size = new System.Drawing.Size(66, 20);
-			this.tbOkNote5.TabIndex = 4;
-			this.tbOkNote5.TextChanged += new System.EventHandler(this.tbOkNote5_TextChanged);
+			this.button4.Location = new System.Drawing.Point(12, 260);
+			this.button4.Name = "button4";
+			this.button4.Size = new System.Drawing.Size(80, 23);
+			this.button4.TabIndex = 17;
+			this.button4.Text = "Mutate Freq";
+			this.button4.UseVisualStyleBackColor = true;
 			// 
-			// tbOkNote7
+			// btnSound1
 			// 
-			this.tbOkNote7.Location = new System.Drawing.Point(222, 201);
-			this.tbOkNote7.Name = "tbOkNote7";
-			this.tbOkNote7.Size = new System.Drawing.Size(66, 20);
-			this.tbOkNote7.TabIndex = 5;
-			this.tbOkNote7.TextChanged += new System.EventHandler(this.tbOkNote7_TextChanged);
+			this.btnSound1.Location = new System.Drawing.Point(12, 19);
+			this.btnSound1.Name = "btnSound1";
+			this.btnSound1.Size = new System.Drawing.Size(80, 54);
+			this.btnSound1.TabIndex = 16;
+			this.btnSound1.Text = "button4";
+			this.btnSound1.UseVisualStyleBackColor = true;
+			this.btnSound1.Click += new System.EventHandler(this.btnSound1_Click);
 			// 
-			// tbOkNote0
+			// btnSound16
 			// 
-			this.tbOkNote0.Location = new System.Drawing.Point(6, 175);
-			this.tbOkNote0.Name = "tbOkNote0";
-			this.tbOkNote0.Size = new System.Drawing.Size(66, 20);
-			this.tbOkNote0.TabIndex = 6;
-			this.tbOkNote0.Text = "C5  ";
-			this.tbOkNote0.TextChanged += new System.EventHandler(this.tbOkNote0_TextChanged);
+			this.btnSound16.Location = new System.Drawing.Point(270, 199);
+			this.btnSound16.Name = "btnSound16";
+			this.btnSound16.Size = new System.Drawing.Size(80, 54);
+			this.btnSound16.TabIndex = 15;
+			this.btnSound16.Text = "button16";
+			this.btnSound16.UseVisualStyleBackColor = true;
 			// 
-			// tbOkNote1
+			// btnSound15
 			// 
-			this.tbOkNote1.Location = new System.Drawing.Point(78, 175);
-			this.tbOkNote1.Name = "tbOkNote1";
-			this.tbOkNote1.Size = new System.Drawing.Size(66, 20);
-			this.tbOkNote1.TabIndex = 7;
-			this.tbOkNote1.Text = "E5  ";
-			this.tbOkNote1.TextChanged += new System.EventHandler(this.tbOkNote1_TextChanged);
+			this.btnSound15.Location = new System.Drawing.Point(184, 199);
+			this.btnSound15.Name = "btnSound15";
+			this.btnSound15.Size = new System.Drawing.Size(80, 54);
+			this.btnSound15.TabIndex = 14;
+			this.btnSound15.Text = "button17";
+			this.btnSound15.UseVisualStyleBackColor = true;
 			// 
-			// tbOkNote2
+			// btnSound14
 			// 
-			this.tbOkNote2.Location = new System.Drawing.Point(150, 175);
-			this.tbOkNote2.Name = "tbOkNote2";
-			this.tbOkNote2.Size = new System.Drawing.Size(66, 20);
-			this.tbOkNote2.TabIndex = 8;
-			this.tbOkNote2.Text = "G5  ";
-			this.tbOkNote2.TextChanged += new System.EventHandler(this.tbOkNote2_TextChanged);
+			this.btnSound14.Location = new System.Drawing.Point(98, 199);
+			this.btnSound14.Name = "btnSound14";
+			this.btnSound14.Size = new System.Drawing.Size(80, 54);
+			this.btnSound14.TabIndex = 13;
+			this.btnSound14.Text = "button18";
+			this.btnSound14.UseVisualStyleBackColor = true;
+			// 
+			// btnSound13
+			// 
+			this.btnSound13.Location = new System.Drawing.Point(12, 199);
+			this.btnSound13.Name = "btnSound13";
+			this.btnSound13.Size = new System.Drawing.Size(80, 54);
+			this.btnSound13.TabIndex = 12;
+			this.btnSound13.Text = "button19";
+			this.btnSound13.UseVisualStyleBackColor = true;
+			// 
+			// btnSound12
+			// 
+			this.btnSound12.Location = new System.Drawing.Point(270, 139);
+			this.btnSound12.Name = "btnSound12";
+			this.btnSound12.Size = new System.Drawing.Size(80, 54);
+			this.btnSound12.TabIndex = 11;
+			this.btnSound12.Text = "button12";
+			this.btnSound12.UseVisualStyleBackColor = true;
+			// 
+			// btnSound11
+			// 
+			this.btnSound11.Location = new System.Drawing.Point(184, 139);
+			this.btnSound11.Name = "btnSound11";
+			this.btnSound11.Size = new System.Drawing.Size(80, 54);
+			this.btnSound11.TabIndex = 10;
+			this.btnSound11.Text = "button13";
+			this.btnSound11.UseVisualStyleBackColor = true;
+			// 
+			// btnSound10
+			// 
+			this.btnSound10.Location = new System.Drawing.Point(98, 139);
+			this.btnSound10.Name = "btnSound10";
+			this.btnSound10.Size = new System.Drawing.Size(80, 54);
+			this.btnSound10.TabIndex = 9;
+			this.btnSound10.Text = "button14";
+			this.btnSound10.UseVisualStyleBackColor = true;
+			// 
+			// btnSound9
+			// 
+			this.btnSound9.Location = new System.Drawing.Point(12, 139);
+			this.btnSound9.Name = "btnSound9";
+			this.btnSound9.Size = new System.Drawing.Size(80, 54);
+			this.btnSound9.TabIndex = 8;
+			this.btnSound9.Text = "button15";
+			this.btnSound9.UseVisualStyleBackColor = true;
+			// 
+			// btnSound8
+			// 
+			this.btnSound8.Location = new System.Drawing.Point(270, 79);
+			this.btnSound8.Name = "btnSound8";
+			this.btnSound8.Size = new System.Drawing.Size(80, 54);
+			this.btnSound8.TabIndex = 7;
+			this.btnSound8.Text = "button8";
+			this.btnSound8.UseVisualStyleBackColor = true;
+			// 
+			// btnSound7
+			// 
+			this.btnSound7.Location = new System.Drawing.Point(184, 79);
+			this.btnSound7.Name = "btnSound7";
+			this.btnSound7.Size = new System.Drawing.Size(80, 54);
+			this.btnSound7.TabIndex = 6;
+			this.btnSound7.Text = "button9";
+			this.btnSound7.UseVisualStyleBackColor = true;
+			// 
+			// btnSound6
+			// 
+			this.btnSound6.Location = new System.Drawing.Point(98, 79);
+			this.btnSound6.Name = "btnSound6";
+			this.btnSound6.Size = new System.Drawing.Size(80, 54);
+			this.btnSound6.TabIndex = 5;
+			this.btnSound6.Text = "button10";
+			this.btnSound6.UseVisualStyleBackColor = true;
+			// 
+			// btnSound5
+			// 
+			this.btnSound5.Location = new System.Drawing.Point(12, 79);
+			this.btnSound5.Name = "btnSound5";
+			this.btnSound5.Size = new System.Drawing.Size(80, 54);
+			this.btnSound5.TabIndex = 4;
+			this.btnSound5.Text = "button11";
+			this.btnSound5.UseVisualStyleBackColor = true;
+			// 
+			// btnSound4
+			// 
+			this.btnSound4.Location = new System.Drawing.Point(270, 19);
+			this.btnSound4.Name = "btnSound4";
+			this.btnSound4.Size = new System.Drawing.Size(80, 54);
+			this.btnSound4.TabIndex = 3;
+			this.btnSound4.Text = "button7";
+			this.btnSound4.UseVisualStyleBackColor = true;
+			// 
+			// btnSound3
+			// 
+			this.btnSound3.Location = new System.Drawing.Point(184, 19);
+			this.btnSound3.Name = "btnSound3";
+			this.btnSound3.Size = new System.Drawing.Size(80, 54);
+			this.btnSound3.TabIndex = 2;
+			this.btnSound3.Text = "button6";
+			this.btnSound3.UseVisualStyleBackColor = true;
+			this.btnSound3.Click += new System.EventHandler(this.btnSound3_Click);
+			// 
+			// btnSound2
+			// 
+			this.btnSound2.Location = new System.Drawing.Point(98, 19);
+			this.btnSound2.Name = "btnSound2";
+			this.btnSound2.Size = new System.Drawing.Size(80, 54);
+			this.btnSound2.TabIndex = 1;
+			this.btnSound2.Text = "button5";
+			this.btnSound2.UseVisualStyleBackColor = true;
+			this.btnSound2.Click += new System.EventHandler(this.btnSound2_Click);
+			// 
+			// recordwavToolStripMenuItem
+			// 
+			this.recordwavToolStripMenuItem.Name = "recordwavToolStripMenuItem";
+			this.recordwavToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.recordwavToolStripMenuItem.Text = "Record sound";
+			this.recordwavToolStripMenuItem.Click += new System.EventHandler(this.recordwavToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator4
+			// 
+			this.toolStripSeparator4.Name = "toolStripSeparator4";
+			this.toolStripSeparator4.Size = new System.Drawing.Size(149, 6);
 			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.Color.Honeydew;
+			this.BackColor = System.Drawing.SystemColors.Control;
 			this.ClientSize = new System.Drawing.Size(1264, 941);
+			this.Controls.Add(this.groupBox5);
 			this.Controls.Add(this.groupBox4);
 			this.Controls.Add(this.label10);
 			this.Controls.Add(this.udOscBitResulotion);
@@ -2340,6 +2656,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.udOscBitResulotion)).EndInit();
 			this.groupBox4.ResumeLayout(false);
 			this.groupBox4.PerformLayout();
+			this.groupBox5.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -2490,7 +2807,6 @@
 		private System.Windows.Forms.Label label18;
 		private System.Windows.Forms.GroupBox groupBox4;
 		private System.Windows.Forms.PictureBox pbSteroDelay;
-		private System.Windows.Forms.ToolStripMenuItem loadwavToolStripMenuItem;
 		private System.Windows.Forms.Button btnRndJingel;
 		private System.Windows.Forms.TextBox tbOkNote2;
 		private System.Windows.Forms.TextBox tbOkNote1;
@@ -2500,6 +2816,36 @@
 		private System.Windows.Forms.TextBox tbOkNote6;
 		private System.Windows.Forms.TextBox tbOkNote4;
 		private System.Windows.Forms.TextBox tbOkNote3;
+		private System.Windows.Forms.Button btnPlayJingel;
+		private System.Windows.Forms.TextBox tbstrJingle;
+		private System.Windows.Forms.GroupBox groupBox5;
+		private System.Windows.Forms.Button btnSound16;
+		private System.Windows.Forms.Button btnSound15;
+		private System.Windows.Forms.Button btnSound14;
+		private System.Windows.Forms.Button btnSound13;
+		private System.Windows.Forms.Button btnSound12;
+		private System.Windows.Forms.Button btnSound11;
+		private System.Windows.Forms.Button btnSound10;
+		private System.Windows.Forms.Button btnSound9;
+		private System.Windows.Forms.Button btnSound8;
+		private System.Windows.Forms.Button btnSound7;
+		private System.Windows.Forms.Button btnSound6;
+		private System.Windows.Forms.Button btnSound5;
+		private System.Windows.Forms.Button btnSound4;
+		private System.Windows.Forms.Button btnSound3;
+		private System.Windows.Forms.Button btnSound2;
+		private System.Windows.Forms.Button btnSound1;
+		private System.Windows.Forms.Button button7;
+		private System.Windows.Forms.Button button6;
+		private System.Windows.Forms.Button button5;
+		private System.Windows.Forms.Button button4;
+		private System.Windows.Forms.ToolStripMenuItem load1wavToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem load2wavToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem load3wavToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem load4wavToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+		private System.Windows.Forms.ToolStripMenuItem recordwavToolStripMenuItem;
 	}
 }
 

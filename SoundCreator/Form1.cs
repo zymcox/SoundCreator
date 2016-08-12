@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using NAudio.Wave;
 
 // Start 160317 
 // Game sound builder
@@ -93,6 +94,7 @@ namespace SoundCreator {
 
 		private OscillatorData[] OscData = new OscillatorData[MaxOscillators];
 		private OscillatorData[] OscDataJingle = new OscillatorData[MaxOscillators];
+
 		private string[] strJingle;
 		private string[] OkNotes = new string[8];
 
@@ -130,6 +132,7 @@ namespace SoundCreator {
 		private static Slider SliderStereoDelayObj;
 
 		private static Oscilloscope OscilloscopeObj;
+
 		// Init end
 
 		public Form1() {
@@ -167,6 +170,14 @@ namespace SoundCreator {
 			SliderStereoDelayObj = new Slider(pbSteroDelay, MixData.StereoDelay, MinStereoDelay, MaxStereoDelay);
 
 			OscilloscopeObj = new Oscilloscope(pbOscilloscope, pbFFT);
+			OkNotes[0] = "C5 ";
+			OkNotes[1] = "E5 ";
+			OkNotes[2] = "G5 ";
+
+			// Fördefinierade ljud
+			btnSound1.Text = "Laser";
+			btnSound2.Text = "Synth";
+			btnSound3.Text = "Explosion";
 		}
 
 		private void PresentData( OscillatorData[] OD, int ON ) {
@@ -252,7 +263,6 @@ namespace SoundCreator {
 
 			btnUndo.Enabled = UndoObj.GetUndoButton();
 			btnRedo.Enabled = UndoObj.GetRedoButton();
-
 		}
 
 		private RndS ResetRndSettings( RndS RS ) {
@@ -265,13 +275,13 @@ namespace SoundCreator {
 			return RS;
 		}
 
-		private void CalcAndPlay(bool PlayJingle) {
+		private void CalcAndPlay( bool PlayJingle ) {
 			if (PlayJingle) {
 				OscArray = OscillatorObj.CreateWave(OscDataJingle, MixData);
 				MixerObj.CreateSoundWav(MixData, OscDataJingle, OscArray);
 				OscilloscopeObj.SetView(MixerObj.GetRawSoundData(), OscilloscopePosition, OscilloscopeZoom);
 				OscilloscopeObj.DrawFFT(MixerObj.GetRawSoundData());
-				
+
 			} else {
 				OscArray = OscillatorObj.CreateWave(OscData, MixData);
 				MixerObj.CreateSoundWav(MixData, OscData, OscArray);
@@ -1049,6 +1059,20 @@ namespace SoundCreator {
 		private void btnRndJingel_Click( object sender, EventArgs e ) {
 			// Ny slumpmässig jingle
 			OscDataJingle = OscillatorObj.Jingle(OscData, strJingle, OkNotes, true);
+			strJingle = OscillatorObj.GetStrJingle();
+			tbstrJingle.Text = "";
+			for (int i = 0; i < strJingle.Length; i = i + 2) {
+				if (strJingle[i + 1] != "" && strJingle[i + 1] != null) {
+					tbstrJingle.Text = tbstrJingle.Text + strJingle[i + 1] + "-";
+					tbstrJingle.Text = tbstrJingle.Text + strJingle[i];
+				}
+			}
+			CalcAndPlay(true);
+		}
+
+		private void btnPlayJingel_Click( object sender, EventArgs e ) {
+			strJingle = OscillatorObj.GetStrJingle();
+			OscDataJingle = OscillatorObj.Jingle(OscData, strJingle, OkNotes, false);
 			CalcAndPlay(true);
 		}
 
@@ -1070,19 +1094,19 @@ namespace SoundCreator {
 			string s = tbOkNote0.Text;
 			if (!CheckOkNotes(s)) {
 				tbOkNote0.ForeColor = Color.Red;
-				OkNotes[0] = "C5 ";
+				OkNotes[0] = "";
 			} else {
 				tbOkNote0.ForeColor = Color.Black;
-				if(s.Length < 3) s = s + " ";
+				if (s.Length < 3) s = s + " ";
 				OkNotes[0] = s;
-            }
+			}
 		}
 
 		private void tbOkNote1_TextChanged( object sender, EventArgs e ) {
 			string s = tbOkNote1.Text;
 			if (!CheckOkNotes(s)) {
 				tbOkNote1.ForeColor = Color.Red;
-				OkNotes[1] = "C5 ";
+				OkNotes[1] = "";
 			} else {
 				tbOkNote1.ForeColor = Color.Black;
 				if (s.Length < 3) s = s + " ";
@@ -1094,7 +1118,7 @@ namespace SoundCreator {
 			string s = tbOkNote2.Text;
 			if (!CheckOkNotes(s)) {
 				tbOkNote2.ForeColor = Color.Red;
-				OkNotes[2] = "C5 ";
+				OkNotes[2] = "";
 			} else {
 				tbOkNote2.ForeColor = Color.Black;
 				if (s.Length < 3) s = s + " ";
@@ -1106,7 +1130,7 @@ namespace SoundCreator {
 			string s = tbOkNote3.Text;
 			if (!CheckOkNotes(s)) {
 				tbOkNote3.ForeColor = Color.Red;
-				OkNotes[3] = "C5 ";
+				OkNotes[3] = "";
 			} else {
 				tbOkNote3.ForeColor = Color.Black;
 				if (s.Length < 3) s = s + " ";
@@ -1118,7 +1142,7 @@ namespace SoundCreator {
 			string s = tbOkNote4.Text;
 			if (!CheckOkNotes(s)) {
 				tbOkNote4.ForeColor = Color.Red;
-				OkNotes[4] = "C5 ";
+				OkNotes[4] = "";
 			} else {
 				tbOkNote4.ForeColor = Color.Black;
 				if (s.Length < 3) s = s + " ";
@@ -1130,7 +1154,7 @@ namespace SoundCreator {
 			string s = tbOkNote5.Text;
 			if (!CheckOkNotes(s)) {
 				tbOkNote5.ForeColor = Color.Red;
-				OkNotes[5] = "C5 ";
+				OkNotes[5] = "";
 			} else {
 				tbOkNote5.ForeColor = Color.Black;
 				if (s.Length < 3) s = s + " ";
@@ -1142,7 +1166,7 @@ namespace SoundCreator {
 			string s = tbOkNote6.Text;
 			if (!CheckOkNotes(s)) {
 				tbOkNote6.ForeColor = Color.Red;
-				OkNotes[6] = "C5 ";
+				OkNotes[6] = "";
 			} else {
 				tbOkNote6.ForeColor = Color.Black;
 				if (s.Length < 3) s = s + " ";
@@ -1154,12 +1178,99 @@ namespace SoundCreator {
 			string s = tbOkNote7.Text;
 			if (!CheckOkNotes(s)) {
 				tbOkNote7.ForeColor = Color.Red;
-				OkNotes[7] = "C5 ";
+				OkNotes[7] = "";
 			} else {
 				tbOkNote7.ForeColor = Color.Black;
 				if (s.Length < 3) s = s + " ";
 				OkNotes[7] = s;
 			}
 		}
+
+		private void tbstrJingle_TextChanged( object sender, EventArgs e ) {
+
+		}
+
+		private void btnSound1_Click( object sender, EventArgs e ) {
+			ODMD OdMd = LSObj.LoadSettings("ButtonSettings\\Laser.gsb");
+			OscData = OdMd.OD;
+			MixData = OdMd.MD;
+			PresentData(OscData, OscillatorNumber);
+			CalcAndPlay(false);
+		}
+
+		private void btnSound2_Click( object sender, EventArgs e ) {
+			ODMD OdMd = LSObj.LoadSettings("ButtonSettings\\Synth.gsb");
+			OscData = OdMd.OD;
+			MixData = OdMd.MD;
+			PresentData(OscData, OscillatorNumber);
+			CalcAndPlay(false);
+		}
+
+		private void btnSound3_Click( object sender, EventArgs e ) {
+			ODMD OdMd = LSObj.LoadSettings("ButtonSettings\\Explosion.gsb");
+			OscData = OdMd.OD;
+			MixData = OdMd.MD;
+			PresentData(OscData, OscillatorNumber);
+			CalcAndPlay(false);
+		}
+
+		private void load1wavToolStripMenuItem_Click( object sender, EventArgs e ) {
+			bool FileOK = true;
+			OpenFileDialog openFileDialog1 = new OpenFileDialog();
+			openFileDialog1.Filter = "wav files (*.wav)|*.wav";
+			openFileDialog1.Title = "Load wave 1.";
+			if (openFileDialog1.ShowDialog() == DialogResult.OK) {
+				FileOK = LSObj.LoadWave(openFileDialog1.FileName, OscillatorObj.GetRealSoundBuffer1());
+			}
+			if(!FileOK) {
+				MessageBox.Show("The file must be mono and 16bit");
+			}
+		}
+
+		private void load2wavToolStripMenuItem_Click( object sender, EventArgs e ) {
+			bool FileOK = true;
+			OpenFileDialog openFileDialog1 = new OpenFileDialog();
+			openFileDialog1.Filter = "wav files (*.wav)|*.wav";
+			openFileDialog1.Title = "Load wave 2.";
+			if (openFileDialog1.ShowDialog() == DialogResult.OK) {
+				FileOK = LSObj.LoadWave(openFileDialog1.FileName, OscillatorObj.GetRealSoundBuffer2());
+			}
+			if (!FileOK) {
+				MessageBox.Show("The file must be mono and 16bit");
+			}
+		}
+
+		private void load3wavToolStripMenuItem_Click( object sender, EventArgs e ) {
+			bool FileOK = true;
+			OpenFileDialog openFileDialog1 = new OpenFileDialog();
+			openFileDialog1.Filter = "wav files (*.wav)|*.wav";
+			openFileDialog1.Title = "Load wave 3.";
+			if (openFileDialog1.ShowDialog() == DialogResult.OK) {
+				FileOK = LSObj.LoadWave(openFileDialog1.FileName, OscillatorObj.GetRealSoundBuffer3());
+			}
+			if (!FileOK) {
+				MessageBox.Show("The file must be mono and 16bit");
+			}
+		}
+
+		private void load4wavToolStripMenuItem_Click( object sender, EventArgs e ) {
+			bool FileOK = true;
+			OpenFileDialog openFileDialog1 = new OpenFileDialog();
+			openFileDialog1.Filter = "wav files (*.wav)|*.wav";
+			openFileDialog1.Title = "Load wave 4.";
+			if (openFileDialog1.ShowDialog() == DialogResult.OK) {
+				FileOK = LSObj.LoadWave(openFileDialog1.FileName, OscillatorObj.GetRealSoundBuffer4());
+			}
+			if (!FileOK) {
+				MessageBox.Show("The file must be mono and 16bit");
+			}
+		}
+
+		private void recordwavToolStripMenuItem_Click( object sender, EventArgs e ) {
+			Form2 f2 = new Form2();
+			f2.ShowDialog();
+		}
+
+
 	}
 }

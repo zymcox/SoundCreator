@@ -530,9 +530,11 @@ namespace SoundCreator {
 					if (Frequency != null) {
 						x = Math.Pow(Math.Sqrt(2.0), (Frequency[i] / Form1.MaxAmplitude) * 2.0 * (Depth / 100.0) + 2.0); // x = sqrt(2)^ (0 till 4) = 1 till 4
 					}
-					fc = x * Frequency1 / 2.0;                  // fc = 0.5 till 2.0  * frekvens (Depth = 100.0 => +- 1 oktav)
+					x = x / 2.0; // 0.5 - 2.0
+
+					fc = x * Frequency1;                  // fc = 0.5 till 2.0  * frekvens (Depth = 100.0 => +- 1 oktav)
 					OmegaC = fc / (Samplerate / 2.0);              // 0 till 20000Hz => OmegaC = 0 till 1    Cut Off Frequency
-					fc = x * Frequency2 / 2.0;
+					fc = x * Frequency2;
 					OmegaC2 = fc / (Samplerate / 2.0);
 					T1 = 2.0 * Math.Tan(OmegaC * MPI2);           // * Pi/2
 					T2 = 2.0 * Math.Tan(OmegaC2 * MPI2);

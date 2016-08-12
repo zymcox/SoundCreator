@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
+
+
+
 
 namespace SoundCreator {
 
@@ -51,12 +55,19 @@ namespace SoundCreator {
 
 
 	internal class Oscillator {
+		private short[] RealSoundBuffer1;
+		private short[] RealSoundBuffer2;
+		private short[] RealSoundBuffer3;
+		private short[] RealSoundBuffer4
+			;
+
 		private double Pi = Math.PI;
 		private double Pi2 = Math.PI * 2;
 		private double OldRandomValue = 0.0;
 		private bool FirstPart = false;
 		private Note[] Notes;
 		private string[] strJingle;
+		private int rndTakt;
 
 		public OscillatorData[] ResetAll( OscillatorData[] OD ) {
 			OD[0].Active = true;
@@ -134,6 +145,10 @@ namespace SoundCreator {
 		}
 
 		public Oscillator() {
+			RealSoundBuffer1 = new short[Form1.Samplerate * (Form1.TimeMS / 1000)];
+			RealSoundBuffer2 = new short[Form1.Samplerate * (Form1.TimeMS / 1000)];
+			RealSoundBuffer3 = new short[Form1.Samplerate * (Form1.TimeMS / 1000)];
+			RealSoundBuffer4 = new short[Form1.Samplerate * (Form1.TimeMS / 1000)];
 			CreatePianoNotes();
 		}
 
@@ -145,6 +160,7 @@ namespace SoundCreator {
 			for (int Osc = 0; Osc < Form1.MaxOscillators; Osc++) {
 				double DelayStart = 0.0;
 				double Phase = 0.0;
+				double StartPhase = 0.0;
 				double PhaseFM = 0.0;
 				double PhaseNow = 0.0;
 				double PhaseMod = 0.0;
@@ -158,6 +174,8 @@ namespace SoundCreator {
 				double x,y;
 				double SquareDuty;
 				double Value = 0.0;
+				double RealSoundProgress = 0.0;
+				double OldRealSoundProgress = 0.0;
 
 				OscArray[Osc] = new double[Form1.OscArraySize];
 
@@ -173,8 +191,8 @@ namespace SoundCreator {
 					env.gate(true);
 
 					// Startvinkel
-					Phase = Pi2 * OD[Osc].StartPhase / 360.0;
-
+					StartPhase = Pi2 * OD[Osc].StartPhase / 360.0;
+					Phase = StartPhase;
 					// Fördröjd start
 					DelayStart = Form1.Samplerate * OD[Osc].Delay / 1000.0; // Delay i millisekunder
 
@@ -182,6 +200,7 @@ namespace SoundCreator {
 						// beräkna fasvinkel.
 						x = (Phase + PhaseMod + PhaseFM + PhaseRandom) / Pi2;
 						PhaseNow = (x - (int)(x)) * Pi2; //Wrap till 0 - 2*pi
+						RealSoundProgress = x / 440;
 
 						// Amplitudmodulering
 						if (OD[Osc].VolumeFromOsc != -1) {
@@ -206,7 +225,7 @@ namespace SoundCreator {
 						if (OD[Osc].SyncFromOsc != -1) {
 							SyncAmp = OscArray[OD[Osc].SyncFromOsc][t];
 							if (OldSyncAmp < 0.0 && SyncAmp > 0.0) {
-								Phase = 0.0;
+								Phase = StartPhase;
 							}
 							OldSyncAmp = SyncAmp;
 						}
@@ -231,7 +250,6 @@ namespace SoundCreator {
 						switch (OD[Osc].WaveType) {
 							case 1:
 								Value = AmpNow * Math.Sin(PhaseNow);
-
 								break;
 
 							case 2:
@@ -262,6 +280,34 @@ namespace SoundCreator {
 								Value = AmpNow * GetRNDWave(PhaseNow, OD[Osc]);
 								break;
 
+							case 9:
+								Value = AmpNow * GetRealSound(RealSoundProgress, OldRealSoundProgress, RealSoundBuffer1);
+								OldRealSoundProgress = RealSoundProgress;
+								break;
+
+							case 10:
+								Value = AmpNow * GetRealSound(RealSoundProgress, OldRealSoundProgress, RealSoundBuffer2);
+								OldRealSoundProgress = RealSoundProgress;
+								break;
+
+							case 11:
+								Value = AmpNow * GetRealSound(RealSoundProgress, OldRealSoundProgress, RealSoundBuffer3);
+								OldRealSoundProgress = RealSoundProgress;
+								break;
+
+							case 12:
+								Value = AmpNow * GetRealSound(RealSoundProgress, OldRealSoundProgress, RealSoundBuffer4);
+								OldRealSoundProgress = RealSoundProgress;
+								break;
+
+							case 13:
+								Value = AmpNow * 1.0;
+								break;
+
+							case 14:
+								Value = AmpNow * -1.0;
+								break;
+
 							default:
 								Value = AmpNow * 1.0;
 								break;
@@ -271,8 +317,7 @@ namespace SoundCreator {
 						if (OD[Osc].RingModulationFromOsc != -1) {
 							Value = Value * OscArray[OD[Osc].RingModulationFromOsc][t] / Form1.MaxAmplitude;
 						}
-
-
+						// Inte bra!
 						if (double.IsNaN(Value)) {
 							Value = 0.0;
 						}
@@ -371,6 +416,24 @@ namespace SoundCreator {
 			return Value;
 		}
 
+		public double GetRealSound( double NewProgress, double OldProgress, short[] RealSoundBuffer ) {
+			double Value = 0.0;
+			double Step = 0.0;
+
+			Step = (NewProgress - OldProgress) * Form1.Samplerate;
+
+			NewProgress *= Form1.Samplerate;
+			OldProgress *= Form1.Samplerate;
+			if (NewProgress < RealSoundBuffer.Length - 1) {
+				if (Step < 1.0) {
+					Value = (RealSoundBuffer[(int)NewProgress] - RealSoundBuffer[(int)NewProgress + 1]) * (NewProgress - (int)NewProgress) + RealSoundBuffer[(int)NewProgress + 1];
+				} else {
+					Value = RealSoundBuffer[(int)NewProgress];
+				}
+			}
+			return Value / Form1.MaxAmplitude;
+		}
+
 		public OscillatorData CreateRandomSinus( OscillatorData OD ) {
 			Random Rnd = new Random();
 			OD.RndA = Rnd.NextDouble();
@@ -393,6 +456,8 @@ namespace SoundCreator {
 			double Amp = OD.Volume / 2.0;
 
 			double PhaseNow;
+			// double RealSoundProgress = 0.0;
+
 			double oldx = 0.0;
 			double oldy = 0.0;
 
@@ -442,6 +507,30 @@ namespace SoundCreator {
 
 					case 8:
 						a = -Amp * GetRNDWave(PhaseNow, OD);
+						break;
+
+					case 9:
+						a = -4000.0 + Rnd.Next(0, 1000);  //-Amp * GetRealSound(PhaseNow, RealSoundBuffer1, ref RealSoundProgress);
+						break;
+
+					case 10:
+						a = -8000.0 + Rnd.Next(0, 1000); // -Amp * GetRealSound(PhaseNow, RealSoundBuffer2, ref RealSoundProgress);
+						break;
+
+					case 11:
+						a = -12000.0 + Rnd.Next(0, 1000); // -Amp * GetRealSound(PhaseNow, RealSoundBuffer3, ref RealSoundProgress);
+						break;
+
+					case 12:
+						a = -16000.0 + Rnd.Next(0, 1000); // -Amp * GetRealSound(PhaseNow, RealSoundBuffer4, ref RealSoundProgress);
+						break;
+
+					case 13:
+						a = -Amp * 1.0;
+						break;
+
+					case 14:
+						a = -Amp * -1.0;
 						break;
 
 					default:
@@ -771,13 +860,11 @@ namespace SoundCreator {
 
 			string[] Length = new string[5];
 
-			Length[0] = "1024"; //millisekunder
-			Length[1] = " 512";
-			Length[2] = " 256"; // * 2
-			Length[3] = " 128"; // * 4
-			Length[4] = "  64"; // * 8
-
-			int[] Takt = { 2,3,3,3,3,2 };
+			Length[0] = "1024"; //		   1/1
+			Length[1] = " 512"; //         1/2
+			Length[2] = " 256"; // * 2     1/4
+			Length[3] = " 128"; // * 4     1/8
+			Length[4] = "  64"; // * 8     1/16
 
 			int MaxNoNotes = 0;
 			int MaxUsedOsc = 0;
@@ -791,13 +878,45 @@ namespace SoundCreator {
 			Random Rnd;
 			bool Ok;
 
+			// Skapa användbara takter
+
+			Rnd = new Random();
+			int[,] Takt = {
+				{1,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+				{2,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+				{3,3,2,1,0,0,0,0,0,0,0,0,0,0,0,0 },
+				{1,3,3,2,0,0,0,0,0,0,0,0,0,0,0,0 },
+				{2,2,3,3,3,3,0,0,0,0,0,0,0,0,0,0 },
+				{3,3,2,2,3,3,0,0,0,0,0,0,0,0,0,0 },
+				{3,3,3,3,1,0,0,0,0,0,0,0,0,0,0,0 },
+				{3,3,3,3,2,2,0,0,0,0,0,0,0,0,0,0 },
+				{2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0 },
+				{2,3,3,2,3,3,0,0,0,0,0,0,0,0,0,0 },
+				{1,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0 },
+				{3,3,3,3,3,3,3,3,0,0,0,0,0,0,0,0 },
+				{1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+				{4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 },
+				{3,3,2,3,3,2,0,0,0,0,0,0,0,0,0,0 },
+				{3,3,2,2,2,0,0,0,0,0,0,0,0,0,0,0 }
+			};
+			if (NewJingle || Jingle == null) {
+				rndTakt = Rnd.Next(0, 16);  // rndTakt = 0 till 15
+			}
+			//Hur många noter behövs för en takt
+			int NotesiTakt = 16;
+			for (int i = 0; i < 16; i++) {
+				if (Takt[rndTakt, i] == 0) {
+					NotesiTakt = i;
+					break;
+				}
+			}
 			// Hur många röster används till ett ljud, max.
 			for (int i = 0; i < MaxO; i++) {
 				if (OD[i].Active) MaxUsedOsc = i + 1;
 			}
 
 			MaxNoNotes = MaxO / MaxUsedOsc;
-			if (MaxNoNotes > 6) MaxNoNotes = 6;
+			if (MaxNoNotes > NotesiTakt) MaxNoNotes = NotesiTakt;
 
 			// Kopiera alla noter och rätta till kopplingen mellan oscillatorer
 			for (int i = 0; i < MaxNoNotes; i++) {
@@ -812,6 +931,8 @@ namespace SoundCreator {
 				}
 			}
 
+
+
 			// Skapa random Trudelutt eller läs strängen
 			Rnd = new Random();
 			Ok = false;
@@ -820,13 +941,13 @@ namespace SoundCreator {
 			strJingle = new string[Form1.MaxOscillators * 2];
 			if (NewJingle || Jingle == null) {
 				Jingle = new string[Form1.MaxOscillators * 2];
-				if (OkNotes[0] == "" || OkNotes[0] == null) OkNotes[0] = "A4 "; 
+				if (OkNotes[0] == "" || OkNotes[0] == null) OkNotes[0] = "A4 ";
 				for (int i = 0; i < MaxNoNotes; i++) {
 					while (!Ok) {
 						r = Rnd.Next(0, 108);
-                        str1 = Notes[r].Name1 + " ";   // Ton
+						str1 = Notes[r].Name1 + " ";   // Ton
 						str2 = Notes[r].Name2 + " ";   // Ton
-						for (int j = 0; j<OkNotes.Length; j++) {
+						for (int j = 0; j < OkNotes.Length; j++) {
 							if (str1 == OkNotes[j] + " ") {
 								Ok = true;
 								Jingle[i * 2] = str1;
@@ -841,7 +962,7 @@ namespace SoundCreator {
 					}
 
 					// 2,2,3,3,2
-					Jingle[i * 2 + 1] = Length[Takt[i]];            // längd i millisekunder 0-5 512,256,128,64,32
+					Jingle[i * 2 + 1] = Length[Takt[rndTakt, i]];            // längd i millisekunder 0-5 512,256,128,64,32
 					Ok = false;
 				}
 			}
@@ -932,5 +1053,32 @@ namespace SoundCreator {
 		public Note[] GetNotes() {
 			return Notes;
 		}
+
+		public short[] GetRealSoundBuffer1() {
+			return RealSoundBuffer1;
+		}
+
+		public short[] GetRealSoundBuffer2() {
+			return RealSoundBuffer2;
+		}
+
+		public short[] GetRealSoundBuffer3() {
+			return RealSoundBuffer3;
+		}
+
+		public short[] GetRealSoundBuffer4() {
+			return RealSoundBuffer4;
+		}
+
+
+		public short[] GetSoundFromMic() {
+
+			short[] Sound = new short[Form1.Samplerate * Form1.TimeMS / 1000];
+
+
+
+			return Sound;
+		}
+
 	}
 }
