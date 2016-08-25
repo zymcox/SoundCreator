@@ -268,10 +268,10 @@ namespace SoundCreator {
 		private RndS ResetRndSettings( RndS RS ) {
 			RS.FilterLock = false;
 			RS.ReverbLock = false;
-			RS.NoRandomLFO = 0;
-			RS.NoRandomOsc = 2;
-			RS.MinRandomFrequency = 1;
-			RS.MaxRandomFrequency = 7040;
+			RS.NoRandomLFO = 1;
+			RS.NoRandomOsc = 1;
+			RS.MinRandomFrequency = 220;
+			RS.MaxRandomFrequency = 880;
 			return RS;
 		}
 
@@ -1222,7 +1222,7 @@ namespace SoundCreator {
 			if (openFileDialog1.ShowDialog() == DialogResult.OK) {
 				FileOK = LSObj.LoadWave(openFileDialog1.FileName, OscillatorObj.GetRealSoundBuffer1());
 			}
-			if(!FileOK) {
+			if (!FileOK) {
 				MessageBox.Show("The file must be mono and 16bit");
 			}
 		}
@@ -1266,11 +1266,49 @@ namespace SoundCreator {
 			}
 		}
 
-		private void recordwavToolStripMenuItem_Click( object sender, EventArgs e ) {
-			Form2 f2 = new Form2();
-			f2.ShowDialog();
+
+		private void RecSound1_Click( object sender, EventArgs e ) {
+			using (Form2 form2 = new Form2(1)) {
+				form2.Text = "Record Sound 1";
+				form2.ShowDialog();
+				if (form2.Ok) {
+					OscillatorObj.SetRealSoundBuffer1(form2.SelectedSoundArray);
+					short[] Buffer = form2.SelectedSoundArray;
+				}
+			}
 		}
 
+		private void RecSound2_Click( object sender, EventArgs e ) {
+			using (Form2 form2 = new Form2(2)) {
+				form2.Text = "Record Sound 2";
+				form2.ShowDialog();
+				if (form2.Ok) {
+					OscillatorObj.SetRealSoundBuffer2(form2.SelectedSoundArray);
+					short[] Buffer = form2.SelectedSoundArray;
+				}
+			}
+		}
 
+		private void RecSound3_Click( object sender, EventArgs e ) {
+			using (Form2 form2 = new Form2(3)) {
+				form2.Text = "Record Sound 3";
+				form2.ShowDialog();
+				if (form2.Ok) {
+					OscillatorObj.SetRealSoundBuffer3(form2.SelectedSoundArray);
+					short[] Buffer = form2.SelectedSoundArray;
+				}
+			}
+		}
+
+		private void recordwavToolStripMenuItem_Click( object sender, EventArgs e ) {
+			using (Form2 form2 = new Form2(4)) {
+				form2.Text = "Record Sound 4";
+				form2.ShowDialog();
+				if (form2.Ok) {
+					OscillatorObj.SetRealSoundBuffer4(form2.SelectedSoundArray);
+					short[] Buffer = form2.SelectedSoundArray;
+				}
+			}
+		}
 	}
 }

@@ -29,6 +29,8 @@
 			this.load2wavToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.load3wavToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.load4wavToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+			this.RecSound4 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.saveWavToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -204,8 +206,9 @@
 			this.btnSound4 = new System.Windows.Forms.Button();
 			this.btnSound3 = new System.Windows.Forms.Button();
 			this.btnSound2 = new System.Windows.Forms.Button();
-			this.recordwavToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+			this.RecSound3 = new System.Windows.Forms.ToolStripMenuItem();
+			this.RecSound2 = new System.Windows.Forms.ToolStripMenuItem();
+			this.RecSound1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pbPhaseSlider)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pbVolumeSlider)).BeginInit();
@@ -282,17 +285,20 @@
 			// fileToolStripMenuItem
 			// 
 			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.loadSeettingsToolStripMenuItem,
+            this.saveSettingsToolStripMenuItem,
+            this.toolStripSeparator1,
             this.load1wavToolStripMenuItem,
             this.load2wavToolStripMenuItem,
             this.load3wavToolStripMenuItem,
             this.load4wavToolStripMenuItem,
             this.toolStripSeparator4,
-            this.recordwavToolStripMenuItem,
+            this.RecSound1,
+            this.RecSound2,
+            this.RecSound3,
+            this.RecSound4,
             this.toolStripSeparator3,
             this.saveWavToolStripMenuItem,
-            this.toolStripSeparator1,
-            this.loadSeettingsToolStripMenuItem,
-            this.saveSettingsToolStripMenuItem,
             this.toolStripSeparator2,
             this.exitToolStripMenuItem});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -302,71 +308,83 @@
 			// load1wavToolStripMenuItem
 			// 
 			this.load1wavToolStripMenuItem.Name = "load1wavToolStripMenuItem";
-			this.load1wavToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.load1wavToolStripMenuItem.Text = "Load_1 .wav";
+			this.load1wavToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+			this.load1wavToolStripMenuItem.Text = "Load Sound 1 .wav";
 			this.load1wavToolStripMenuItem.Click += new System.EventHandler(this.load1wavToolStripMenuItem_Click);
 			// 
 			// load2wavToolStripMenuItem
 			// 
 			this.load2wavToolStripMenuItem.Name = "load2wavToolStripMenuItem";
-			this.load2wavToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.load2wavToolStripMenuItem.Text = "Load_2 .wav";
+			this.load2wavToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+			this.load2wavToolStripMenuItem.Text = "Load Sound 2 .wav";
 			this.load2wavToolStripMenuItem.Click += new System.EventHandler(this.load2wavToolStripMenuItem_Click);
 			// 
 			// load3wavToolStripMenuItem
 			// 
 			this.load3wavToolStripMenuItem.Name = "load3wavToolStripMenuItem";
-			this.load3wavToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.load3wavToolStripMenuItem.Text = "Load_3 .wav";
+			this.load3wavToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+			this.load3wavToolStripMenuItem.Text = "Load Sound 3 .wav";
 			this.load3wavToolStripMenuItem.Click += new System.EventHandler(this.load3wavToolStripMenuItem_Click);
 			// 
 			// load4wavToolStripMenuItem
 			// 
 			this.load4wavToolStripMenuItem.Name = "load4wavToolStripMenuItem";
-			this.load4wavToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.load4wavToolStripMenuItem.Text = "Load_4 .wav";
+			this.load4wavToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+			this.load4wavToolStripMenuItem.Text = "Load Sound 4 .wav";
 			this.load4wavToolStripMenuItem.Click += new System.EventHandler(this.load4wavToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator4
+			// 
+			this.toolStripSeparator4.Name = "toolStripSeparator4";
+			this.toolStripSeparator4.Size = new System.Drawing.Size(170, 6);
+			// 
+			// RecSound4
+			// 
+			this.RecSound4.Name = "RecSound4";
+			this.RecSound4.Size = new System.Drawing.Size(173, 22);
+			this.RecSound4.Text = "Record Sound 4";
+			this.RecSound4.Click += new System.EventHandler(this.recordwavToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator3
 			// 
 			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator3.Size = new System.Drawing.Size(170, 6);
 			// 
 			// saveWavToolStripMenuItem
 			// 
 			this.saveWavToolStripMenuItem.Name = "saveWavToolStripMenuItem";
-			this.saveWavToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.saveWavToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
 			this.saveWavToolStripMenuItem.Text = "Save .wav";
 			this.saveWavToolStripMenuItem.Click += new System.EventHandler(this.saveWavToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(170, 6);
 			// 
 			// loadSeettingsToolStripMenuItem
 			// 
 			this.loadSeettingsToolStripMenuItem.Name = "loadSeettingsToolStripMenuItem";
-			this.loadSeettingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.loadSeettingsToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
 			this.loadSeettingsToolStripMenuItem.Text = "Load Settings";
 			this.loadSeettingsToolStripMenuItem.Click += new System.EventHandler(this.loadSeettingsToolStripMenuItem_Click);
 			// 
 			// saveSettingsToolStripMenuItem
 			// 
 			this.saveSettingsToolStripMenuItem.Name = "saveSettingsToolStripMenuItem";
-			this.saveSettingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.saveSettingsToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
 			this.saveSettingsToolStripMenuItem.Text = "Save Settings";
 			this.saveSettingsToolStripMenuItem.Click += new System.EventHandler(this.saveSettingsToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
+			this.toolStripSeparator2.Size = new System.Drawing.Size(170, 6);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
 			this.exitToolStripMenuItem.Text = "Exit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
 			// 
@@ -2049,7 +2067,7 @@
 			this.udNoRandomOsc.TabIndex = 288;
 			this.udNoRandomOsc.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.udNoRandomOsc.Value = new decimal(new int[] {
-            2,
+            1,
             0,
             0,
             0});
@@ -2067,6 +2085,11 @@
 			this.udLFO.Size = new System.Drawing.Size(36, 20);
 			this.udLFO.TabIndex = 290;
 			this.udLFO.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.udLFO.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
 			this.udLFO.ValueChanged += new System.EventHandler(this.udLFO_ValueChanged);
 			// 
 			// label12
@@ -2105,7 +2128,7 @@
 			this.udMaxRandomFrequency.TabIndex = 294;
 			this.udMaxRandomFrequency.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.udMaxRandomFrequency.Value = new decimal(new int[] {
-            7040,
+            880,
             0,
             0,
             0});
@@ -2129,7 +2152,7 @@
 			this.udMinRandomFrequency.TabIndex = 295;
 			this.udMinRandomFrequency.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.udMinRandomFrequency.Value = new decimal(new int[] {
-            1,
+            220,
             0,
             0,
             0});
@@ -2494,17 +2517,26 @@
 			this.btnSound2.UseVisualStyleBackColor = true;
 			this.btnSound2.Click += new System.EventHandler(this.btnSound2_Click);
 			// 
-			// recordwavToolStripMenuItem
+			// RecSound3
 			// 
-			this.recordwavToolStripMenuItem.Name = "recordwavToolStripMenuItem";
-			this.recordwavToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.recordwavToolStripMenuItem.Text = "Record sound";
-			this.recordwavToolStripMenuItem.Click += new System.EventHandler(this.recordwavToolStripMenuItem_Click);
+			this.RecSound3.Name = "RecSound3";
+			this.RecSound3.Size = new System.Drawing.Size(173, 22);
+			this.RecSound3.Text = "Record Sound 3";
+			this.RecSound3.Click += new System.EventHandler(this.RecSound3_Click);
 			// 
-			// toolStripSeparator4
+			// RecSound2
 			// 
-			this.toolStripSeparator4.Name = "toolStripSeparator4";
-			this.toolStripSeparator4.Size = new System.Drawing.Size(149, 6);
+			this.RecSound2.Name = "RecSound2";
+			this.RecSound2.Size = new System.Drawing.Size(173, 22);
+			this.RecSound2.Text = "Record Sound 2";
+			this.RecSound2.Click += new System.EventHandler(this.RecSound2_Click);
+			// 
+			// RecSound1
+			// 
+			this.RecSound1.Name = "RecSound1";
+			this.RecSound1.Size = new System.Drawing.Size(173, 22);
+			this.RecSound1.Text = "Record Sound 1";
+			this.RecSound1.Click += new System.EventHandler(this.RecSound1_Click);
 			// 
 			// Form1
 			// 
@@ -2845,7 +2877,10 @@
 		private System.Windows.Forms.ToolStripMenuItem load4wavToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-		private System.Windows.Forms.ToolStripMenuItem recordwavToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem RecSound4;
+		private System.Windows.Forms.ToolStripMenuItem RecSound1;
+		private System.Windows.Forms.ToolStripMenuItem RecSound2;
+		private System.Windows.Forms.ToolStripMenuItem RecSound3;
 	}
 }
 

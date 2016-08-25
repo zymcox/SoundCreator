@@ -111,7 +111,9 @@ namespace SoundCreator {
 					ScaleFactorX = 1.0;
 				}
 				for (int i = 0; i < VisibleWaveLength; i++) {
-					TempWD = -RawWave[StartSample + i] * ScaleFactorY + y / 2;
+					if (StartSample + i < RawWave.Length) {
+						TempWD = -RawWave[StartSample + i] * ScaleFactorY + y / 2;
+					}
 					if (MaxWD < TempWD) MaxWD = TempWD;
 					if (MinWD >= TempWD) MinWD = TempWD;
 

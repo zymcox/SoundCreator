@@ -426,7 +426,25 @@ namespace SoundCreator {
 			OldProgress *= Form1.Samplerate;
 			if (NewProgress < RealSoundBuffer.Length - 1) {
 				if (Step < 1.0) {
-					Value = (RealSoundBuffer[(int)NewProgress] - RealSoundBuffer[(int)NewProgress + 1]) * (NewProgress - (int)NewProgress) + RealSoundBuffer[(int)NewProgress + 1];
+					Value = (RealSoundBuffer[(int)NewProgress] - RealSoundBuffer[(int)NewProgress + 1]) * (1 - (NewProgress - (int)NewProgress)) + RealSoundBuffer[(int)NewProgress + 1];
+				} else {
+					Value = RealSoundBuffer[(int)NewProgress];
+				}
+			}
+			return Value / Form1.MaxAmplitude;
+		}
+
+		public double GetRealSoundToDisplay( double NewProgress, double OldProgress, short[] RealSoundBuffer ) {
+			double Value = 0.0;
+			double Step = 0.0;
+
+			Step = (NewProgress - OldProgress) * Form1.Samplerate;
+
+			NewProgress *= Form1.Samplerate;
+			OldProgress *= Form1.Samplerate;
+			if (NewProgress < RealSoundBuffer.Length - 1) {
+				if (Step < 1.0) {
+					Value = (RealSoundBuffer[(int)NewProgress] - RealSoundBuffer[(int)NewProgress + 1]) * (1 - (NewProgress - (int)NewProgress)) + RealSoundBuffer[(int)NewProgress + 1];
 				} else {
 					Value = RealSoundBuffer[(int)NewProgress];
 				}
@@ -456,7 +474,8 @@ namespace SoundCreator {
 			double Amp = OD.Volume / 2.0;
 
 			double PhaseNow;
-			// double RealSoundProgress = 0.0;
+			double RealSoundProgress = 0.0;
+			double OldRealSoundProgress = 0.0;
 
 			double oldx = 0.0;
 			double oldy = 0.0;
@@ -475,8 +494,8 @@ namespace SoundCreator {
 			for (double i = 0.0; i < Pi2 * WavesOnScreen; i = i + (1.0 / x)) {
 				P = OD.StartPhase / 360.0;
 				PhaseNow = (P + i - (int)(P + i)) * Pi2; //Wrap till 0 - 2*pi
-
-				switch (OD.WaveType) {
+				RealSoundProgress = P + i;
+                switch (OD.WaveType) {
 					case 1:
 						a = -Amp * Math.Sin(PhaseNow);
 						break;
@@ -510,19 +529,24 @@ namespace SoundCreator {
 						break;
 
 					case 9:
-						a = -4000.0 + Rnd.Next(0, 1000);  //-Amp * GetRealSound(PhaseNow, RealSoundBuffer1, ref RealSoundProgress);
+						a = -Amp * GetRealSoundToDisplay (RealSoundProgress, OldRealSoundProgress, RealSoundBuffer1);
+						OldRealSoundProgress = RealSoundProgress;
+
 						break;
 
 					case 10:
-						a = -8000.0 + Rnd.Next(0, 1000); // -Amp * GetRealSound(PhaseNow, RealSoundBuffer2, ref RealSoundProgress);
+						a = -Amp * GetRealSoundToDisplay(RealSoundProgress, OldRealSoundProgress, RealSoundBuffer2);
+						OldRealSoundProgress = RealSoundProgress;
 						break;
 
 					case 11:
-						a = -12000.0 + Rnd.Next(0, 1000); // -Amp * GetRealSound(PhaseNow, RealSoundBuffer3, ref RealSoundProgress);
+						a = -Amp * GetRealSoundToDisplay(RealSoundProgress, OldRealSoundProgress, RealSoundBuffer3);
+						OldRealSoundProgress = RealSoundProgress;
 						break;
 
 					case 12:
-						a = -16000.0 + Rnd.Next(0, 1000); // -Amp * GetRealSound(PhaseNow, RealSoundBuffer4, ref RealSoundProgress);
+						a = -Amp * GetRealSoundToDisplay(RealSoundProgress, OldRealSoundProgress, RealSoundBuffer4);
+						OldRealSoundProgress = RealSoundProgress;
 						break;
 
 					case 13:
@@ -1071,13 +1095,20 @@ namespace SoundCreator {
 		}
 
 
-		public short[] GetSoundFromMic() {
+		public void SetRealSoundBuffer1( short[] i ) {
+			RealSoundBuffer1 = i;
+		}
 
-			short[] Sound = new short[Form1.Samplerate * Form1.TimeMS / 1000];
+		public void SetRealSoundBuffer2( short[] i ) {
+			RealSoundBuffer2 = i;
+		}
 
+		public void SetRealSoundBuffer3( short[] i ) {
+			RealSoundBuffer3 = i;
+		}
 
-
-			return Sound;
+		public void SetRealSoundBuffer4( short[] i ) {
+			RealSoundBuffer4 = i;
 		}
 
 	}
