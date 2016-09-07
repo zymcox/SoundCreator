@@ -592,14 +592,14 @@ namespace SoundCreator {
 
 				OD[i].WaveType = Rnd.Next(0, 8 + 1);
 				OD[i].SquareDuty = Rnd.Next(5, 95);
-				OD[i].StartPhase = (i == 0 ? 0 : Rnd.Next(0, 180));
-				OD[i].Volume = Rnd.Next(32768, 65536);
-				OD[i].Attack = Rnd.Next(0, 350);
+				OD[i].StartPhase = 0.0;
+				OD[i].Volume = Rnd.Next(4096, 65536);
+				OD[i].Attack = Rnd.Next(0, 20);
 				OD[i].Decay = Rnd.Next(200, 2000);
 				OD[i].Sustain = Rnd.Next(8192, 65536);
-				OD[i].Release = Rnd.Next(200, 2000);
-				OD[i].GateTime = (RS.NoRandomLFO <= i ? Rnd.Next(500, 3500) : Form1.TimeMS);
-				OD[i].Delay = (RS.NoRandomLFO < i ? Rnd.Next(0, 400) : 0);
+				OD[i].Release = Rnd.Next(2000, 4000);
+				OD[i].GateTime = (RS.NoRandomLFO <= i ? Rnd.Next(4000, 4500) : Form1.TimeMS);
+				OD[i].Delay = 0.0;
 				OD[i].Frequency = (RS.NoRandomLFO <= i ? Rnd.Next((int)RS.MinRandomFrequency, (int)RS.MaxRandomFrequency) : Rnd.Next(1, 20));
 				if (Rnd.Next(0, 5) == 0)
 					OD[i].VolumeFromOsc = Rnd.Next(-1, i);
@@ -679,7 +679,6 @@ namespace SoundCreator {
 		public OscillatorData[] CreateRandomSoundShort( OscillatorData[] OD, RndS RS ) {
 			double Pi2 = Math.PI * 2;
 			Random Rnd = new Random();
-			bool Delay = Rnd.Next(0,2) == 0;
 
 			for (int i = 0; i < RS.NoRandomOsc + RS.NoRandomLFO; i++) {
 				OD[i].Active = true;
@@ -687,14 +686,14 @@ namespace SoundCreator {
 
 				OD[i].WaveType = Rnd.Next(0, 8 + 1);
 				OD[i].SquareDuty = Rnd.Next(5, 95);
-				OD[i].StartPhase = (i == 0 ? 0 : Rnd.Next(0, 180));
-				OD[i].Volume = Rnd.Next(32768, 65536);
-				OD[i].Attack = Rnd.Next(0, 100);
-				OD[i].Decay = Rnd.Next(10, 500);
+				OD[i].StartPhase = 0;
+				OD[i].Volume = Rnd.Next(4096, 65536);
+				OD[i].Attack = Rnd.Next(0, 10);
+				OD[i].Decay = Rnd.Next(100, 500);
 				OD[i].Sustain = 0.0;
 				OD[i].Release = Rnd.Next(10, 500);
-				OD[i].GateTime = (RS.NoRandomLFO <= i ? Rnd.Next(100, 500) : Form1.TimeMS);
-				OD[i].Delay = (RS.NoRandomLFO < i && Delay ? Rnd.Next(0, 400) : 0);
+				OD[i].GateTime = Form1.TimeMS;
+				OD[i].Delay = 0;
 				OD[i].Frequency = (RS.NoRandomLFO <= i ? Rnd.Next((int)RS.MinRandomFrequency, (int)RS.MaxRandomFrequency) : Rnd.Next(1, 20));
 				if (Rnd.Next(0, 5) == 0)
 					OD[i].VolumeFromOsc = Rnd.Next(-1, i);
@@ -727,7 +726,6 @@ namespace SoundCreator {
 		public OscillatorData[] CreateRandomSoundMedium( OscillatorData[] OD, RndS RS ) {
 			double Pi2 = Math.PI * 2;
 			Random Rnd = new Random();
-			bool Delay = Rnd.Next(0,2) == 0;
 
 			for (int i = 0; i < RS.NoRandomOsc + RS.NoRandomLFO; i++) {
 				OD[i].Active = true;
@@ -735,14 +733,14 @@ namespace SoundCreator {
 
 				OD[i].WaveType = Rnd.Next(0, 8 + 1);
 				OD[i].SquareDuty = Rnd.Next(5, 95);
-				OD[i].StartPhase = (i == 0 ? 0 : Rnd.Next(0, 180));
-				OD[i].Volume = Rnd.Next(32768, 65536);
-				OD[i].Attack = Rnd.Next(0, 200);
-				OD[i].Decay = Rnd.Next(250, 1000);
+				OD[i].StartPhase = 0;
+				OD[i].Volume = Rnd.Next(4096, 65536);
+				OD[i].Attack = Rnd.Next(0, 20);
+				OD[i].Decay = Rnd.Next(750, 2500);
 				OD[i].Sustain = 0.0;
-				OD[i].Release = Rnd.Next(250, 1000);
-				OD[i].GateTime = (RS.NoRandomLFO <= i ? Rnd.Next(300, 1000) : Form1.TimeMS);
-				OD[i].Delay = (RS.NoRandomLFO < i && Delay ? Rnd.Next(0, 700) : 0);
+				OD[i].Release = 0.0;
+				OD[i].GateTime = Form1.TimeMS;
+				OD[i].Delay = 0;
 				OD[i].Frequency = (RS.NoRandomLFO <= i ? Rnd.Next((int)RS.MinRandomFrequency, (int)RS.MaxRandomFrequency) : Rnd.Next(1, 20));
 				if (Rnd.Next(0, 5) == 0)
 					OD[i].VolumeFromOsc = Rnd.Next(-1, i);
@@ -781,6 +779,7 @@ namespace SoundCreator {
 			double D = Rnd.Next(250, 1000);
 			double S = Rnd.Next(8192, 65536);
 			double R = Rnd.Next(250, 1000);
+			double G = Rnd.Next(300, 1000); 
 
 			for (int i = 0; i < RS.NoRandomOsc + RS.NoRandomLFO; i++) {
 				OD[i].Active = true;
@@ -788,13 +787,13 @@ namespace SoundCreator {
 
 				OD[i].WaveType = Rnd.Next(0, 8 + 1);
 				OD[i].SquareDuty = Rnd.Next(5, 95);
-				OD[i].StartPhase = (i == 0 ? 0 : Rnd.Next(0, 180));
+				OD[i].StartPhase = 0;
 				OD[i].Volume = Rnd.Next(32768, 65536);
 				OD[i].Attack = A;
 				OD[i].Decay = D;
 				OD[i].Sustain = S;
 				OD[i].Release = R;
-				OD[i].GateTime = (RS.NoRandomLFO <= i ? Rnd.Next(300, 1000) : Form1.TimeMS);
+				OD[i].GateTime = G;
 				OD[i].Delay = 0.0;
 				OD[i].Frequency = (RS.NoRandomLFO <= i ? Rnd.Next((int)RS.MinRandomFrequency, (int)RS.MaxRandomFrequency) : Rnd.Next(1, 20));
 				if (Rnd.Next(0, 5) == 0)
@@ -860,6 +859,60 @@ namespace SoundCreator {
 					OD[i].PhaseFromOsc = Rnd.Next(-1, i);
 				OD[i].PMDepth = Rnd.Next(10, 150);
 				if (Rnd.Next(0, 5) == 0)
+					OD[i].SquareDutyFromOsc = Rnd.Next(-1, i);
+				OD[i].SDDepth = Rnd.Next(10, 150);
+				if (Rnd.Next(0, 5) == 0)
+					OD[i].RingModulationFromOsc = Rnd.Next(-1, i);
+				if (Rnd.Next(0, 5) == 0)
+					OD[i].SyncFromOsc = Rnd.Next(-1, i);
+
+				OD[i].RndA = Rnd.NextDouble();
+				OD[i].RndB = Rnd.NextDouble();
+				OD[i].RndC = Rnd.NextDouble();
+
+				OD[i].RndPA = Rnd.NextDouble() * Pi2;
+				OD[i].RndPB = Rnd.NextDouble() * Pi2;
+				OD[i].RndPC = Rnd.NextDouble() * Pi2;
+			}
+			return OD;
+		}
+
+		public OscillatorData[] CreateRandomSoundSqr( OscillatorData[] OD, RndS RS ) {
+
+			double Pi2 = Math.PI * 2;
+			Random Rnd = new Random();
+
+			double A = Rnd.Next(0, 200);
+			double D =  Rnd.Next(250, 1000);
+			double S = Rnd.Next(16384, 65536);
+			double R = Rnd.Next(250, 1000);
+
+
+			for (int i = 0; i < RS.NoRandomOsc + RS.NoRandomLFO; i++) {
+				OD[i].Active = true;
+				OD[i].SoundOut = (RS.NoRandomLFO <= i ? true : false);
+
+				OD[i].WaveType = (RS.NoRandomLFO <= i ? 4 : Rnd.Next(0, 8 + 1));
+				OD[i].SquareDuty = Rnd.Next(5, 95);
+				OD[i].StartPhase = (i == 0 ? 0 : Rnd.Next(0, 180));
+				OD[i].Volume = Rnd.Next(32768, 65536);
+				OD[i].Attack = A;
+				OD[i].Decay = D;
+				OD[i].Sustain = S;
+				OD[i].Release = R;
+				OD[i].GateTime = (RS.NoRandomLFO <= i ? Rnd.Next(300, 1000) : Form1.TimeMS);
+				OD[i].Delay = 0.0; //(i - RS.NoRandomLFO) < 0 ? 0.0 : (i - RS.NoRandomLFO) * 250;
+				OD[i].Frequency = (RS.NoRandomLFO <= i ? Rnd.Next((int)RS.MinRandomFrequency, (int)RS.MaxRandomFrequency) : Rnd.Next(1, 20));
+				if (Rnd.Next(0, 5) == 0)
+					OD[i].VolumeFromOsc = Rnd.Next(-1, i);
+				OD[i].AMDepth = Rnd.Next(10, 150);
+				if (Rnd.Next(0, 5) == 0)
+					OD[i].FrequencyFromOsc = Rnd.Next(-1, i);
+				OD[i].FMDepth = Rnd.Next(10, 150);
+				if (Rnd.Next(0, 5) == 0)
+					OD[i].PhaseFromOsc = Rnd.Next(-1, i);
+				OD[i].PMDepth = Rnd.Next(10, 150);
+				if (Rnd.Next(0, 2) == 0)
 					OD[i].SquareDutyFromOsc = Rnd.Next(-1, i);
 				OD[i].SDDepth = Rnd.Next(10, 150);
 				if (Rnd.Next(0, 5) == 0)

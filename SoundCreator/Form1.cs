@@ -170,9 +170,14 @@ namespace SoundCreator {
 			SliderStereoDelayObj = new Slider(pbSteroDelay, MixData.StereoDelay, MinStereoDelay, MaxStereoDelay);
 
 			OscilloscopeObj = new Oscilloscope(pbOscilloscope, pbFFT);
-			OkNotes[0] = "C5 ";
-			OkNotes[1] = "E5 ";
-			OkNotes[2] = "G5 ";
+			OkNotes[0] = tbOkNote0.Text;
+			OkNotes[1] = tbOkNote1.Text;
+			OkNotes[2] = tbOkNote2.Text;
+			OkNotes[3] = tbOkNote3.Text;
+			OkNotes[4] = tbOkNote4.Text;
+			OkNotes[5] = tbOkNote5.Text;
+			OkNotes[6] = tbOkNote6.Text;
+			OkNotes[7] = tbOkNote7.Text;
 
 			// Fördefinierade ljud
 			btnSound1.Text = "Laser";
@@ -1309,6 +1314,14 @@ namespace SoundCreator {
 					short[] Buffer = form2.SelectedSoundArray;
 				}
 			}
+		}
+
+		private void btnSquare_Click( object sender, EventArgs e ) {
+			OscData = OscillatorObj.ResetAll(OscData);
+			OscData = OscillatorObj.CreateRandomSoundSqr(OscData, RndSettings);
+			MixData = MixerObj.CreateRandomGlobal(MixData, RndSettings);
+			PresentData(OscData, OscillatorNumber);
+			CalcAndPlay(false);
 		}
 	}
 }
