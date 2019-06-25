@@ -186,8 +186,8 @@ namespace SoundCreator {
 					env.setDecayRate(Form1.Samplerate * OD[Osc].Decay / 1000.0);
 					env.setSustainLevel(OD[Osc].Sustain / (Form1.MaxAmplitude * 2));
 					env.setReleaseRate(Form1.Samplerate * OD[Osc].Release / 1000.0);
-					env.setTargetRatioA(0.001);
-					env.setTargetRatioDR(0.00000001);
+					env.setTargetRatioA(0.00000000001);
+					env.setTargetRatioDR(0.00000000001);
 					env.gate(true);
 
 					// Startvinkel
